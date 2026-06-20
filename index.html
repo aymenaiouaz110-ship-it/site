@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="ar" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LUMIÈRE — Luxury Skincare</title>
+  <meta name="description" content="Découvrez notre collection de soins de luxe — sérums, crèmes et essences pour une peau radieuse" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ============================================================
+       🧭 NAVBAR — Fixed, Glassmorphism Dark
+  ============================================================ -->
+  <nav class="navbar">
+    <a href="#" class="nav__logo">Lumi<span>è</span>re</a>
+
+    <ul class="nav__links">
+      <li><a href="#products">Soins</a></li>
+      <li><a href="#">Nouveautés</a></li>
+      <li><a href="#">Routines</a></li>
+      <li><a href="#checkout">Commande</a></li>
+    </ul>
+
+    <div class="nav__right">
+      <!-- زر البحث -->
+      <button class="nav__icon-btn" title="Recherche" id="search-btn">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+        </svg>
+      </button>
+      <!-- زر الكارت -->
+      <button class="nav__icon-btn" title="Panier" id="cart-btn">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
+          <line x1="3" y1="6" x2="21" y2="6"/>
+          <path d="M16 10a4 4 0 0 1-8 0"/>
+        </svg>
+        <span class="nav__cart-badge" id="cart-count">0</span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ============================================================
+       🖼️ HERO SECTION
+       صورة كاملة للشاشة + نص فوق overlay داكن
+  ============================================================ -->
+  <section class="hero" id="home">
+
+    <!-- الصورة الخلفية -->
+    <div class="hero__bg">
+      <img
+        src="images/hero.png"
+        alt="Luxury beauty campaign — Lumière Skincare"
+        fetchpriority="high"
+      />
+    </div>
+
+    <!-- overlay gradient -->
+    <div class="hero__overlay"></div>
+
+    <!-- النص -->
+    <div class="hero__content">
+      <span class="hero__eyebrow">Nouvelle Collection · Été 2025</span>
+
+      <h1 class="hero__title">
+        La beauté,<br />
+        à l'état <em>pur</em>
+      </h1>
+
+      <p class="hero__desc">
+        Des formules scientifiquement avancées, inspirées des rituels de beauté les plus précieux.
+        Pour une peau lumineuse, chaque jour.
+      </p>
+
+      <a href="#products" class="btn-hero">
+        <span>Découvrir la Collection</span>
+        <svg class="arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M5 12h14M12 5l7 7-7 7"/>
+        </svg>
+      </a>
+    </div>
+
+    <!-- مؤشر السكرول -->
+    <div class="hero__scroll">
+      <div class="hero__scroll-line"></div>
+      <span>Scroll</span>
+    </div>
+
+  </section>
+
+  <!-- ============================================================
+       📣 STRIP — شريط متحرك بين الأقسام
+  ============================================================ -->
+  <div class="strip">
+    <!-- نكرر المحتوى مرتين باش يبدو لانهائي -->
+    <div class="strip__inner">
+      <span class="strip__item">
+        <span class="strip__dot"></span> Livraison Gratuite dès 5 000 DA
+        <span class="strip__dot"></span> Formules Vegan & Cruelty-Free
+        <span class="strip__dot"></span> Résultats en 28 Jours
+        <span class="strip__dot"></span> Retour Offert 30 Jours
+        <span class="strip__dot"></span> Livraison Gratuite dès 5 000 DA
+        <span class="strip__dot"></span> Formules Vegan & Cruelty-Free
+        <span class="strip__dot"></span> Résultats en 28 Jours
+        <span class="strip__dot"></span> Retour Offert 30 Jours
+      </span>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       🛍️ PRODUCTS — 3 Products Grid
+       سيرومات العناية بالبشرة
+  ============================================================ -->
+  <section class="products" id="products">
+
+    <!-- عنوان القسم -->
+    <div class="section-header">
+      <div>
+        <p class="section-label">Nos Bestsellers</p>
+        <h2 class="section-title">Sérums <em>d'exception</em></h2>
+      </div>
+      <a href="#" class="section-link">
+        Voir tout
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M5 12h14M12 5l7 7-7 7"/>
+        </svg>
+      </a>
+    </div>
+
+    <!-- شبكة 3 منتجات -->
+    <div class="products__grid">
+
+      <!-- =============================
+           CARD 1 — Sérum Éclat
+      ============================= -->
+      <article class="pcard">
+        <div class="pcard__image-wrap">
+          <!-- badge الكاتيقوري -->
+          <span class="pcard__tag">Bestseller</span>
+
+          <!-- زر المفضلة -->
+          <button class="pcard__wish" id="wish-1" onclick="toggleWish(this)" title="Ajouter aux favoris">
+            ♡
+          </button>
+
+          <!-- الصورة -->
+          <img
+            src="images/serum.png"
+            alt="Sérum Éclat Intense — Lumière"
+            class="pcard__image"
+            loading="lazy"
+          />
+
+          <!-- overlay مع زر quick add -->
+          <div class="pcard__overlay">
+            <button
+              class="pcard__quick-add"
+              id="add-serum"
+              onclick="addToCart(this, 'Sérum Éclat')"
+            >
+              + Ajouter au panier
+            </button>
+          </div>
+        </div>
+
+        <!-- معلومات المنتج -->
+        <div class="pcard__body">
+          <p class="pcard__brand">Lumière · Sérum</p>
+          <h3 class="pcard__name">Sérum Éclat Intense</h3>
+          <p class="pcard__desc">
+            Vitamine C 20% · Acide hyaluronique · Niacinamide.
+            Illumine et repulpe la peau dès 7 jours.
+          </p>
+          <div class="pcard__footer">
+            <div>
+              <span class="pcard__price">5 900 DA</span>
+              <span class="pcard__old">7 500 DA</span>
+            </div>
+            <div class="pcard__stars">★★★★★</div>
+          </div>
+        </div>
+      </article>
+
+      <!-- =============================
+           CARD 2 — Crème Nuit
+      ============================= -->
+      <article class="pcard">
+        <div class="pcard__image-wrap">
+          <span class="pcard__tag">Nouveau</span>
+
+          <button class="pcard__wish" id="wish-2" onclick="toggleWish(this)" title="Ajouter aux favoris">
+            ♡
+          </button>
+
+          <img
+            src="images/cream.png"
+            alt="Crème Nuit Régénérante — Lumière"
+            class="pcard__image"
+            loading="lazy"
+          />
+
+          <div class="pcard__overlay">
+            <button
+              class="pcard__quick-add"
+              id="add-cream"
+              onclick="addToCart(this, 'Crème Nuit')"
+            >
+              + Ajouter au panier
+            </button>
+          </div>
+        </div>
+
+        <div class="pcard__body">
+          <p class="pcard__brand">Lumière · Crème</p>
+          <h3 class="pcard__name">Crème Nuit Régénérante</h3>
+          <p class="pcard__desc">
+            Rétinol 0,3% · Peptides · Beurre de karité.
+            Régénère en profondeur pendant le sommeil.
+          </p>
+          <div class="pcard__footer">
+            <div>
+              <span class="pcard__price">8 400 DA</span>
+            </div>
+            <div class="pcard__stars">★★★★☆</div>
+          </div>
+        </div>
+      </article>
+
+      <!-- =============================
+           CARD 3 — Essence Hydra
+      ============================= -->
+      <article class="pcard">
+        <div class="pcard__image-wrap">
+          <span class="pcard__tag">Édition Limitée</span>
+
+          <button class="pcard__wish" id="wish-3" onclick="toggleWish(this)" title="Ajouter aux favoris">
+            ♡
+          </button>
+
+          <img
+            src="images/essence.png"
+            alt="Essence Hydra-Boost — Lumière"
+            class="pcard__image"
+            loading="lazy"
+          />
+
+          <div class="pcard__overlay">
+            <button
+              class="pcard__quick-add"
+              id="add-essence"
+              onclick="addToCart(this, 'Essence Hydra-Boost')"
+            >
+              + Ajouter au panier
+            </button>
+          </div>
+        </div>
+
+        <div class="pcard__body">
+          <p class="pcard__brand">Lumière · Essence</p>
+          <h3 class="pcard__name">Essence Hydra-Boost</h3>
+          <p class="pcard__desc">
+            Eau de rose · Aloe vera · Panthénol.
+            Hydratation intense et éclat immédiat à chaque application.
+          </p>
+          <div class="pcard__footer">
+            <div>
+              <span class="pcard__price">4 200 DA</span>
+              <span class="pcard__old">5 000 DA</span>
+            </div>
+            <div class="pcard__stars">★★★★★</div>
+          </div>
+        </div>
+      </article>
+
+    </div><!-- /products__grid -->
+  </section>
+
+  <!-- ============================================================
+       🛒 CHECKOUT — DHD Livraison
+  ============================================================ -->
+  <section class="checkout" id="checkout">
+
+    <div class="checkout__inner">
+
+      <!-- Colonne gauche : récapitulatif panier -->
+      <div class="checkout__summary">
+        <p class="section-label">Récapitulatif</p>
+        <h2 class="checkout__title">Votre <em>commande</em></h2>
+
+        <div class="checkout__items" id="checkout-items">
+          <!-- rempli dynamiquement par JS -->
+          <p class="checkout__empty" id="checkout-empty">Votre panier est vide.<br>Ajoutez des produits pour continuer.</p>
+        </div>
+
+        <div class="checkout__subtotal-row">
+          <span>Sous-total produits</span>
+          <span id="subtotal-display">0 DA</span>
+        </div>
+      </div>
+
+      <!-- Colonne droite : formulaire livraison -->
+      <div class="checkout__form">
+        <p class="section-label">Livraison · DHD</p>
+        <h2 class="checkout__title">Options de <em>livraison</em></h2>
+
+        <!-- ── Informations Personnelles ───────────────────────── -->
+        <div class="form__section-title">
+          <span class="form__section-icon">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          </span>
+          Informations Personnelles
+        </div>
+
+        <!-- Nom + Prénom (même ligne) -->
+        <div class="form__row">
+          <div class="form__group">
+            <label class="form__label" for="input-nom">Nom</label>
+            <input
+              class="form__input"
+              type="text"
+              id="input-nom"
+              name="nom"
+              placeholder="Votre nom de famille"
+              autocomplete="family-name"
+            />
+          </div>
+          <div class="form__group">
+            <label class="form__label" for="input-prenom">Prénom</label>
+            <input
+              class="form__input"
+              type="text"
+              id="input-prenom"
+              name="prenom"
+              placeholder="Votre prénom"
+              autocomplete="given-name"
+            />
+          </div>
+        </div>
+
+        <!-- Numéro de téléphone -->
+        <div class="form__group">
+          <label class="form__label" for="input-phone">Numéro de téléphone</label>
+          <div class="form__input-wrap">
+            <span class="form__input-icon">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.38 2 2 0 0 1 3.59 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.56a16 16 0 0 0 6.29 6.29l.92-.92a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            </span>
+            <input
+              class="form__input form__input--with-icon"
+              type="tel"
+              id="input-phone"
+              name="phone"
+              placeholder="06 XX XX XX XX"
+              autocomplete="tel"
+            />
+          </div>
+        </div>
+
+        <!-- Séparateur discret -->
+        <div class="form__section-divider"></div>
+
+        <!-- Wilaya -->
+        <div class="form__group">
+          <label class="form__label" for="select-wilaya">Wilaya de destination</label>
+          <div class="form__select-wrap">
+            <select class="form__select" id="select-wilaya">
+              <option value="">— Choisir une wilaya —</option>
+              <option value="alger">Alger (16)</option>
+              <option value="blida">Blida (09)</option>
+              <option value="oran">Oran (31)</option>
+              <option value="laghouat">Laghouat (03)</option>
+              <option value="tamanrasset">Tamanrasset (11)</option>
+            </select>
+            <span class="form__select-icon">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+            </span>
+          </div>
+        </div>
+
+        <!-- Type livraison -->
+        <div class="form__group">
+          <label class="form__label" for="select-delivery">Type de livraison</label>
+          <div class="form__select-wrap">
+            <select class="form__select" id="select-delivery">
+              <option value="">— Choisir le type —</option>
+              <option value="home">🏠 Livraison à domicile</option>
+              <option value="office">🏢 Retrait en bureau</option>
+            </select>
+            <span class="form__select-icon">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+            </span>
+          </div>
+        </div>
+
+        <!-- Résultat frais de port -->
+        <div class="shipping__result" id="shipping-result">
+          <div class="shipping__info" id="shipping-info">
+            <span class="shipping__label">Frais de livraison</span>
+            <span class="shipping__value" id="shipping-value">— DA</span>
+          </div>
+        </div>
+
+        <!-- Séparateur -->
+        <div class="checkout__divider"></div>
+
+        <!-- Total général -->
+        <div class="checkout__total">
+          <div class="checkout__total-label">Total général</div>
+          <div class="checkout__total-amount" id="total-display">0 DA</div>
+        </div>
+
+        <!-- Bouton confirmation -->
+        <button class="checkout__cta" id="checkout-cta" disabled>
+          <span>Confirmer la commande</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </button>
+
+        <p class="checkout__secure">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          Paiement 100% sécurisé · Retour sous 30 jours
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============================================================
+       ⏳ LOADING OVERLAY
+  ============================================================ -->
+  <div class="loader-overlay" id="loader-overlay" aria-hidden="true">
+    <div class="loader-box">
+      <div class="loader-spinner"></div>
+      <p class="loader-text">Envoi en cours…</p>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       ✅ SUCCESS / ❌ ERROR MODAL
+  ============================================================ -->
+  <div class="modal-overlay" id="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-title" aria-hidden="true">
+    <div class="modal-card" id="modal-card">
+      <!-- icône dynamique -->
+      <div class="modal-icon" id="modal-icon"></div>
+      <h2 class="modal-title" id="modal-title">Commande confirmée !</h2>
+      <p  class="modal-body"  id="modal-body">Votre commande a bien été reçue. Nous vous contacterons très bientôt.</p>
+      <button class="modal-close" id="modal-close">Fermer</button>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       🦶 FOOTER
+  ============================================================ -->
+  <footer class="footer">
+    <div class="footer__brand">Lumi<span>è</span>re</div>
+    <p class="footer__copy">© 2025 Lumière Skincare. All rights reserved.</p>
+  </footer>
+
+  <!-- ============================================================
+       ⚙️ JAVASCRIPT
+  ============================================================ -->
+  <script>
+    /* =========================================================
+       🛒  CART — tracks items with name + price
+    ========================================================= */
+    const badge       = document.getElementById('cart-count');
+    const itemsWrap   = document.getElementById('checkout-items');
+    const emptyMsg    = document.getElementById('checkout-empty');
+    const subtotalEl  = document.getElementById('subtotal-display');
+    const totalEl     = document.getElementById('total-display');
+    const ctaBtn      = document.getElementById('checkout-cta');
+
+    // cart : [ { name, price } ]
+    let cart = [];
+
+    // Prices per product (DA) — must match onclick calls below
+    const PRODUCT_PRICES = {
+      'Sérum Éclat'      : 5900,
+      'Crème Nuit'       : 8400,
+      'Essence Hydra-Boost': 4200
+    };
+
+    /* ---------- addToCart ---------- */
+    function addToCart(btn, name) {
+      const price = PRODUCT_PRICES[name] ?? 0;
+      cart.push({ name, price });
+
+      // badge animate
+      badge.textContent = cart.length;
+      badge.style.transform = 'scale(1.6)';
+      setTimeout(() => badge.style.transform = '', 300);
+
+      // button feedback
+      const orig = btn.textContent;
+      btn.textContent = '✓ Ajouté';
+      btn.style.background = '#c9a96e';
+      btn.disabled = true;
+      setTimeout(() => {
+        btn.textContent = orig;
+        btn.style.background = '';
+        btn.disabled = false;
+      }, 1800);
+
+      renderCheckout();
+    }
+
+    /* ---------- renderCheckout ---------- */
+    function renderCheckout() {
+      // Build item list
+      const grouped = {};
+      cart.forEach(({ name, price }) => {
+        if (!grouped[name]) grouped[name] = { price, qty: 0 };
+        grouped[name].qty++;
+      });
+
+      const hasItems = Object.keys(grouped).length > 0;
+      emptyMsg.style.display = hasItems ? 'none' : 'block';
+
+      // Remove old item rows
+      itemsWrap.querySelectorAll('.checkout__item').forEach(el => el.remove());
+
+      let subtotal = 0;
+      Object.entries(grouped).forEach(([name, { price, qty }]) => {
+        subtotal += price * qty;
+        const row = document.createElement('div');
+        row.className = 'checkout__item';
+        row.innerHTML = `
+          <span class="ci__name">${name} <em>×${qty}</em></span>
+          <span class="ci__price">${(price * qty).toLocaleString('fr-DZ')} DA</span>
+        `;
+        itemsWrap.appendChild(row);
+      });
+
+      subtotalEl.textContent = subtotal.toLocaleString('fr-DZ') + ' DA';
+      updateTotal(subtotal);
+    }
+
+    /* =========================================================
+       🚚  DHD LIVRAISON — tarifs réels
+    ========================================================= */
+    const DHD = {
+      alger      : { home: 400,  office: 200 },
+      blida      : { home: 500,  office: 250 },
+      oran       : { home: 700,  office: 400 },
+      laghouat   : { home: 900,  office: 500 },
+      tamanrasset: { home: 1300, office: 800 }
+    };
+
+    const wilayaNames = {
+      alger: 'Alger', blida: 'Blida', oran: 'Oran',
+      laghouat: 'Laghouat', tamanrasset: 'Tamanrasset'
+    };
+
+    const selWilaya   = document.getElementById('select-wilaya');
+    const selDelivery = document.getElementById('select-delivery');
+    const shipResult  = document.getElementById('shipping-result');
+    const shipValue   = document.getElementById('shipping-value');
+
+    function getShipping() {
+      const w = selWilaya.value;
+      const d = selDelivery.value;
+      if (!w || !d) return null;
+      return DHD[w]?.[d] ?? null;
+    }
+
+    function getSubtotal() {
+      return cart.reduce((s, { price }) => s + price, 0);
+    }
+
+    function updateTotal(subtotal) {
+      const shipping = getShipping();
+      if (shipping === null) {
+        totalEl.textContent = subtotal.toLocaleString('fr-DZ') + ' DA';
+        ctaBtn.disabled = true;
+        return;
+      }
+      const grand = subtotal + shipping;
+      totalEl.textContent = grand.toLocaleString('fr-DZ') + ' DA';
+      ctaBtn.disabled = (cart.length === 0);
+    }
+
+    function onShippingChange() {
+      const w = selWilaya.value;
+      const d = selDelivery.value;
+      const shipping = getShipping();
+
+      if (shipping !== null) {
+        // Show result with animation
+        shipResult.classList.add('is-visible');
+        shipValue.textContent = shipping.toLocaleString('fr-DZ') + ' DA';
+
+        // Update aria label for accessibility
+        const typeLabel = d === 'home' ? 'Domicile' : 'Bureau';
+        document.getElementById('shipping-info').setAttribute(
+          'title',
+          `${wilayaNames[w]} · ${typeLabel} : ${shipping} DA`
+        );
+      } else {
+        shipResult.classList.remove('is-visible');
+        shipValue.textContent = '— DA';
+      }
+      updateTotal(getSubtotal());
+    }
+
+    selWilaya.addEventListener('change', onShippingChange);
+    selDelivery.addEventListener('change', onShippingChange);
+
+    /* =========================================================
+       ♡  WISHLIST
+    ========================================================= */
+    function toggleWish(btn) {
+      const on = btn.classList.toggle('active');
+      btn.textContent = on ? '♥' : '♡';
+    }
+
+    /* =========================================================
+       🧭  NAVBAR shrink on scroll
+    ========================================================= */
+    const navbar = document.querySelector('.navbar');
+    window.addEventListener('scroll', () => {
+      navbar.style.height = window.scrollY > 60 ? '56px' : '72px';
+    });
+
+    /* =========================================================
+       🔑  TELEGRAM CONFIG — remplacez par vos vraies valeurs
+    ========================================================= */
+    const TG_BOT_TOKEN = '8625327994:AAFOCVCXIbmcjqhb7eq5q8Rf5Nm-Aq3BbAM';
+    const TG_CHAT_ID   = '1012473197';
+
+    /* =========================================================
+       ⏳  LOADING OVERLAY helpers
+    ========================================================= */
+    const loaderOverlay = document.getElementById('loader-overlay');
+
+    function showLoader() {
+      loaderOverlay.classList.add('is-visible');
+      loaderOverlay.setAttribute('aria-hidden', 'false');
+    }
+    function hideLoader() {
+      loaderOverlay.classList.remove('is-visible');
+      loaderOverlay.setAttribute('aria-hidden', 'true');
+    }
+
+    /* =========================================================
+       🪟  MODAL helpers
+    ========================================================= */
+    const modalOverlay = document.getElementById('modal-overlay');
+    const modalCard    = document.getElementById('modal-card');
+    const modalIcon    = document.getElementById('modal-icon');
+    const modalTitle   = document.getElementById('modal-title');
+    const modalBody    = document.getElementById('modal-body');
+    const modalClose   = document.getElementById('modal-close');
+
+    function showModal({ success, title, body }) {
+      modalIcon.innerHTML  = success
+        ? `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>`
+        : `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6M9 9l6 6"/></svg>`;
+      modalIcon.className  = 'modal-icon ' + (success ? 'modal-icon--ok' : 'modal-icon--err');
+      modalTitle.textContent = title;
+      modalBody.textContent  = body;
+      modalOverlay.classList.add('is-visible');
+      modalOverlay.setAttribute('aria-hidden', 'false');
+      modalCard.style.animation = 'modalPop 0.4s cubic-bezier(0.22,1,0.36,1) both';
+    }
+
+    function hideModal() {
+      modalOverlay.classList.remove('is-visible');
+      modalOverlay.setAttribute('aria-hidden', 'true');
+    }
+
+    // Fermer via bouton ou clic en dehors
+    modalClose.addEventListener('click', hideModal);
+    modalOverlay.addEventListener('click', (e) => {
+      if (e.target === modalOverlay) hideModal();
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') hideModal();
+    });
+
+    /* =========================================================
+       📨  BUILD TELEGRAM MESSAGE
+    ========================================================= */
+    function buildMessage() {
+      const nom     = document.getElementById('input-nom').value.trim()    || '—';
+      const prenom  = document.getElementById('input-prenom').value.trim() || '—';
+      const phone   = document.getElementById('input-phone').value.trim()  || '—';
+      const wilaya  = wilayaNames[selWilaya.value]  || '—';
+      const delType = selDelivery.value === 'home' ? '🏠 Domicile' : selDelivery.value === 'office' ? '🏢 Bureau' : '—';
+      const shipping = getShipping();
+      const subtotal = getSubtotal();
+      const grand    = shipping !== null ? subtotal + shipping : subtotal;
+
+      // Récapitulatif des articles
+      const grouped = {};
+      cart.forEach(({ name, price }) => {
+        if (!grouped[name]) grouped[name] = { price, qty: 0 };
+        grouped[name].qty++;
+      });
+      const itemsLines = Object.entries(grouped)
+        .map(([n, { price, qty }]) => `  • ${n} ×${qty} — ${(price * qty).toLocaleString('fr-DZ')} DA`)
+        .join('\n');
+
+      return [
+        '🛒 *Nouvelle Commande — Lumière Skincare*',
+        '',
+        '👤 *Client*',
+        `  Nom    : ${nom}`,
+        `  Prénom : ${prenom}`,
+        `  Tél    : ${phone}`,
+        '',
+        '📦 *Articles*',
+        itemsLines,
+        '',
+        '🚚 *Livraison*',
+        `  Wilaya : ${wilaya}`,
+        `  Type   : ${delType}`,
+        `  Frais  : ${shipping !== null ? shipping.toLocaleString('fr-DZ') + ' DA' : '—'}`,
+        '',
+        '💰 *Total général : ' + grand.toLocaleString('fr-DZ') + ' DA*',
+        '',
+        '─────────────────────────'
+      ].join('\n');
+    }
+
+    /* =========================================================
+       📤  SEND TO TELEGRAM
+    ========================================================= */
+    async function sendToTelegram() {
+      const url  = `https://api.telegram.org/bot${TG_BOT_TOKEN}/sendMessage`;
+      const body = JSON.stringify({
+        chat_id    : TG_CHAT_ID,
+        text       : buildMessage(),
+        parse_mode : 'Markdown'
+      });
+
+      const res  = await fetch(url, {
+        method  : 'POST',
+        headers : { 'Content-Type': 'application/json' },
+        body
+      });
+
+      const json = await res.json();
+      if (!json.ok) throw new Error(json.description || 'Telegram error');
+    }
+
+    /* =========================================================
+       ✅  CONFIRM ORDER — avec Telegram + Loader + Modal
+    ========================================================= */
+    ctaBtn.addEventListener('click', async () => {
+      if (cart.length === 0 || !getShipping()) return;
+
+      // Validation rapide des champs personnels
+      const nom    = document.getElementById('input-nom').value.trim();
+      const prenom = document.getElementById('input-prenom').value.trim();
+      const phone  = document.getElementById('input-phone').value.trim();
+      if (!nom || !prenom || !phone) {
+        showModal({
+          success : false,
+          title   : 'Informations manquantes',
+          body    : 'Veuillez remplir votre nom, prénom et numéro de téléphone avant de confirmer.'
+        });
+        return;
+      }
+
+      // 1. Afficher le loader
+      showLoader();
+      ctaBtn.disabled = true;
+
+      try {
+        // 2. Envoyer vers Telegram
+        await sendToTelegram();
+
+        // 3. Succès
+        hideLoader();
+        showModal({
+          success : true,
+          title   : 'Commande confirmée !',
+          body    : `Merci ${prenom} ! Votre commande a bien été reçue. Notre équipe vous contactera au ${phone} très bientôt.`
+        });
+
+        // Réinitialiser le panier
+        cart = [];
+        badge.textContent = 0;
+        renderCheckout();
+        ctaBtn.disabled = true;
+
+      } catch (err) {
+        hideLoader();
+        showModal({
+          success : false,
+          title   : 'Erreur d\'envoi',
+          body    : 'Une erreur est survenue lors de l\'envoi de votre commande. Veuillez réessayer ou nous contacter directement.'
+        });
+        ctaBtn.disabled = false;
+        console.error('Telegram error:', err);
+      }
+    });
+  </script>
+
+</body>
+</html>
