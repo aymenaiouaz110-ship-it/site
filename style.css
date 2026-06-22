@@ -90,10 +90,13 @@ button { cursor: pointer; font-family: inherit; border: none; background: none; 
 .nav__logo {
   display: flex;
   align-items: center;
+  max-width: 45%; /* prevent overlap with navbar buttons on small screens */
 }
 .nav__logo-img {
-  height: 48px;
+  height: 46px; /* height between 45px and 50px */
+  max-height: 100%;
   width: auto;
+  max-width: 100%;
   object-fit: contain;
   display: block;
   transition: height 0.3s var(--ease-out);
@@ -105,6 +108,7 @@ button { cursor: pointer; font-family: inherit; border: none; background: none; 
 /* Links */
 .nav__links {
   display: flex;
+  align-items: center;
   list-style: none;
   gap: 36px;
 }
@@ -2071,4 +2075,93 @@ body {
 .dark-mode .footer { background: #0e0e0e; border-top-color: #222; }
 .dark-mode .footer__brand { color: #f5f5f5; }
 .dark-mode .footer__copy { color: #555; }
+
+/* ============================================================
+   🌌 ANIMATED BACKGROUND (BLUR ORBS)
+   ============================================================ */
+.animated-bg-container {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -99;
+  overflow: hidden;
+  pointer-events: none;
+  background-color: var(--white);
+}
+
+.blur-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.15;
+  transition: opacity 0.5s ease;
+  pointer-events: none;
+}
+
+.orb-1 {
+  width: 450px;
+  height: 450px;
+  background: radial-gradient(circle, rgba(201, 169, 110, 0.3) 0%, rgba(201, 169, 110, 0) 70%);
+  top: -150px;
+  right: -100px;
+  animation: floatOrb1 25s infinite alternate ease-in-out;
+}
+
+.orb-2 {
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(240, 210, 215, 0.4) 0%, rgba(240, 210, 215, 0) 70%);
+  bottom: -150px;
+  left: -150px;
+  animation: floatOrb2 30s infinite alternate ease-in-out;
+}
+
+.orb-3 {
+  width: 380px;
+  height: 380px;
+  background: radial-gradient(circle, rgba(250, 220, 195, 0.3) 0%, rgba(250, 220, 195, 0) 70%);
+  top: 50%;
+  left: 15%;
+  animation: floatOrb3 22s infinite alternate ease-in-out;
+}
+
+/* Animations */
+@keyframes floatOrb1 {
+  0% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(8vw, 12vh) scale(1.1); }
+  66% { transform: translate(-5vw, 20vh) scale(0.95); }
+  100% { transform: translate(0, 0) scale(1); }
+}
+
+@keyframes floatOrb2 {
+  0% { transform: translate(0, 0) scale(1.05); }
+  50% { transform: translate(-10vw, -8vh) scale(0.95); }
+  100% { transform: translate(0, 0) scale(1.05); }
+}
+
+@keyframes floatOrb3 {
+  0% { transform: translate(0, 0) scale(0.95); }
+  40% { transform: translate(6vw, -12vh) scale(1.05); }
+  80% { transform: translate(-6vw, 8vh) scale(0.98); }
+  100% { transform: translate(0, 0) scale(0.95); }
+}
+
+/* Section Transparency for Animated Background */
+.products,
+.reviews,
+.checkout {
+  background: transparent !important;
+}
+
+/* Dark Mode Overrides for Orbs */
+.dark-mode .orb-1 {
+  background: radial-gradient(circle, rgba(201, 169, 110, 0.15) 0%, rgba(201, 169, 110, 0) 70%);
+}
+.dark-mode .orb-2 {
+  background: radial-gradient(circle, rgba(240, 210, 215, 0.1) 0%, rgba(240, 210, 215, 0) 70%);
+}
+.dark-mode .orb-3 {
+  background: radial-gradient(circle, rgba(250, 220, 195, 0.1) 0%, rgba(250, 220, 195, 0) 70%);
+}
 
