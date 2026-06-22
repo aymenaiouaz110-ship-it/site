@@ -73,7 +73,9 @@
        🧭 NAVBAR — Fixed, Glassmorphism
   ============================================================ -->
   <nav class="navbar">
-    <a href="#" class="nav__logo">Lumi<span>è</span>ere</a>
+    <a href="#" class="nav__logo" aria-label="Lumière Accueil">
+      <img src="images/removebg-preview.png" alt="Lumière" class="nav__logo-img" />
+    </a>
 
     <ul class="nav__links">
       <li><a href="#products">Soins</a></li>
@@ -466,6 +468,67 @@
 
         <!-- Séparateur -->
         <div class="checkout__divider"></div>
+
+        <!-- 💳 Méthode de paiement -->
+        <div class="form__group">
+          <div class="form__section-title">طريقة الدفع · Mode de paiement</div>
+
+          <div class="payment-methods">
+
+            <!-- Option 1: COD -->
+            <label class="payment-option" id="label-cod">
+              <input type="radio" name="payment" value="cod" id="pay-cod" checked />
+              <span class="payment-option__box">
+                <span class="payment-option__radio"></span>
+                <span class="payment-option__content">
+                  <span class="payment-option__title">💵 الدفع عند الاستلام</span>
+                  <span class="payment-option__sub">Paiement à la livraison</span>
+                </span>
+              </span>
+            </label>
+
+            <!-- Option 2: Baridimob -->
+            <label class="payment-option" id="label-baridimob">
+              <input type="radio" name="payment" value="baridimob" id="pay-baridimob" />
+              <span class="payment-option__box">
+                <span class="payment-option__radio"></span>
+                <span class="payment-option__content">
+                  <span class="payment-option__title">🏦 بريدي موب / CCP</span>
+                  <span class="payment-option__sub">Paiement électronique BaridiMob</span>
+                </span>
+              </span>
+            </label>
+
+          </div><!-- /payment-methods -->
+
+          <!-- قسم معلومات بريدي موب (مخفي بالافتراضي) -->
+          <div class="baridimob-panel" id="baridimob-panel" aria-hidden="true">
+            <div class="baridimob-info">
+              <p class="baridimob-info__row">
+                <span class="baridimob-info__label">الاسم واللقب</span>
+                <strong class="baridimob-info__val">AIMEN AIOUAZ</strong>
+              </p>
+              <p class="baridimob-info__row">
+                <span class="baridimob-info__label">رقم RIP</span>
+                <strong class="baridimob-info__val baridimob-info__val--mono">00799999002394478477</strong>
+              </p>
+            </div>
+            <div class="form__group" style="margin-top:14px;margin-bottom:0">
+              <label class="form__label" for="transaction-number">
+                رقم العملية <em style="color:var(--accent)">*</em> · Numéro de transaction
+              </label>
+              <input
+                class="form__input"
+                type="text"
+                id="transaction-number"
+                placeholder="أدخل رقم العملية بعد التحويل"
+                autocomplete="off"
+              />
+              <p class="baridimob-panel__note">* حوّل المبلغ أولاً، ثم أدخل رقم العملية لتأكيد الطلبية.</p>
+            </div>
+          </div><!-- /baridimob-panel -->
+
+        </div>
 
         <!-- Total général -->
         <div class="checkout__total">
@@ -901,7 +964,11 @@
     ========================================================= */
     const navbar = document.querySelector('.navbar');
     window.addEventListener('scroll', () => {
-      navbar.style.height = window.scrollY > 60 ? '56px' : '72px';
+      if (window.scrollY > 60) {
+        navbar.classList.add('navbar--shrink');
+      } else {
+        navbar.classList.remove('navbar--shrink');
+      }
     });
 
     /* =========================================================
@@ -961,6 +1028,14 @@
       const subtotal = cartSubtotal();
       const grand    = shipping !== null ? subtotal + shipping : subtotal;
 
+      // ── Méthode de paiement ──
+      const isBaridi = document.getElementById('pay-baridimob').checked;
+      const txNumber = document.getElementById('transaction-number')?.value.trim() || '';
+
+      const payMethodText = isBaridi
+        ? `  - طريقة الدفع: بريدي موب 💳\n  - رقم العملية: ${txNumber}`
+        : `  طريقة الدفع: عند الاستلام 💵`;
+
       const itemsLines = Object.entries(cart)
         .map(([n, q]) => {
           const price = CATALOGUE[n]?.price ?? 0;
@@ -968,7 +1043,7 @@
         })
         .join('\n');
 
-      return [
+      const lines = [
         '🛒 *Nouvelle Commande — Lumière Skincare*',
         '',
         '👤 *Client*',
@@ -986,10 +1061,15 @@
         `  Type   : ${delType}`,
         `  Frais  : ${shipping !== null ? shipping.toLocaleString('fr-DZ') + ' DA' : '—'}`,
         '',
+        '💳 *طريقة الدفع*',
+        payMethodText,
+        '',
         '💰 *Total général : ' + grand.toLocaleString('fr-DZ') + ' DA*',
         '',
         '─────────────────────────'
-      ].join('\n');
+      ];
+
+      return lines.join('\n');
     }
 
     /* =========================================================
@@ -1012,6 +1092,21 @@
     }
 
     /* =========================================================
+       💳  PAYMENT METHOD — Toggle BaridiMob panel
+    ========================================================= */
+    const baridimobPanel = document.getElementById('baridimob-panel');
+    const txInput        = document.getElementById('transaction-number');
+
+    document.querySelectorAll('input[name="payment"]').forEach(radio => {
+      radio.addEventListener('change', () => {
+        const isBaridi = document.getElementById('pay-baridimob').checked;
+        baridimobPanel.classList.toggle('is-open', isBaridi);
+        baridimobPanel.setAttribute('aria-hidden', String(!isBaridi));
+        if (!isBaridi) txInput.value = '';
+      });
+    });
+
+    /* =========================================================
        ✅  CONFIRM ORDER
     ========================================================= */
     ctaBtn.addEventListener('click', async () => {
@@ -1026,6 +1121,18 @@
           success: false,
           title  : 'Informations manquantes',
           body   : 'Veuillez remplir votre nom, prénom et numéro de téléphone avant de confirmer.'
+        });
+        return;
+      }
+
+      // ── Validation Baridimob : rقم العملية obligatoire ──
+      const isBaridi = document.getElementById('pay-baridimob').checked;
+      const txVal    = document.getElementById('transaction-number')?.value.trim();
+      if (isBaridi && !txVal) {
+        showModal({
+          success: false,
+          title  : 'رقم العملية مطلوب',
+          body   : 'يرجى إدخال رقم العملية بعد تحويل مبلغ الطلبية عبر بريدي موب.'
         });
         return;
       }

@@ -78,6 +78,9 @@ button { cursor: pointer; font-family: inherit; border: none; background: none; 
   transition: height 0.3s var(--ease-out),
               box-shadow 0.3s;
 }
+.navbar--shrink {
+  height: 56px;
+}
 
 .navbar:has(+ .hero:not(:is(:hover))) {
   box-shadow: none;
@@ -85,13 +88,19 @@ button { cursor: pointer; font-family: inherit; border: none; background: none; 
 
 /* Logo */
 .nav__logo {
-  font-family: var(--font-serif);
-  font-size: 1.6rem;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  color: var(--black);
+  display: flex;
+  align-items: center;
 }
-.nav__logo span { color: var(--accent); }
+.nav__logo-img {
+  height: 48px;
+  width: auto;
+  object-fit: contain;
+  display: block;
+  transition: height 0.3s var(--ease-out);
+}
+.navbar--shrink .nav__logo-img {
+  height: 38px;
+}
 
 /* Links */
 .nav__links {
@@ -1916,6 +1925,9 @@ body {
 }
 .dark-mode .nav__logo,
 .dark-mode .nav__links a { color: #f5f5f5; }
+.dark-mode .nav__logo-img {
+  filter: invert(1);
+}
 .dark-mode .nav__links a:hover { color: var(--accent); }
 .dark-mode .nav__icon-btn { color: #f5f5f5; }
 .dark-mode .nav__icon-btn:hover { background: rgba(255,255,255,0.08); }
