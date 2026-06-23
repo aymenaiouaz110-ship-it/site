@@ -890,11 +890,8 @@
           });
         }
 
-        showModal(true, 'تم تأكيد طلبك بنجاح! 🎉', `شكراً لك ${fullname}! تم استلام طلبك بنجاح، سنتصل بك قريباً على الرقم ${phone} لتأكيد التوصيل.`);
-        
-        // Reset form
-        document.getElementById('express-checkout-form').reset();
-        selectBundle(1); // Reset to Option 1
+        // Redirect to thankyou page
+        window.location.href = `thankyou.html?name=${encodeURIComponent(fullname)}`;
       } catch (err) {
         console.error('Telegram submission error:', err);
         showModal(false, "فشل إرسال الطلب", "حدث خطأ أثناء تأكيد الطلب، يرجى المحاولة مرة أخرى أو الاتصال بنا مباشرة.");
