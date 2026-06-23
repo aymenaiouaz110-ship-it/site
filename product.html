@@ -1,0 +1,909 @@
+<!DOCTYPE html>
+<html lang="ar" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title id="page-title">LUMIÈRE — Détails du Produit</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- خلفية متحركة هادئة للموقع -->
+  <div class="animated-bg-container">
+      <div class="blur-orb orb-1"></div>
+      <div class="blur-orb orb-2"></div>
+      <div class="blur-orb orb-3"></div>
+  </div>
+
+  <!-- بنر شريطي تخفيض لفترة محدودة -->
+  <div class="promo-banner">
+    <span>🔥 تخفيض لفترة محدودة جداً! ينتهي العرض خلال: </span>
+    <span id="countdown-timer">02:14:00</span>
+  </div>
+
+  <!-- 🧭 NAVBAR -->
+  <nav class="navbar">
+    <a href="index.html" class="nav__logo" aria-label="Lumière Accueil">
+      <img src="images/removebg-preview.png" alt="Lumière" class="nav__logo-img" />
+    </a>
+
+    <ul class="nav__links">
+      <li><a href="index.html#products">Soins</a></li>
+      <li><a href="index.html#products">Nouveautés</a></li>
+      <li><a href="index.html#products">Routines</a></li>
+      <li><a href="index.html#checkout">Commande</a></li>
+    </ul>
+
+    <div class="nav__right">
+      <button class="nav__icon-btn nav__cart-btn" title="Panier" id="cart-btn" aria-label="Ouvrir le panier">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
+          <line x1="3" y1="6" x2="21" y2="6"/>
+          <path d="M16 10a4 4 0 0 1-8 0"/>
+        </svg>
+        <span class="nav__cart-badge" id="cart-count">0</span>
+      </button>
+      <button class="nav__icon-btn dark-toggle" id="dark-toggle-btn" title="Mode sombre" aria-label="Basculer le mode sombre">
+        <span id="dark-toggle-icon">🌙</span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- 🛍️ CART DRAWER -->
+  <div class="drawer-backdrop" id="drawer-backdrop"></div>
+  <aside class="cart-drawer" id="cart-drawer" aria-label="Panier" aria-hidden="true">
+    <div class="drawer__head">
+      <div class="drawer__head-left">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
+          <line x1="3" y1="6" x2="21" y2="6"/>
+          <path d="M16 10a4 4 0 0 1-8 0"/>
+        </svg>
+        <span class="drawer__title">Mon Panier</span>
+        <span class="drawer__count" id="drawer-count">0</span>
+      </div>
+      <button class="drawer__close" id="drawer-close" aria-label="Fermer le panier">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 6 6 18M6 6l12 12"/>
+        </svg>
+      </button>
+    </div>
+    <div class="drawer__body" id="drawer-body">
+      <div class="drawer__empty" id="drawer-empty">
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+          <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
+          <line x1="3" y1="6" x2="21" y2="6"/>
+          <path d="M16 10a4 4 0 0 1-8 0"/>
+        </svg>
+        <p>Votre panier est vide</p>
+        <span>Ajoutez des produits pour commencer</span>
+      </div>
+      <div class="drawer__items" id="drawer-items"></div>
+    </div>
+    <div class="drawer__foot" id="drawer-foot">
+      <div class="drawer__subtotal">
+        <span>Sous-total</span>
+        <span class="drawer__subtotal-val" id="drawer-subtotal">0 DA</span>
+      </div>
+      <a href="index.html#checkout" class="drawer__cta" id="drawer-cta" onclick="closeDrawer()">
+        الذهاب لتأكيد الطلب 🛒
+      </a>
+      <p class="drawer__note">Frais de livraison calculés à l'étape suivante</p>
+    </div>
+  </aside>
+
+  <!-- 📦 PRODUCT DETAIL WRAPPER -->
+  <main class="pdetails-container">
+    <div class="pdetails__inner">
+      
+      <!-- Back Link -->
+      <div class="pdetails__back">
+        <a href="index.html#products">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+          Retour aux soins
+        </a>
+      </div>
+
+      <div class="pdetails__main-grid">
+        <!-- Left: Image Gallery -->
+        <div class="pdetails__gallery">
+          <div class="pdetails__img-card">
+            <img id="main-product-img" src="" alt="Product Image" />
+          </div>
+        </div>
+
+        <!-- Right: Details Content -->
+        <div class="pdetails__info" dir="rtl">
+          <p id="product-brand" class="pdetails__brand"></p>
+          <h1 id="product-title" class="pdetails__title"></h1>
+          
+          <div class="pdetails__rating">
+            <span class="pdetails__stars">★★★★★</span>
+            <span class="pdetails__rating-text">(4.9/5 - 42 avis)</span>
+          </div>
+
+          <div class="pdetails__price-row">
+            <span id="product-price" class="pdetails__price"></span>
+            <span id="product-old-price" class="pdetails__old-price"></span>
+          </div>
+
+          <div class="pdetails__divider"></div>
+
+          <!-- Quantity Bundles Section -->
+          <div class="pdetails__bundles" dir="rtl">
+            <span class="pdetails__option-label">اختر العرض المناسب لك:</span>
+            <div class="bundles-container">
+              <!-- Option 1 -->
+              <div class="bundle-card is-selected" data-option="1" onclick="selectBundle(1)">
+                <input type="radio" name="quantity_bundle" id="bundle-opt-1" value="1" checked style="display:none;" />
+                <div class="bundle-card__content">
+                  <div class="bundle-card__title">
+                    <span class="bundle-card__dot"></span>
+                    <span class="bundle-card__name">قطعة واحدة 🏷️</span>
+                  </div>
+                  <div class="bundle-card__details">السعر العادي للمنتج</div>
+                </div>
+                <div class="bundle-card__price">
+                  <span class="bundle-card__price-val" id="bundle-price-1">0 DA</span>
+                </div>
+              </div>
+
+              <!-- Option 2 -->
+              <div class="bundle-card" data-option="2" onclick="selectBundle(2)">
+                <input type="radio" name="quantity_bundle" id="bundle-opt-2" value="2" style="display:none;" />
+                <div class="bundle-card__content">
+                  <div class="bundle-card__title">
+                    <span class="bundle-card__dot"></span>
+                    <span class="bundle-card__name">قطعتين (2) ✨</span>
+                  </div>
+                  <div class="bundle-card__details">خصم 20% على القطعة الثانية</div>
+                </div>
+                <div class="bundle-card__price">
+                  <span class="bundle-card__price-val" id="bundle-price-2">0 DA</span>
+                </div>
+              </div>
+
+              <!-- Option 3 -->
+              <div class="bundle-card" data-option="3" onclick="selectBundle(3)">
+                <span class="bundle-badge">🔥 العرض الأقوى</span>
+                <input type="radio" name="quantity_bundle" id="bundle-opt-3" value="3" style="display:none;" />
+                <div class="bundle-card__content">
+                  <div class="bundle-card__title">
+                    <span class="bundle-card__dot"></span>
+                    <span class="bundle-card__name">3 قطع (2 + 1 مجاناً) 🎁</span>
+                  </div>
+                  <div class="bundle-card__details">اشترِ 2 واحصل على 1 مجاناً + شحن مجاني لـ 58 ولاية</div>
+                </div>
+                <div class="bundle-card__price">
+                  <span class="bundle-card__price-val" id="bundle-price-3">0 DA</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Volume Selection -->
+          <div class="pdetails__option-group">
+            <span class="pdetails__option-label">الحجم / Volume:</span>
+            <span id="product-volume" class="pdetails__volume-tag"></span>
+          </div>
+
+          <!-- Description -->
+          <div class="pdetails__option-group">
+            <span class="pdetails__option-label">الوصف / Description:</span>
+            <p id="product-desc" class="pdetails__description"></p>
+          </div>
+
+          <!-- Quantity Selector -->
+          <div class="pdetails__qty-section" style="display: none;">
+            <span class="pdetails__option-label">الكمية / Quantité:</span>
+            <div class="pdetails__qty-control">
+              <button class="pqty-btn" id="qty-minus" aria-label="Diminuer">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"/></svg>
+              </button>
+              <span id="product-qty-display" class="pqty-display">1</span>
+              <button class="pqty-btn" id="qty-plus" aria-label="Augmenter">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- Add to Cart CTA -->
+          <button class="pdetails__add-btn" id="product-add-to-cart" style="display: none;">
+            <span>إضافة إلى سلة المشتريات · Ajouter au panier</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
+              <line x1="3" y1="6" x2="21" y2="6"/>
+              <path d="M16 10a4 4 0 0 1-8 0"/>
+            </svg>
+          </button>
+
+          <!-- One-Page Express Checkout Form -->
+          <div class="express-checkout" dir="rtl">
+            <h3 class="express-checkout__title">📄 استمارة الطلب المباشر السريع / Express Order</h3>
+            <form id="express-checkout-form" class="express-form">
+              
+              <!-- الاسم الكامل -->
+              <div class="express-form__group">
+                <label class="express-form__label" for="express-input-fullname">👤 الاسم الكامل / Nom Complet *</label>
+                <input class="express-form__input" type="text" id="express-input-fullname" placeholder="الاسم واللقب" required />
+              </div>
+
+              <!-- رقم الهاتف -->
+              <div class="express-form__group">
+                <label class="express-form__label" for="express-input-phone">📞 رقم الهاتف / Téléphone *</label>
+                <input class="express-form__input" type="tel" id="express-input-phone" placeholder="05 XX XX XX XX / 06 XX XX XX XX / 07 XX XX XX XX" required />
+              </div>
+
+              <!-- الولاية -->
+              <div class="express-form__group">
+                <label class="express-form__label" for="express-select-wilaya">📍 الولاية / Wilaya *</label>
+                <div class="express-form__select-wrap">
+                  <select class="express-form__select" id="express-select-wilaya" required>
+                    <option value="">— اختر الولاية —</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- البلدية / العنوان -->
+              <div class="express-form__group">
+                <label class="express-form__label" for="express-input-address">🏘️ البلدية أو العنوان / Adresse *</label>
+                <input class="express-form__input" type="text" id="express-input-address" placeholder="البلدية أو عنوان السكن بالتفصيل" required />
+              </div>
+
+              <!-- نوع التوصيل -->
+              <div class="express-form__group">
+                <label class="express-form__label" for="express-select-delivery">🚚 نوع التوصيل / Mode de livraison *</label>
+                <div class="express-form__select-wrap">
+                  <select class="express-form__select" id="express-select-delivery" required>
+                    <option value="home" selected>🏠 التوصيل للمنزل / Livraison à Domicile</option>
+                    <option value="office">🏢 استلام من مكتب ياليدين / Bureau Yalidine</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- Live Invoice Display -->
+              <div class="express-invoice">
+                <div class="express-invoice__row">
+                  <span>سعر المنتج / Prix du produit:</span>
+                  <span id="invoice-product-price">0 DA</span>
+                </div>
+                <div class="express-invoice__row">
+                  <span>سعر التوصيل / Frais de port:</span>
+                  <span id="invoice-shipping-price">— DA</span>
+                </div>
+                <div class="express-invoice__divider"></div>
+                <div class="express-invoice__row express-invoice__row--total">
+                  <span>المجموع الإجمالي / Total Général:</span>
+                  <span id="invoice-total-price">0 DA</span>
+                </div>
+              </div>
+
+              <!-- Confirm Order CTA -->
+              <button type="submit" class="express-checkout__cta" id="express-confirm-btn">
+                اضغط هنا لتأكيد الطلب الآن 🛒
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom: Benefits Checklist -->
+      <section class="pdetails__benefits-sec" dir="rtl">
+        <h2 class="pdetails__benefits-title">الفوائد والضمانات / Avantages &amp; Bénéfices</h2>
+        <ul id="product-benefits-list" class="pdetails__benefits-list">
+          <!-- Populated dynamically via JS -->
+        </ul>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- 🦶 FOOTER -->
+  <footer class="footer">
+    <div class="footer__brand">Lumi<span>è</span>ere</div>
+    <p class="footer__copy">© 2025 Lumière Skincare. All rights reserved.</p>
+  </footer>
+
+  <!-- Modal overlay for Order confirmation (Express) -->
+  <div class="modal-overlay" id="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-title" aria-hidden="true">
+    <div class="modal-card" id="modal-card">
+      <div class="modal-icon" id="modal-icon"></div>
+      <h2 class="modal-title" id="modal-title">Commande confirmée !</h2>
+      <p class="modal-body" id="modal-body">Votre commande a bien été reçue. Nous vous contacterons très bientôt.</p>
+      <button class="modal-close" id="modal-close">Fermer</button>
+    </div>
+  </div>
+
+  <!-- JAVASCRIPT SHARED PRODUCTS DATA -->
+  <script src="products.js"></script>
+
+  <script>
+    /* =========================================================
+       🛒  CART STATE — localStorage backed
+    ========================================================= */
+    function loadCart() {
+      try { return JSON.parse(localStorage.getItem('lumiere_cart')) || {}; }
+      catch { return {}; }
+    }
+    function saveCart(c) {
+      localStorage.setItem('lumiere_cart', JSON.stringify(c));
+    }
+
+    let cart = loadCart();
+
+    function cartTotalQty() {
+      return Object.values(cart).reduce((s, q) => s + q, 0);
+    }
+    function cartSubtotal() {
+      return Object.entries(cart).reduce((s, [n, q]) => s + (CATALOGUE[n]?.price ?? 0) * q, 0);
+    }
+
+    /* DOM REFS */
+    const badgeEl       = document.getElementById('cart-count');
+    const drawerCountEl = document.getElementById('drawer-count');
+    const drawerSubEl   = document.getElementById('drawer-subtotal');
+    const drawerItems   = document.getElementById('drawer-items');
+    const drawerEmpty   = document.getElementById('drawer-empty');
+    const drawerFoot    = document.getElementById('drawer-foot');
+
+    function render() {
+      const qty      = cartTotalQty();
+      const subtotal = cartSubtotal();
+      const isEmpty  = qty === 0;
+
+      badgeEl.textContent       = qty;
+      drawerCountEl.textContent = qty;
+      badgeEl.style.display     = qty > 0 ? 'flex' : 'none';
+
+      drawerEmpty.style.display = isEmpty ? 'flex' : 'none';
+      drawerItems.innerHTML     = '';
+      drawerFoot.style.display  = isEmpty ? 'none' : 'flex';
+
+      if (!isEmpty) {
+        Object.entries(cart).forEach(([name, qty]) => {
+          const price = CATALOGUE[name]?.price ?? 0;
+          const img   = CATALOGUE[name]?.img   ?? '';
+          const row   = document.createElement('div');
+          row.className = 'drawer__item';
+          row.innerHTML = `
+            <div class="di__img-wrap">
+              <img src="${img}" alt="${name}" class="di__img" />
+            </div>
+            <div class="di__info">
+              <p class="di__name">${name}</p>
+              <p class="di__price">${(price * qty).toLocaleString('fr-DZ')} DA</p>
+              <div class="di__controls">
+                <button class="di__btn" onclick="changeQty('${name}', -1)" aria-label="Diminuer">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"/></svg>
+                </button>
+                <span class="di__qty">${qty}</span>
+                <button class="di__btn" onclick="changeQty('${name}', 1)" aria-label="Augmenter">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>
+                </button>
+              </div>
+            </div>
+            <button class="di__remove" onclick="removeItem('${name}')" aria-label="Supprimer ${name}">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg>
+            </button>
+          `;
+          drawerItems.appendChild(row);
+        });
+      }
+      drawerSubEl.textContent = subtotal.toLocaleString('fr-DZ') + ' DA';
+    }
+
+    function addToCartSpecific(name, count) {
+      cart[name] = (cart[name] || 0) + count;
+      saveCart(cart);
+      render();
+
+      /* badge animation */
+      badgeEl.style.transform = 'scale(1.7)';
+      setTimeout(() => badgeEl.style.transform = '', 300);
+    }
+
+    function changeQty(name, delta) {
+      if (!cart[name]) return;
+      cart[name] += delta;
+      if (cart[name] <= 0) delete cart[name];
+      saveCart(cart);
+      render();
+    }
+
+    function removeItem(name) {
+      delete cart[name];
+      saveCart(cart);
+      render();
+    }
+
+    /* 🪟 DRAWER CONTROL */
+    const cartDrawer   = document.getElementById('cart-drawer');
+    const backdrop     = document.getElementById('drawer-backdrop');
+    const cartBtn      = document.getElementById('cart-btn');
+    const drawerClose  = document.getElementById('drawer-close');
+
+    function openDrawer() {
+      cartDrawer.classList.add('is-open');
+      backdrop.classList.add('is-visible');
+      cartDrawer.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeDrawer() {
+      cartDrawer.classList.remove('is-open');
+      backdrop.classList.remove('is-visible');
+      cartDrawer.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    }
+    cartBtn.addEventListener('click', openDrawer);
+    drawerClose.addEventListener('click', closeDrawer);
+    backdrop.addEventListener('click', closeDrawer);
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeDrawer(); });
+
+    /* 🌙 DARK MODE */
+    const darkToggleBtn  = document.getElementById('dark-toggle-btn');
+    const darkToggleIcon = document.getElementById('dark-toggle-icon');
+
+    function isNightTime() {
+      const h = new Date().getHours();
+      return h >= 19 || h < 7;
+    }
+    function applyDarkMode(on) {
+      document.body.classList.toggle('dark-mode', on);
+      darkToggleIcon.textContent = on ? '☀️' : '🌙';
+      darkToggleBtn.setAttribute('title', on ? 'Mode clair' : 'Mode sombre');
+    }
+    (function initDarkMode() {
+      const saved = localStorage.getItem('lumiere_darkmode');
+      if (saved !== null) applyDarkMode(saved === 'true');
+      else applyDarkMode(isNightTime());
+    })();
+    darkToggleBtn.addEventListener('click', () => {
+      const isDark = document.body.classList.contains('dark-mode');
+      applyDarkMode(!isDark);
+      localStorage.setItem('lumiere_darkmode', String(!isDark));
+    });
+
+    /* =========================================================
+       🧭  NAVBAR shrink on scroll
+    ========================================================= */
+    const navbar = document.querySelector('.navbar');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 60) {
+        navbar.classList.add('navbar--shrink');
+      } else {
+        navbar.classList.remove('navbar--shrink');
+      }
+    });
+
+    /* =========================================================
+       ⏰  COUNTDOWN TIMER
+    ========================================================= */
+    (function initCountdown() {
+      const TIMER_DURATION_MS = (2 * 3600 + 14 * 60) * 1000;
+      const timerEl = document.getElementById('countdown-timer');
+      if (!timerEl) return;
+      let endTime = localStorage.getItem('lumiere_timer_end');
+      const now = Date.now();
+      if (!endTime || parseInt(endTime, 10) <= now) {
+        endTime = now + TIMER_DURATION_MS;
+        localStorage.setItem('lumiere_timer_end', String(endTime));
+      } else {
+        endTime = parseInt(endTime, 10);
+      }
+      function updateTimer() {
+        const remaining = endTime - Date.now();
+        if (remaining <= 0) {
+          endTime = Date.now() + TIMER_DURATION_MS;
+          localStorage.setItem('lumiere_timer_end', String(endTime));
+        }
+        const totalSec = Math.max(0, Math.floor((endTime - Date.now()) / 1000));
+        const hours = Math.floor(totalSec / 3600);
+        const minutes = Math.floor((totalSec % 3600) / 60);
+        const seconds = totalSec % 60;
+        const pad = (num) => String(num).padStart(2, '0');
+        timerEl.textContent = `${pad(hours)}:${pad(minutes)}:${pad(seconds)}`;
+      }
+      updateTimer();
+      setInterval(updateTimer, 1000);
+    })();
+
+    /* =========================================================
+       🔍 PRODUCT DYNAMIC DATA FETCHING & BUNDLES
+    ========================================================= */
+    let currentProduct = null;
+    let purchaseQty = 1;
+    let selectedBundleOption = 1;
+
+    function selectBundle(opt) {
+      selectedBundleOption = opt;
+      
+      // Update radio input
+      const radio = document.getElementById(`bundle-opt-${opt}`);
+      if (radio) radio.checked = true;
+
+      // Update card active styles
+      document.querySelectorAll('.bundle-card').forEach(card => {
+        const optionNum = parseInt(card.getAttribute('data-option'), 10);
+        card.classList.toggle('is-selected', optionNum === opt);
+      });
+
+      // Update price display
+      updateProductPriceDisplay();
+    }
+
+    function updateProductPriceDisplay() {
+      if (!currentProduct) return;
+      
+      let basePrice = currentProduct.price;
+      let total = basePrice;
+      
+      if (selectedBundleOption === 1) {
+        total = basePrice;
+      } else if (selectedBundleOption === 2) {
+        total = Math.round(basePrice * 1.8);
+      } else if (selectedBundleOption === 3) {
+        total = basePrice * 2;
+      }
+
+      const finalPrice = total * purchaseQty;
+      document.getElementById('product-price').textContent = `${finalPrice.toLocaleString('fr-DZ')} DA`;
+      
+      // Update express checkout live invoice
+      if (typeof updateExpressInvoice === 'function') {
+        updateExpressInvoice();
+      }
+    }
+
+    (function fetchProductDetails() {
+      const params = new URLSearchParams(window.location.search);
+      const productId = params.get('id');
+
+      if (!productId) {
+        window.location.href = 'index.html';
+        return;
+      }
+
+      currentProduct = productsList.find(p => p.id === productId);
+
+      if (!currentProduct) {
+        window.location.href = 'index.html';
+        return;
+      }
+
+      // Dynamic Title
+      document.getElementById('page-title').textContent = `${currentProduct.name} — LUMIÈRE`;
+      
+      // Inject details
+      document.getElementById('main-product-img').src = currentProduct.img;
+      document.getElementById('main-product-img').alt = currentProduct.name;
+      document.getElementById('product-brand').textContent = currentProduct.brand;
+      document.getElementById('product-title').textContent = currentProduct.name;
+      document.getElementById('product-desc').textContent = currentProduct.desc;
+      document.getElementById('product-volume').textContent = currentProduct.volume || '—';
+
+      // Populate bundle prices on cards
+      document.getElementById('bundle-price-1').textContent = `${currentProduct.price.toLocaleString('fr-DZ')} DA`;
+      document.getElementById('bundle-price-2').textContent = `${Math.round(currentProduct.price * 1.8).toLocaleString('fr-DZ')} DA`;
+      document.getElementById('bundle-price-3').textContent = `${(currentProduct.price * 2).toLocaleString('fr-DZ')} DA`;
+
+      if (typeof populateExpressWilayas === 'function') {
+        populateExpressWilayas();
+      }
+      updateProductPriceDisplay();
+
+      const oldPriceEl = document.getElementById('product-old-price');
+      if (currentProduct.oldPrice) {
+        oldPriceEl.textContent = `${currentProduct.oldPrice.toLocaleString('fr-DZ')} DA`;
+        oldPriceEl.style.display = '';
+      } else {
+        oldPriceEl.style.display = 'none';
+      }
+
+      // Inject benefits
+      const benefitsList = document.getElementById('product-benefits-list');
+      benefitsList.innerHTML = '';
+      if (currentProduct.benefits && currentProduct.benefits.length > 0) {
+        currentProduct.benefits.forEach(benefit => {
+          const li = document.createElement('li');
+          li.innerHTML = `<span class="benefit-check">✓</span> ${benefit}`;
+          benefitsList.appendChild(li);
+        });
+      }
+
+      render();
+    })();
+
+    // Quantity selectors
+    const qtyDisplay = document.getElementById('product-qty-display');
+    document.getElementById('qty-minus').addEventListener('click', () => {
+      if (purchaseQty > 1) {
+        purchaseQty--;
+        qtyDisplay.textContent = purchaseQty;
+        updateProductPriceDisplay();
+      }
+    });
+    document.getElementById('qty-plus').addEventListener('click', () => {
+      purchaseQty++;
+      qtyDisplay.textContent = purchaseQty;
+      updateProductPriceDisplay();
+    });
+
+    // Add to Cart
+    document.getElementById('product-add-to-cart').addEventListener('click', function(e) {
+      if (!currentProduct) return;
+
+      let cartItemName = currentProduct.name;
+      if (selectedBundleOption === 2) {
+        cartItemName = `${currentProduct.name} (عرض قطعتين - خصم 20%)`;
+      } else if (selectedBundleOption === 3) {
+        cartItemName = `${currentProduct.name} (عرض 3 قطع - 2+1 مجاناً)`;
+      }
+
+      addToCartSpecific(cartItemName, purchaseQty);
+
+      // Button feedback
+      const btn = this;
+      const origText = btn.innerHTML;
+      btn.innerHTML = '<span>✓ Ajouté au panier !</span>';
+      btn.style.background = '#c9a96e';
+      btn.disabled = true;
+      
+      // Open drawer for user experience
+      setTimeout(() => {
+        openDrawer();
+      }, 300);
+
+      setTimeout(() => {
+        btn.innerHTML = origText;
+        btn.style.background = '';
+        btn.disabled = false;
+      }, 1600);
+    });
+
+    /* =========================================================
+       📍 EXPRESS CHECKOUT DROPDOWN POPULATION & INVOICE
+    ========================================================= */
+    function populateExpressWilayas() {
+      const select = document.getElementById('express-select-wilaya');
+      if (!select) return;
+      select.innerHTML = '<option value="">— اختر الولاية —</option>';
+      Object.entries(DHD).forEach(([code, data]) => {
+        const opt = document.createElement('option');
+        opt.value = code;
+        opt.textContent = `${data.name} (${String(code).padStart(2, '0')})`;
+        select.appendChild(opt);
+      });
+    }
+
+    function getExpressShipping() {
+      const selectW = document.getElementById('express-select-wilaya');
+      const selectD = document.getElementById('express-select-delivery');
+      if (!selectW || !selectD) return null;
+
+      const w = selectW.value;
+      const d = selectD.value;
+      if (!w || !d) return null;
+
+      const standardRate = DHD[w]?.[d];
+      if (standardRate === null || standardRate === undefined) return null; // non available
+
+      // If available and selected Option 3, free shipping
+      if (selectedBundleOption === 3) return 0;
+
+      return standardRate;
+    }
+
+    function updateExpressInvoice() {
+      if (!currentProduct) return;
+
+      const basePrice = currentProduct.price;
+      let productTotal = basePrice;
+
+      if (selectedBundleOption === 1) {
+        productTotal = basePrice;
+      } else if (selectedBundleOption === 2) {
+        productTotal = Math.round(basePrice * 1.8);
+      } else if (selectedBundleOption === 3) {
+        productTotal = basePrice * 2;
+      }
+
+      const shipping = getExpressShipping();
+      const selectW = document.getElementById('express-select-wilaya');
+      const selectD = document.getElementById('express-select-delivery');
+      const confirmBtn = document.getElementById('express-confirm-btn');
+
+      // Update product total displayed in invoice
+      document.getElementById('invoice-product-price').textContent = `${productTotal.toLocaleString('fr-DZ')} DA`;
+
+      // Update shipping displayed in invoice
+      const shipPriceEl = document.getElementById('invoice-shipping-price');
+      if (selectW.value && selectD.value) {
+        if (shipping !== null) {
+          shipPriceEl.textContent = shipping === 0 ? 'مجاني / Gratuit' : `${shipping.toLocaleString('fr-DZ')} DA`;
+          shipPriceEl.style.color = '';
+          confirmBtn.disabled = false;
+        } else {
+          shipPriceEl.textContent = 'غير متوفر / Non disponible';
+          shipPriceEl.style.color = '#e03535';
+          confirmBtn.disabled = true;
+        }
+      } else {
+        shipPriceEl.textContent = '— DA';
+        shipPriceEl.style.color = '';
+        confirmBtn.disabled = false;
+      }
+
+      // Update grand total
+      const totalValEl = document.getElementById('invoice-total-price');
+      if (shipping !== null) {
+        const grand = productTotal + shipping;
+        totalValEl.textContent = `${grand.toLocaleString('fr-DZ')} DA`;
+      } else {
+        totalValEl.textContent = `${productTotal.toLocaleString('fr-DZ')} DA`;
+      }
+    }
+
+    // Attach listeners for shipping changes
+    document.getElementById('express-select-wilaya').addEventListener('change', updateExpressInvoice);
+    document.getElementById('express-select-delivery').addEventListener('change', updateExpressInvoice);
+
+    /* =========================================================
+       💬 EXPRESS ORDER CONFIRMATION MODAL & SUBMIT
+    ========================================================= */
+    const modalOverlay = document.getElementById('modal-overlay');
+    const modalIcon    = document.getElementById('modal-icon');
+    const modalTitle   = document.getElementById('modal-title');
+    const modalBody    = document.getElementById('modal-body');
+    const modalClose   = document.getElementById('modal-close');
+
+    function showModal(success, title, body) {
+      modalIcon.innerHTML = success
+        ? `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>`
+        : `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6M9 9l6 6"/></svg>`;
+      modalIcon.className = 'modal-icon ' + (success ? 'modal-icon--ok' : 'modal-icon--err');
+      modalTitle.textContent = title;
+      modalBody.textContent  = body;
+      modalOverlay.classList.add('is-visible');
+      modalOverlay.setAttribute('aria-hidden', 'false');
+      document.getElementById('modal-card').style.animation = 'modalPop 0.4s cubic-bezier(0.22,1,0.36,1) both';
+    }
+
+    function hideModal() {
+      modalOverlay.classList.remove('is-visible');
+      modalOverlay.setAttribute('aria-hidden', 'true');
+    }
+
+    modalClose.addEventListener('click', hideModal);
+    modalOverlay.addEventListener('click', e => { if (e.target === modalOverlay) hideModal(); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') hideModal(); });
+
+    // Submit express form
+    document.getElementById('express-checkout-form').addEventListener('submit', async function(e) {
+      e.preventDefault();
+
+      if (!currentProduct) return;
+
+      const fullname = document.getElementById('express-input-fullname').value.trim();
+      const phone    = document.getElementById('express-input-phone').value.trim();
+      const selectW  = document.getElementById('express-select-wilaya');
+      const selectD  = document.getElementById('express-select-delivery');
+      const address  = document.getElementById('express-input-address').value.trim();
+
+      const w = selectW.value;
+      const d = selectD.value;
+
+      if (!fullname || !phone || !w || !address || !d) {
+        showModal(false, 'معلومات ناقصة', 'يرجى ملء جميع الحقول الإلزامية لتأكيد طلبك.');
+        return;
+      }
+
+      const shipping = getExpressShipping();
+      if (shipping === null) {
+        showModal(false, 'شحن غير متوفر', 'طريقة التوصيل المحددة غير متوفرة لولايتك.');
+        return;
+      }
+
+      // Calculate totals
+      const basePrice = currentProduct.price;
+      let productTotal = basePrice;
+      let bundleLabel = 'قطعة واحدة 🏷️';
+      
+      if (selectedBundleOption === 1) {
+        productTotal = basePrice;
+        bundleLabel = 'قطعة واحدة 🏷️';
+      } else if (selectedBundleOption === 2) {
+        productTotal = Math.round(basePrice * 1.8);
+        bundleLabel = 'قطعتين (2) ✨ (خصم 20% على الثانية)';
+      } else if (selectedBundleOption === 3) {
+        productTotal = basePrice * 2;
+        bundleLabel = '3 قطع (2+1 مجاناً) 🎁 + شحن مجاني لـ 58 ولاية';
+      }
+
+      const grand = productTotal + shipping;
+      const wilayaName = DHD[w]?.name || '—';
+      const deliveryLabel = d === 'home' ? '🏠 للمنزل / A Domicile' : '🏢 من المكتب / Bureau Yalidine';
+      const shippingText = shipping === 0 ? 'مجاني / Gratuit' : `${shipping.toLocaleString('fr-DZ')} DA`;
+
+      const TG_BOT_TOKEN = '8625327994:AAFOCVCXIbmcjqhb7eq5q8Rf5Nm-Aq3BbAM';
+      const TG_CHAT_ID   = '1012473197';
+
+      // Build message payload
+      const messageText = [
+        '🛒 *طلب شراء مباشر سريع جديد — Lumière Skincare*',
+        '',
+        '👤 *الزبون / Client*',
+        `  الاسم الكامل : ${fullname}`,
+        `  رقم الهاتف  : ${phone}`,
+        '',
+        '📦 *المنتج والطلب / Produit*',
+        `  المنتج       : ${currentProduct.name}`,
+        `  العرض المختار : ${bundleLabel}`,
+        `  السعر        : ${productTotal.toLocaleString('fr-DZ')} DA`,
+        '',
+        '🚚 *التوصيل / Livraison*',
+        `  الولاية      : ${wilayaName} (${String(w).padStart(2, '0')})`,
+        `  العنوان/البلدية: ${address}`,
+        `  نوع التوصيل   : ${deliveryLabel}`,
+        `  سعر التوصيل   : ${shippingText}`,
+        '',
+        `💰 *المجموع النهائي : ${grand.toLocaleString('fr-DZ')} DA*`,
+        '',
+        '─────────────────────────'
+      ].join('\n');
+
+      const confirmBtn = document.getElementById('express-confirm-btn');
+      confirmBtn.disabled = true;
+      confirmBtn.textContent = 'جاري إرسال الطلب...';
+
+      try {
+        const url = `https://api.telegram.org/bot${TG_BOT_TOKEN}/sendMessage`;
+        const body = JSON.stringify({
+          chat_id    : TG_CHAT_ID,
+          text       : messageText,
+          parse_mode : 'Markdown'
+        });
+        const res = await fetch(url, {
+          method : 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body
+        });
+        const json = await res.json();
+        if (!json.ok) throw new Error(json.description || 'Telegram error');
+
+        // Meta/TikTok Pixels
+        if (typeof fbq === 'function') {
+          fbq('track', 'Purchase', {
+            content_name : currentProduct.name,
+            content_type : 'product',
+            content_ids  : [currentProduct.id],
+            value        : grand / 100,
+            currency     : 'DZD',
+            num_items    : selectedBundleOption
+          });
+        }
+        if (typeof ttq !== 'undefined') {
+          ttq.track('CompletePayment', {
+            content_type : 'product',
+            value        : grand / 100,
+            currency     : 'DZD',
+            quantity     : selectedBundleOption
+          });
+        }
+
+        showModal(true, 'تم تأكيد طلبك بنجاح! 🎉', `شكراً لك ${fullname}! تم استلام طلبك بنجاح، سنتصل بك قريباً على الرقم ${phone} لتأكيد التوصيل.`);
+        
+        // Reset form
+        document.getElementById('express-checkout-form').reset();
+        selectBundle(1); // Reset to Option 1
+      } catch (err) {
+        console.error('Telegram submission error:', err);
+        showModal(false, "فشل إرسال الطلب", "حدث خطأ أثناء تأكيد الطلب، يرجى المحاولة مرة أخرى أو الاتصال بنا مباشرة.");
+      } finally {
+        confirmBtn.disabled = false;
+        confirmBtn.textContent = 'اضغط هنا لتأكيد الطلب الآن 🛒';
+      }
+    });
+
+  </script>
+</body>
+</html>

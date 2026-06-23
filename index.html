@@ -76,6 +76,12 @@
       <div class="blur-orb orb-3"></div>
   </div>
 
+  <!-- بنر شريطي تخفيض لفترة محدودة -->
+  <div class="promo-banner">
+    <span>🔥 تخفيض لفترة محدودة جداً! ينتهي العرض خلال: </span>
+    <span id="countdown-timer">02:14:00</span>
+  </div>
+
   <!-- ============================================================
        🧭 NAVBAR — Fixed, Glassmorphism
   ============================================================ -->
@@ -161,10 +167,7 @@
         <span class="drawer__subtotal-val" id="drawer-subtotal">0 DA</span>
       </div>
       <a href="#checkout" class="drawer__cta" id="drawer-cta" onclick="closeDrawer()">
-        Passer la commande
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M5 12h14M12 5l7 7-7 7"/>
-        </svg>
+        الذهاب لتأكيد الطلب 🛒
       </a>
       <p class="drawer__note">Frais de livraison calculés à l'étape suivante</p>
     </div>
@@ -195,6 +198,72 @@
     <div class="hero__scroll">
       <div class="hero__scroll-line"></div>
       <span>Scroll</span>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       🛡️ TRUST BADGES SECTION — الضمانات وشارات الثقة
+  ============================================================ -->
+  <section class="trust-badges" aria-label="Garanties et confiance">
+    <div class="trust-badges__inner">
+      
+      <!-- Badge 1: 58 Wilayas -->
+      <div class="tbadge">
+        <div class="tbadge__icon-wrap">
+          <svg class="tbadge__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <rect x="2" y="3" width="20" height="14" rx="2" />
+            <path d="M16 17v4H8v-4" />
+            <circle cx="12" cy="10" r="3" />
+          </svg>
+        </div>
+        <div class="tbadge__content">
+          <h3 class="tbadge__title">التوصيل لـ 58 ولاية</h3>
+          <p class="tbadge__desc">مع إمكانية الدفع عند الاستلام</p>
+        </div>
+      </div>
+
+      <!-- Badge 2: 100% Original -->
+      <div class="tbadge">
+        <div class="tbadge__icon-wrap">
+          <svg class="tbadge__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <circle cx="12" cy="12" r="10" />
+            <path d="m9 12 2 2 4-4" />
+          </svg>
+        </div>
+        <div class="tbadge__content">
+          <h3 class="tbadge__title">منتجات أصلية 100%</h3>
+          <p class="tbadge__desc">ضمان الجودة العالية من علامة Smart Pick</p>
+        </div>
+      </div>
+
+      <!-- Badge 3: BaridiMob -->
+      <div class="tbadge">
+        <div class="tbadge__icon-wrap">
+          <svg class="tbadge__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <rect x="2" y="5" width="20" height="14" rx="2" />
+            <line x1="2" y1="10" x2="22" y2="10" />
+          </svg>
+        </div>
+        <div class="tbadge__content">
+          <h3 class="tbadge__title">الدفع عبر بريدي موب</h3>
+          <p class="tbadge__desc">دعم التسهيلات المالية (BaridiMob)</p>
+        </div>
+      </div>
+
+      <!-- Badge 4: Secure Shopping -->
+      <div class="tbadge">
+        <div class="tbadge__icon-wrap">
+          <svg class="tbadge__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <rect x="3" y="11" width="18" height="11" rx="2" />
+            <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+          </svg>
+        </div>
+        <div class="tbadge__content">
+          <h3 class="tbadge__title">تسوق آمن ومضمون</h3>
+          <p class="tbadge__desc">حماية بيانات الطلبيات بالكامل</p>
+        </div>
+      </div>
+
     </div>
   </section>
 
@@ -438,11 +507,6 @@
           <div class="form__select-wrap">
             <select class="form__select" id="select-wilaya">
               <option value="">— Choisir une wilaya —</option>
-              <option value="alger">Alger (16)</option>
-              <option value="blida">Blida (09)</option>
-              <option value="oran">Oran (31)</option>
-              <option value="laghouat">Laghouat (03)</option>
-              <option value="tamanrasset">Tamanrasset (11)</option>
             </select>
             <span class="form__select-icon">
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
@@ -613,105 +677,13 @@
   <!-- ============================================================
        ⚙️ JAVASCRIPT
   ============================================================ -->
+  <script src="products.js"></script>
   <script>
     /* =========================================================
        🔑  TELEGRAM CONFIG
     ========================================================= */
     const TG_BOT_TOKEN = '8625327994:AAFOCVCXIbmcjqhb7eq5q8Rf5Nm-Aq3BbAM';
     const TG_CHAT_ID   = '1012473197';
-
-    /* =========================================================
-       📦  PRODUCTS LIST — Source de vérité de tous les produits
-       -------------------------------------------------------
-       Pour ajouter un produit : dupliquer un objet ci-dessous
-       et remplir ses champs (y compris la propriété category).
-    ========================================================= */
-    const productsList = [
-      {
-        id       : 'serum-eclat',
-        name     : 'Sérum Éclat Intense',
-        brand    : 'Lumière · Sérum',
-        desc     : 'Vitamine C 20% · Acide hyaluronique · Niacinamide. Illumine et repulpe la peau dès 7 jours.',
-        price    : 5900,
-        oldPrice : 7500,
-        img      : 'images/serum.png',
-        tag      : 'Bestseller',
-        stars    : 5,
-        category : 'soins'
-      },
-      {
-        id       : 'creme-nuit',
-        name     : 'Crème Nuit Régénérante',
-        brand    : 'Lumière · Crème',
-        desc     : 'Rétinol 0,3% · Peptides · Beurre de karité. Régénère en profondeur pendant le sommeil.',
-        price    : 8400,
-        oldPrice : null,
-        img      : 'images/cream.png',
-        tag      : 'Nouveau',
-        stars    : 4,
-        category : 'soins'
-      },
-      {
-        id       : 'essence-hydra',
-        name     : 'Essence Hydra-Boost',
-        brand    : 'Lumière · Essence',
-        desc     : 'Eau de rose · Aloe vera · Panthénol. Hydratation intense et éclat immédiat à chaque application.',
-        price    : 4200,
-        oldPrice : 5000,
-        img      : 'images/essence.png',
-        tag      : 'Édition Limitée',
-        stars    : 5,
-        category : 'soins'
-      },
-      {
-        id       : 'mielle-shampoo',
-        name     : 'شامبو Mielle بإكليل الجبل والنعناع',
-        brand    : 'Mielle · Cheveux',
-        desc     : 'شامبو مقوي ومحفز لنمو الشعر غني بالبيوتين. صيغة طبيعية بزيت إكليل الجبل والنعناع لتغذية الفروة وتعزيز الكثافة.',
-        price    : 1500,
-        oldPrice : null,
-        img      : 'images/images.jpg',
-        tag      : 'Croissance',
-        stars    : 5,
-        category : 'cheveux'
-      },
-      {
-        id       : 'armani-code-profumo',
-        name     : 'عطر Armani Code Profumo للرجال (120 مل)',
-        brand    : 'Giorgio Armani · Parfum',
-        desc     : 'عطر رجالي فخم وجذاب، يتميز برائحة دافئة وقوية تدوم طويلاً. الخيار المثالي للمناسبات.',
-        price    : 900,
-        oldPrice : null,
-        img      : 'images/parfum_armani.jpg',
-        tag      : 'Exclusif',
-        stars    : 5,
-        category : 'parfums'
-      }
-    ];
-
-    /*
-     * CATALOGUE — dérivé automatiquement de productsList
-     * Utilisé par le panier, Telegram et les Pixels.
-     * NE PAS MODIFIER MANUELLEMENT.
-     */
-    const CATALOGUE = Object.fromEntries(
-      productsList.map(p => [p.name, { price: p.price, img: p.img }])
-    );
-
-    /* =========================================================
-       🚚  DHD LIVRAISON
-    ========================================================= */
-    const DHD = {
-      alger      : { home: 400,  office: 200 },
-      blida      : { home: 500,  office: 250 },
-      oran       : { home: 700,  office: 400 },
-      laghouat   : { home: 900,  office: 500 },
-      tamanrasset: { home: 1300, office: 800 }
-    };
-    const wilayaNames = {
-      alger: 'Alger', blida: 'Blida', oran: 'Oran',
-      laghouat: 'Laghouat', tamanrasset: 'Tamanrasset'
-    };
 
     /* =========================================================
        🛒  CART STATE — localStorage backed
@@ -897,7 +869,15 @@
       const w = selWilaya.value;
       const d = selDelivery.value;
       if (!w || !d) return null;
-      return DHD[w]?.[d] ?? null;
+      
+      const standardRate = DHD[w]?.[d];
+      if (standardRate === null || standardRate === undefined) return null; // Delivery not available
+      
+      // If available and cart has free shipping bundle
+      const hasFreeShipping = Object.keys(cart).some(name => name.includes("3 قطع - 2+1 مجاناً"));
+      if (hasFreeShipping) return 0;
+      
+      return standardRate;
     }
 
     function updateTotal(subtotal) {
@@ -916,14 +896,26 @@
       const w = selWilaya.value;
       const d = selDelivery.value;
       const shipping = getShipping();
-      if (shipping !== null) {
-        shipResult.classList.add('is-visible');
-        shipValue.textContent = shipping.toLocaleString('fr-DZ') + ' DA';
-        const typeLabel = d === 'home' ? 'Domicile' : 'Bureau';
-        document.getElementById('shipping-info').setAttribute('title',
-          `${wilayaNames[w]} · ${typeLabel} : ${shipping} DA`);
+      
+      const shipInfo = document.getElementById('shipping-info');
+      
+      if (w && d) {
+        if (shipping !== null) {
+          shipResult.classList.add('is-visible');
+          shipResult.classList.remove('is-error');
+          shipValue.textContent = shipping === 0 ? 'مجاني / Gratuit' : shipping.toLocaleString('fr-DZ') + ' DA';
+          const typeLabel = d === 'home' ? 'Domicile' : 'Bureau';
+          shipInfo.setAttribute('title', `${DHD[w]?.name} · ${typeLabel} : ${shipping === 0 ? 'Gratuit' : shipping + ' DA'}`);
+        } else {
+          // Delivery not available
+          shipResult.classList.add('is-visible');
+          shipResult.classList.add('is-error');
+          shipValue.textContent = 'غير متوفر / Non disponible';
+          shipInfo.setAttribute('title', 'التوصيل غير متوفر لهذا الخيار / Option non disponible');
+        }
       } else {
         shipResult.classList.remove('is-visible');
+        shipResult.classList.remove('is-error');
         shipValue.textContent = '— DA';
       }
       updateTotal(cartSubtotal());
@@ -1028,7 +1020,7 @@
       const nom     = document.getElementById('input-nom').value.trim()    || '—';
       const prenom  = document.getElementById('input-prenom').value.trim() || '—';
       const phone   = document.getElementById('input-phone').value.trim()  || '—';
-      const wilaya  = wilayaNames[selWilaya.value] || '—';
+      const wilaya  = DHD[selWilaya.value]?.name || '—';
       const delType = selDelivery.value === 'home'   ? '🏠 Domicile'
                     : selDelivery.value === 'office'  ? '🏢 Bureau' : '—';
       const shipping = getShipping();
@@ -1117,7 +1109,7 @@
        ✅  CONFIRM ORDER
     ========================================================= */
     ctaBtn.addEventListener('click', async () => {
-      if (cartTotalQty() === 0 || !getShipping()) return;
+      if (cartTotalQty() === 0 || getShipping() === null) return;
 
       const nom    = document.getElementById('input-nom').value.trim();
       const prenom = document.getElementById('input-prenom').value.trim();
@@ -1235,13 +1227,15 @@
               title="Ajouter aux favoris"
               aria-label="Ajouter ${p.name} aux favoris"
             >♡</button>
-            <img
-              src="${p.img}"
-              alt="${p.name} — Lumière"
-              class="pcard__image"
-              loading="${index < 3 ? 'eager' : 'lazy'}"
-              ${imgFallback}
-            />
+            <a href="product.html?id=${p.id}" class="pcard__image-link">
+              <img
+                src="${p.img}"
+                alt="${p.name} — Lumière"
+                class="pcard__image"
+                loading="${index < 3 ? 'eager' : 'lazy'}"
+                ${imgFallback}
+              />
+            </a>
             <div class="pcard__overlay">
               <button
                 class="pcard__quick-add"
@@ -1255,7 +1249,9 @@
           </div>
           <div class="pcard__body">
             <p class="pcard__brand">${p.brand}</p>
-            <h3 class="pcard__name">${p.name}</h3>
+            <h3 class="pcard__name">
+              <a href="product.html?id=${p.id}">${p.name}</a>
+            </h3>
             <p class="pcard__desc">${p.desc}</p>
             <div class="pcard__footer">
               <div>
@@ -1263,6 +1259,10 @@
                 ${oldPriceHTML}
               </div>
               <div class="pcard__stars">${starsHTML(p.stars)}</div>
+            </div>
+            <div class="pcard__timer-badge">
+              <span class="pcard__timer-text">⏱️ ينتهي التخفيض: </span>
+              <span class="grid-timer">02:14:00</span>
             </div>
           </div>
         </article>`;
@@ -1273,7 +1273,20 @@
        🚀  INIT — render on page load from localStorage
     ========================================================= */
     renderProducts();   // ← génère les 5 cartes produits
+    populateWilayas();  // ← remplit la liste des wilayas
     render();           // ← restaure le panier depuis localStorage
+
+    function populateWilayas() {
+      const select = document.getElementById('select-wilaya');
+      if (!select) return;
+      select.innerHTML = '<option value="">— Choisir une wilaya —</option>';
+      Object.entries(DHD).forEach(([code, data]) => {
+        const opt = document.createElement('option');
+        opt.value = code;
+        opt.textContent = `${data.name} (${String(code).padStart(2, '0')})`;
+        select.appendChild(opt);
+      });
+    }
 
     /* =========================================================
        🏷️  FILTER PRODUCTS — Système de filtrage par catégorie
@@ -1360,6 +1373,51 @@
         applyDarkMode(isNightTime());
       }
     }, 60_000);
+
+    /* =========================================================
+       ⏰  COUNTDOWN TIMER
+    ========================================================= */
+    (function initCountdown() {
+      const TIMER_DURATION_MS = (2 * 3600 + 14 * 60) * 1000; // 2h 14m in ms
+      const timerEl = document.getElementById('countdown-timer');
+      if (!timerEl) return;
+
+      let endTime = localStorage.getItem('lumiere_timer_end');
+      const now = Date.now();
+
+      if (!endTime || parseInt(endTime, 10) <= now) {
+        endTime = now + TIMER_DURATION_MS;
+        localStorage.setItem('lumiere_timer_end', String(endTime));
+      } else {
+        endTime = parseInt(endTime, 10);
+      }
+
+      function updateTimer() {
+        const remaining = endTime - Date.now();
+
+        if (remaining <= 0) {
+          endTime = Date.now() + TIMER_DURATION_MS;
+          localStorage.setItem('lumiere_timer_end', String(endTime));
+        }
+
+        const totalSec = Math.max(0, Math.floor((endTime - Date.now()) / 1000));
+        const hours = Math.floor(totalSec / 3600);
+        const minutes = Math.floor((totalSec % 3600) / 60);
+        const seconds = totalSec % 60;
+
+        const pad = (num) => String(num).padStart(2, '0');
+        const timeStr = `${pad(hours)}:${pad(minutes)}:${pad(seconds)}`;
+        
+        timerEl.textContent = timeStr;
+
+        document.querySelectorAll('.grid-timer').forEach(el => {
+          el.textContent = timeStr;
+        });
+      }
+
+      updateTimer();
+      setInterval(updateTimer, 1000);
+    })();
 
   </script>
 
