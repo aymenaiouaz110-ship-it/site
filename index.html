@@ -1147,6 +1147,44 @@
       ctaBtn.disabled = true;
 
       try {
+        // ── Save to Cloud Firestore ──
+        if (firebaseInitialized && db) {
+          try {
+            const _subtotal = cartSubtotal();
+            const _shipping = getShipping() ?? 0;
+            const _total = _subtotal + _shipping;
+            const _wilaya = DHD[selWilaya.value]?.name || '—';
+            const _delType = selDelivery.value === 'home' ? '🏠 للمنزل / Domicile' : '🏢 من المكتب / Bureau';
+            
+            const _items = Object.entries(cart).map(([name, qty]) => ({
+              name: name,
+              quantity: qty
+            }));
+
+            const orderPayload = {
+              name: `${nom} ${prenom}`.trim(),
+              fullname: `${nom} ${prenom}`.trim(),
+              phone: phone,
+              wilaya: `${_wilaya} (${String(selWilaya.value).padStart(2, '0')})`,
+              address: `${_delType}`,
+              items: _items,
+              subtotal: _subtotal,
+              shipping: _shipping,
+              total: _total,
+              paymentMethod: isBaridi ? 'baridimob' : 'cod',
+              isBaridi: isBaridi,
+              transactionNumber: isBaridi ? txVal : '',
+              status: 'pending',
+              createdAt: firebase.firestore.FieldValue.serverTimestamp()
+            };
+
+            await db.collection('orders').add(orderPayload);
+            console.log("Order saved to Cloud Firestore:", orderPayload);
+          } catch (fsErr) {
+            console.error("Error saving order to Firestore:", fsErr);
+          }
+        }
+
         await sendToTelegram();
 
         // ── 📊 META PIXEL — Événement Purchase ──────────────────

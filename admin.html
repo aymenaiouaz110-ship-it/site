@@ -346,6 +346,107 @@
     .toast-copy.is-visible {
       opacity: 1;
     }
+    
+    /* Tabs System */
+    .admin-tabs {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 24px;
+      border-bottom: 1px solid var(--admin-border);
+      padding-bottom: 12px;
+    }
+    .admin-tab-btn {
+      padding: 10px 24px;
+      font-size: 14px;
+      font-weight: 700;
+      color: #888;
+      border-radius: 8px;
+      border: 1px solid transparent;
+      transition: all 0.3s;
+      cursor: pointer;
+    }
+    .admin-tab-btn:hover {
+      color: var(--white);
+      background: rgba(255, 255, 255, 0.03);
+    }
+    .admin-tab-btn.active {
+      color: var(--accent);
+      background: rgba(201, 169, 110, 0.08);
+      border-color: var(--accent);
+    }
+    
+    /* Orders Table */
+    .orders-table-wrap {
+      overflow-x: auto;
+      margin-top: 10px;
+    }
+    .orders-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: right;
+      font-size: 13px;
+      color: #ddd;
+    }
+    .orders-table th, .orders-table td {
+      padding: 14px 16px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      vertical-align: middle;
+    }
+    .orders-table th {
+      color: var(--accent);
+      font-weight: 700;
+      background: rgba(255, 255, 255, 0.02);
+      font-size: 12.5px;
+    }
+    .orders-table tr:hover td {
+      background: rgba(255, 255, 255, 0.015);
+    }
+    
+    /* Status Select Dropdown */
+    .status-select {
+      padding: 6px 12px;
+      background: rgba(10, 10, 10, 0.8);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 700;
+      transition: border-color 0.2s, color 0.2s;
+      cursor: pointer;
+    }
+    .status-select:focus {
+      outline: none;
+      box-shadow: 0 0 0 2px rgba(201, 169, 110, 0.15);
+    }
+    .status-select.pending {
+      color: #f39c12;
+      border-color: rgba(243, 156, 18, 0.4);
+    }
+    .status-select.shipped {
+      color: #3498db;
+      border-color: rgba(52, 152, 219, 0.4);
+    }
+    .status-select.delivered {
+      color: #2ecc71;
+      border-color: rgba(46, 204, 113, 0.4);
+    }
+    
+    /* Empty orders state */
+    .orders-empty {
+      text-align: center;
+      padding: 40px 20px;
+      color: #666;
+      font-style: italic;
+    }
+    
+    /* Call link */
+    .phone-link {
+      color: var(--accent);
+      text-decoration: underline;
+      font-weight: 500;
+    }
+    .phone-link:hover {
+      color: #b5955c;
+    }
   </style>
 </head>
 <body class="admin-theme">
@@ -380,150 +481,186 @@
     <header class="admin-header">
       <div class="admin-brand">
         <img src="images/removebg-preview.png" alt="Lumière" class="admin-logo" />
-        <span class="admin-title-text">LUMIÈRE — إدارة المنتجات</span>
+        <span class="admin-title-text">LUMIÈRE — لوحة التحكم</span>
       </div>
       <button class="logout-btn" id="logout-btn">تسجيل الخروج</button>
     </header>
 
-    <div class="admin-grid">
-      <!-- الجزء الأيمن: نموذج إضافة منتج -->
-      <section class="admin-box">
-        <h2 class="box-title">إضافة منتج جديد</h2>
-        
-        <div id="status-container" style="margin-bottom: 20px;"></div>
-
-        <form class="a-form" id="add-product-form">
-          
-          <div class="a-row-2">
-            <!-- اسم المنتج -->
-            <div class="a-group">
-              <label class="a-label" for="p-name">اسم المنتج *</label>
-              <input type="text" id="p-name" class="a-input" placeholder="مثال: Sérum Éclat Intense" required />
-            </div>
-            
-            <!-- معرف المنتج Slug -->
-            <div class="a-group">
-              <label class="a-label" for="p-id">المعرف الفريد (ID/Slug) *</label>
-              <input type="text" id="p-id" class="a-input" placeholder="مثال: serum-eclat (أحرف صغيرة وشرطات)" required />
-            </div>
-          </div>
-
-          <div class="a-row-2">
-            <!-- الماركة والتفصيل -->
-            <div class="a-group">
-              <label class="a-label" for="p-brand">العلامة التجارية والنوع *</label>
-              <input type="text" id="p-brand" class="a-input" placeholder="مثال: Lumière · Sérum" required />
-            </div>
-
-            <!-- الحجم -->
-            <div class="a-group">
-              <label class="a-label" for="p-volume">الحجم / السعة *</label>
-              <input type="text" id="p-volume" class="a-input" placeholder="مثال: 30 ml أو 120 ml" required />
-            </div>
-          </div>
-
-          <div class="a-row-2">
-            <!-- السعر الحالي -->
-            <div class="a-group">
-              <label class="a-label" for="p-price">السعر الحالي (DA) *</label>
-              <input type="number" id="p-price" class="a-input" min="0" placeholder="مثال: 5900" required />
-            </div>
-
-            <!-- السعر القديم (اختياري) -->
-            <div class="a-group">
-              <label class="a-label" for="p-oldprice">السعر قبل التخفيض (اختياري)</label>
-              <input type="number" id="p-oldprice" class="a-input" min="0" placeholder="مثال: 7500" />
-            </div>
-          </div>
-
-          <div class="a-row-2">
-            <!-- التصنيف -->
-            <div class="a-group">
-              <label class="a-label" for="p-category">التصنيف *</label>
-              <select id="p-category" class="a-select" required>
-                <option value="soins">عناية بالبشرة (Soins)</option>
-                <option value="cheveux">عناية بالشعر (Cheveux)</option>
-                <option value="parfums">عطور (Parfums)</option>
-              </select>
-            </div>
-
-            <!-- الشارة الترويجية -->
-            <div class="a-group">
-              <label class="a-label" for="p-tag">الشارة الترويجية (Tag)</label>
-              <input type="text" id="p-tag" class="a-input" placeholder="مثال: Bestseller, Nouveau, Exclusif" />
-            </div>
-          </div>
-
-          <div class="a-row-2">
-            <!-- النجوم التقييم -->
-            <div class="a-group">
-              <label class="a-label" for="p-stars">التقييم (النجوم) *</label>
-              <select id="p-stars" class="a-select" required>
-                <option value="5">5 نجوم (★★★★★)</option>
-                <option value="4">4 نجوم (★★★★☆)</option>
-                <option value="3">3 نجوم (★★★☆☆)</option>
-              </select>
-            </div>
-            
-            <!-- لا شيء آخر حالياً -->
-            <div class="a-group"></div>
-          </div>
-
-          <!-- الوصف -->
-          <div class="a-group">
-            <label class="a-label" for="p-desc">الوصف القصير للمنتج *</label>
-            <textarea id="p-desc" class="a-textarea" rows="3" placeholder="اكتب وصفاً موجزاً وجذاباً للمنتج..." required></textarea>
-          </div>
-
-          <!-- فوائد ومميزات المنتج -->
-          <div class="a-group">
-            <label class="a-label">فوائد ومميزات المنتج (Benefits Checklist) *</label>
-            <div class="benefits-builder" id="benefits-container">
-              <div class="benefit-input-row">
-                <input type="text" class="a-input benefit-input" placeholder="مثال: إشراقة طبيعية وفورية للبشرة" required />
-                <button type="button" class="remove-benefit-btn" onclick="removeBenefitRow(this)">✕</button>
-              </div>
-            </div>
-            <button type="button" class="add-benefit-btn" id="add-benefit-row-btn" style="align-self:flex-start; margin-top:8px;">+ إضافة فائدة أخرى</button>
-          </div>
-
-          <!-- رفع الصورة -->
-          <div class="a-group">
-            <label class="a-label">صورة المنتج *</label>
-            <div class="a-upload" id="upload-area">
-              <span class="upload-icon">📸</span>
-              <span class="upload-text" id="upload-status-text">اسحب الصورة هنا أو اضغط للاختيار</span>
-              <input type="file" id="p-image-file" accept="image/*" style="display:none" required />
-            </div>
-            
-            <div class="upload-preview-wrap" id="upload-preview-wrap">
-              <img id="preview-thumbnail" class="upload-preview-img" src="" alt="Preview" />
-              <span class="upload-remove" id="preview-remove">إزالة الصورة ✕</span>
-            </div>
-          </div>
-
-          <!-- زر الحفظ -->
-          <button type="submit" class="submit-btn" id="save-btn">حفظ ونشر المنتج 🚀</button>
-
-        </form>
-      </section>
-
-      <!-- الجزء الأيسر: معاينة الكارت الحية -->
-      <aside class="admin-preview-sticky">
-        <div class="admin-box" style="padding: 20px;">
-          <h2 class="box-title" style="margin-bottom:15px; font-size:16px;">المعاينة الحية للكارت (Live Preview)</h2>
-          
-          <div id="live-preview-container">
-            <!-- سيتم توليد المعاينة هنا ديناميكياً -->
-            <div class="preview-placeholder-card" id="preview-placeholder">
-              قم بتعبئة البيانات ورفع صورة لعرض المعاينة الحية هنا...
-            </div>
-          </div>
-        </div>
-      </aside>
+    <!-- الأزرار العلوية للتبديل بين التبويبات -->
+    <div class="admin-tabs">
+      <button class="admin-tab-btn active" data-tab="tab-add-product">إضافة منتج جديد</button>
+      <button class="admin-tab-btn" data-tab="tab-orders">إدارة الطلبيات</button>
     </div>
 
-  </div>
+    <!-- التبويب الأول: إضافة منتج -->
+    <div id="tab-add-product" class="admin-tab-content">
+      <div class="admin-grid">
+        <!-- الجزء الأيمن: نموذج إضافة منتج -->
+        <section class="admin-box">
+          <h2 class="box-title">إضافة منتج جديد</h2>
+          
+          <div id="status-container" style="margin-bottom: 20px;"></div>
+
+          <form class="a-form" id="add-product-form">
+            
+            <div class="a-row-2">
+              <!-- اسم المنتج -->
+              <div class="a-group">
+                <label class="a-label" for="p-name">اسم المنتج *</label>
+                <input type="text" id="p-name" class="a-input" placeholder="مثال: Sérum Éclat Intense" required />
+              </div>
+              
+              <!-- معرف المنتج Slug -->
+              <div class="a-group">
+                <label class="a-label" for="p-id">المعرف الفريد (ID/Slug) *</label>
+                <input type="text" id="p-id" class="a-input" placeholder="مثال: serum-eclat (أحرف صغيرة وشرطات)" required />
+              </div>
+            </div>
+
+            <div class="a-row-2">
+              <!-- الماركة والتفصيل -->
+              <div class="a-group">
+                <label class="a-label" for="p-brand">العلامة التجارية والنوع *</label>
+                <input type="text" id="p-brand" class="a-input" placeholder="مثال: Lumière · Sérum" required />
+              </div>
+
+              <!-- الحجم -->
+              <div class="a-group">
+                <label class="a-label" for="p-volume">الحجم / السعة *</label>
+                <input type="text" id="p-volume" class="a-input" placeholder="مثال: 30 ml أو 120 ml" required />
+              </div>
+            </div>
+
+            <div class="a-row-2">
+              <!-- السعر الحالي -->
+              <div class="a-group">
+                <label class="a-label" for="p-price">السعر الحالي (DA) *</label>
+                <input type="number" id="p-price" class="a-input" min="0" placeholder="مثال: 5900" required />
+              </div>
+
+              <!-- السعر القديم (اختياري) -->
+              <div class="a-group">
+                <label class="a-label" for="p-oldprice">السعر قبل التخفيض (اختياري)</label>
+                <input type="number" id="p-oldprice" class="a-input" min="0" placeholder="مثال: 7500" />
+              </div>
+            </div>
+
+            <div class="a-row-2">
+              <!-- التصنيف -->
+              <div class="a-group">
+                <label class="a-label" for="p-category">التصنيف *</label>
+                <select id="p-category" class="a-select" required>
+                  <option value="soins">عناية بالبشرة (Soins)</option>
+                  <option value="cheveux">عناية بالشعر (Cheveux)</option>
+                  <option value="parfums">عطور (Parfums)</option>
+                </select>
+              </div>
+
+              <!-- الشارة الترويجية -->
+              <div class="a-group">
+                <label class="a-label" for="p-tag">الشارة الترويجية (Tag)</label>
+                <input type="text" id="p-tag" class="a-input" placeholder="مثال: Bestseller, Nouveau, Exclusif" />
+              </div>
+            </div>
+
+            <div class="a-row-2">
+              <!-- النجوم التقييم -->
+              <div class="a-group">
+                <label class="a-label" for="p-stars">التقييم (النجوم) *</label>
+                <select id="p-stars" class="a-select" required>
+                  <option value="5">5 نجوم (★★★★★)</option>
+                  <option value="4">4 نجوم (★★★★☆)</option>
+                  <option value="3">3 نجوم (★★★☆☆)</option>
+                </select>
+              </div>
+              
+              <!-- لا شيء آخر حالياً -->
+              <div class="a-group"></div>
+            </div>
+
+            <!-- الوصف -->
+            <div class="a-group">
+              <label class="a-label" for="p-desc">الوصف القصير للمنتج *</label>
+              <textarea id="p-desc" class="a-textarea" rows="3" placeholder="اكتب وصفاً موجزاً وجذاباً للمنتج..." required></textarea>
+            </div>
+
+            <!-- فوائد ومميزات المنتج -->
+            <div class="a-group">
+              <label class="a-label">فوائد ومميزات المنتج (Benefits Checklist) *</label>
+              <div class="benefits-builder" id="benefits-container">
+                <div class="benefit-input-row">
+                  <input type="text" class="a-input benefit-input" placeholder="مثال: إشراقة طبيعية وفورية للبشرة" required />
+                  <button type="button" class="remove-benefit-btn" onclick="removeBenefitRow(this)">✕</button>
+                </div>
+              </div>
+              <button type="button" class="add-benefit-btn" id="add-benefit-row-btn" style="align-self:flex-start; margin-top:8px;">+ إضافة فائدة أخرى</button>
+            </div>
+
+            <!-- رفع الصورة -->
+            <div class="a-group">
+              <label class="a-label">صورة المنتج *</label>
+              <div class="a-upload" id="upload-area">
+                <span class="upload-icon">📸</span>
+                <span class="upload-text" id="upload-status-text">اسحب الصورة هنا أو اضغط للاختيار</span>
+                <input type="file" id="p-image-file" accept="image/*" style="display:none" required />
+              </div>
+              
+              <div class="upload-preview-wrap" id="upload-preview-wrap">
+                <img id="preview-thumbnail" class="upload-preview-img" src="" alt="Preview" />
+                <span class="upload-remove" id="preview-remove">إزالة الصورة ✕</span>
+              </div>
+            </div>
+
+            <!-- زر الحفظ -->
+            <button type="submit" class="submit-btn" id="save-btn">حفظ ونشر المنتج 🚀</button>
+
+          </form>
+        </section>
+
+        <!-- الجزء الأيسر: معاينة الكارت الحية -->
+        <aside class="admin-preview-sticky">
+          <div class="admin-box" style="padding: 20px;">
+            <h2 class="box-title" style="margin-bottom:15px; font-size:16px;">المعاينة الحية للكارت (Live Preview)</h2>
+            
+            <div id="live-preview-container">
+              <!-- سيتم توليد المعاينة هنا ديناميكياً -->
+              <div class="preview-placeholder-card" id="preview-placeholder">
+                قم بتعبئة البيانات ورفع صورة لعرض المعاينة الحية هنا...
+              </div>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </div>
+
+    <!-- التبويب الثاني: إدارة الطلبيات -->
+    <div id="tab-orders" class="admin-tab-content" style="display:none">
+      <div class="admin-box">
+        <h2 class="box-title">سجل الطلبيات الواردة (Orders Dashboard)</h2>
+        
+        <div id="orders-status-container" style="margin-bottom: 20px;"></div>
+        
+        <div class="orders-table-wrap">
+          <table class="orders-table">
+            <thead>
+              <tr>
+                <th style="width: 140px;">تاريخ الطلب</th>
+                <th>الزبون</th>
+                <th>رقم الهاتف</th>
+                <th>الولاية / العنوان</th>
+                <th>المنتجات المطلوبة</th>
+                <th>المجموع الإجمالي</th>
+                <th>طريقة الدفع</th>
+                <th style="width: 150px;">حالة الطلبية</th>
+              </tr>
+            </thead>
+            <tbody id="orders-table-body">
+              <!-- سيتم ملء البيانات هنا جافاسكريبت -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
 
   <div class="toast-copy" id="toast-copy">تم نسخ RIP!</div>
 
@@ -873,6 +1010,153 @@
         saveBtn.textContent = 'حفظ ونشر المنتج 🚀';
       }
     });
+
+    /* =========================================================
+       📋 TABS CONTROLLER
+    ========================================================= */
+    const tabBtns = document.querySelectorAll('.admin-tab-btn');
+    const tabContents = document.querySelectorAll('.admin-tab-content');
+
+    tabBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        tabBtns.forEach(b => b.classList.remove('active'));
+        tabContents.forEach(c => c.style.display = 'none');
+
+        btn.classList.add('active');
+        const targetId = btn.dataset.tab;
+        document.getElementById(targetId).style.display = 'block';
+
+        if (targetId === 'tab-orders') {
+          loadOrdersFromFirestore();
+        }
+      });
+    });
+
+    /* =========================================================
+       📦 ORDERS DASHBOARD LOADER & STATUS UPDATER
+    ========================================================= */
+    const ordersTableBody = document.getElementById('orders-table-body');
+    const ordersStatusContainer = document.getElementById('orders-status-container');
+
+    function showOrderStatusMsg(type, msg) {
+      ordersStatusContainer.innerHTML = `<div class="status-msg status-msg--${type}">${msg}</div>`;
+      setTimeout(() => {
+        ordersStatusContainer.innerHTML = '';
+      }, 4000);
+    }
+
+    async function loadOrdersFromFirestore() {
+      ordersTableBody.innerHTML = `<tr><td colspan="8" style="text-align:center; padding: 40px;">جاري تحميل الطلبيات...</td></tr>`;
+
+      if (!firebaseInitialized || !db) {
+        ordersTableBody.innerHTML = `<tr><td colspan="8" class="orders-empty">تعذر التحميل: لم يتم تهيئة Firebase. يرجى تهيئة Firebase وعمل طلبات أولاً.</td></tr>`;
+        return;
+      }
+
+      try {
+        const snapshot = await db.collection('orders').get();
+        if (snapshot.empty) {
+          ordersTableBody.innerHTML = `<tr><td colspan="8" class="orders-empty">لا توجد طلبات مسجلة حتى الآن.</td></tr>`;
+          return;
+        }
+
+        const ordersList = [];
+        snapshot.forEach(doc => {
+          ordersList.push({ id: doc.id, ...doc.data() });
+        });
+
+        // Sort by date desc (newest first)
+        ordersList.sort((a, b) => {
+          const aTime = a.createdAt?.seconds || 0;
+          const bTime = b.createdAt?.seconds || 0;
+          return bTime - aTime;
+        });
+
+        ordersTableBody.innerHTML = '';
+
+        ordersList.forEach(order => {
+          // Format date
+          let dateStr = '—';
+          if (order.createdAt) {
+            const date = new Date(order.createdAt.seconds * 1000);
+            dateStr = date.toLocaleString('ar-DZ', {
+              year: 'numeric', month: 'short', day: 'numeric',
+              hour: '2-digit', minute: '2-digit'
+            });
+          }
+
+          // Format items
+          let itemsHtml = '';
+          if (order.items && Array.isArray(order.items)) {
+            itemsHtml = order.items.map(item => `${item.name} ×${item.quantity}`).join('<br>');
+          } else if (order.items && typeof order.items === 'object') {
+            // Object format { productName: qty, ... }
+            itemsHtml = Object.entries(order.items).map(([name, qty]) => `${name} ×${qty}`).join('<br>');
+          } else {
+            // Single product format (express checkout)
+            itemsHtml = `${order.productName || order.product || 'منتج غير معروف'}<br><small style="color:#888;">${order.bundle || '—'}</small>`;
+          }
+
+          // Format payment method
+          const isBaridi = order.paymentMethod === 'baridimob' || order.isBaridi;
+          const payMethod = isBaridi
+            ? `💳 بريدي موب<br><small style="color:#888;">رقم العملية: ${order.transactionNumber || order.txNumber || '—'}</small>`
+            : `💵 الدفع عند الاستلام`;
+
+          // Format status dropdown
+          const status = order.status || 'pending';
+          const row = document.createElement('tr');
+          row.innerHTML = `
+            <td><span style="font-size:12px; color:#888;">${dateStr}</span></td>
+            <td><strong>${order.fullname || order.name || '—'}</strong></td>
+            <td><a href="tel:${order.phone}" class="phone-link" dir="ltr">${order.phone || '—'}</a></td>
+            <td>${order.wilaya || '—'}<br><small style="color:#888;">${order.address || '—'}</small></td>
+            <td>${itemsHtml}</td>
+            <td><strong style="color:var(--accent);">${(order.total || 0).toLocaleString('fr-DZ')} DA</strong></td>
+            <td>${payMethod}</td>
+            <td>
+              <select class="status-select ${status}" onchange="updateOrderStatus('${order.id}', this)">
+                <option value="pending" ${status === 'pending' ? 'selected' : ''}>⏳ قيد المعالجة</option>
+                <option value="shipped" ${status === 'shipped' ? 'selected' : ''}>🚚 تم الشحن</option>
+                <option value="delivered" ${status === 'delivered' ? 'selected' : ''}>✅ تم التوصيل</option>
+              </select>
+            </td>
+          `;
+          ordersTableBody.appendChild(row);
+        });
+
+      } catch (error) {
+        console.error("Error loading orders:", error);
+        ordersTableBody.innerHTML = `<tr><td colspan="8" class="orders-empty" style="color:#e05555;">حدث خطأ أثناء تحميل الطلبيات: ${error.message}</td></tr>`;
+      }
+    }
+
+    async function updateOrderStatus(orderId, selectEl) {
+      const newStatus = selectEl.value;
+      
+      // Update dropdown classes for dynamic coloring
+      selectEl.className = `status-select ${newStatus}`;
+
+      if (!firebaseInitialized || !db) {
+        showOrderStatusMsg('error', 'تعذر تحديث الحالة: لم يتم تهيئة Firebase.');
+        return;
+      }
+
+      try {
+        await db.collection('orders').doc(orderId).update({
+          status: newStatus,
+          updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+        showOrderStatusMsg('success', 'تم تحديث حالة الطلبية بنجاح! 🚀');
+      } catch (error) {
+        console.error("Error updating status:", error);
+        showOrderStatusMsg('error', `فشل تحديث حالة الطلبية: ${error.message}`);
+      }
+    }
+
+    // Expose status updater to window object for inline event handler access
+    window.updateOrderStatus = updateOrderStatus;
+    window.loadOrdersFromFirestore = loadOrdersFromFirestore;
 
     function showStatus(type, msg) {
       const div = document.createElement('div');

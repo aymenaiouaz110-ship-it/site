@@ -939,6 +939,42 @@
       confirmBtn.textContent = 'جاري إرسال الطلب...';
 
       try {
+        // ── Save to Cloud Firestore ──
+        if (firebaseInitialized && db) {
+          try {
+            const _wilaya = DHD[w]?.name || '—';
+            const _delType = d === 'home' ? '🏠 للمنزل / Domicile' : '🏢 من المكتب / Bureau';
+            const _items = [{
+              name: `${currentProduct.name} (${bundleLabel})`,
+              quantity: 1
+            }];
+
+            const orderPayload = {
+              name: fullname,
+              fullname: fullname,
+              phone: phone,
+              wilaya: `${_wilaya} (${String(w).padStart(2, '0')})`,
+              address: `${address} (${_delType})`,
+              items: _items,
+              productName: currentProduct.name,
+              bundle: bundleLabel,
+              subtotal: productTotal,
+              shipping: shipping,
+              total: grand,
+              paymentMethod: 'cod',
+              isBaridi: false,
+              transactionNumber: '',
+              status: 'pending',
+              createdAt: firebase.firestore.FieldValue.serverTimestamp()
+            };
+
+            await db.collection('orders').add(orderPayload);
+            console.log("Express order saved to Cloud Firestore:", orderPayload);
+          } catch (fsErr) {
+            console.error("Error saving express order to Firestore:", fsErr);
+          }
+        }
+
         const url = `https://api.telegram.org/bot${TG_BOT_TOKEN}/sendMessage`;
         const body = JSON.stringify({
           chat_id    : TG_CHAT_ID,
