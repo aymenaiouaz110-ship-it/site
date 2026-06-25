@@ -17,7 +17,7 @@
 
   <!-- بنر شريطي تخفيض لفترة محدودة -->
   <div class="promo-banner">
-    <span>🔥 تخفيض لفترة محدودة جداً! ينتهي العرض خلال: </span>
+    <span><svg class="icon-svg icon-fire" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg> تخفيض لفترة محدودة جداً! ينتهي العرض خلال: </span>
     <span id="countdown-timer">02:14:00</span>
   </div>
 
@@ -35,7 +35,7 @@
 
     <div class="nav__right">
       <button class="nav__icon-btn dark-toggle" id="dark-toggle-btn" title="Mode sombre" aria-label="Basculer le mode sombre">
-        <span id="dark-toggle-icon">🌙</span>
+        <span id="dark-toggle-icon"><svg class="icon-svg icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg></span>
       </button>
     </div>
   </nav>
@@ -53,19 +53,19 @@
       
       <!-- Greeting and main confirmation text -->
       <h1 class="thankyou-title">تم تسجيل طلبك بنجاح!</h1>
-      <p class="thankyou-subtitle">✨ شكراً على ثقتك في Lumière، يسعدنا التعامل معك.</p>
+      <p class="thankyou-subtitle"><svg class="icon-svg icon-sparkles" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/><path d="m5 3 1 2.5L8.5 6 6 7 5 9.5 4 7 1.5 6 4 5.5z"/><path d="m19 17 1 2.5 2.5.5-2.5 1-1 2.5-1-2.5-2.5-1 2.5-1z"/></svg> شكراً على ثقتك في Lumière، يسعدنا التعامل معك.</p>
       
       <div class="thankyou-divider"></div>
 
       <!-- BaridiMob RIP Box -->
       <div class="baridimob-section">
-        <h2 class="baridimob-section__title">💳 الدفع عبر بريدي موب / BaridiMob</h2>
+        <h2 class="baridimob-section__title"><svg class="icon-svg icon-card" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg> الدفع عبر بريدي موب / BaridiMob</h2>
         <p class="baridimob-section__text">تسهيلاً لمعاملتكم، يمكنك الدفع عبر تطبيق BaridiMob باستخدام رقم الـ RIP التالي:</p>
         
         <div class="rip-container">
           <span class="rip-value" id="rip-number">00799999000000000000</span>
           <button class="copy-rip-btn" id="copy-rip-btn">
-            نسخ رقم الـ RIP 📋
+            نسخ رقم الـ RIP <svg class="icon-svg icon-clipboard" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/></svg>
           </button>
         </div>
         <span class="copy-toast" id="copy-toast">تم النسخ بنجاح!</span>
@@ -75,7 +75,7 @@
 
       <!-- File Upload Section -->
       <div class="receipt-section">
-        <h2 class="receipt-section__title">📸 تأكيد الدفع برفع الوصل</h2>
+        <h2 class="receipt-section__title"><svg class="icon-svg icon-camera" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg> تأكيد الدفع برفع الوصل</h2>
         <p class="receipt-section__text">يرجى رفع لقطة شاشة (Screenshot) لوصل تحويل الأموال لتأكيد طلبيتك بسرعة ومباشرة شحنها:</p>
         
         <form id="receipt-upload-form" class="receipt-form">
@@ -97,7 +97,7 @@
           </div>
 
           <button type="submit" class="receipt-submit-btn" id="receipt-submit-btn">
-            إرسال وصل التحويل وتأكيد الدفع 🚀
+            إرسال وصل التحويل وتأكيد الدفع <svg class="icon-svg icon-rocket" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.25-2.5 3.5-2.5 3.5s2.25-1 3.5-2.5M15 9l-9 9M9 15l-3 3M12 12l-3 3M18 3s-3.5 0-7 3.5c-3.5 3.5-3.5 7-3.5 7s1.5 1.5 3.5.5c2-1 2.5-2.5 3.5-3.5l6-6c1-1 1.5-2.5 1-4.5Z"/></svg>
           </button>
         </form>
       </div>
@@ -133,13 +133,16 @@
     const darkToggleBtn  = document.getElementById('dark-toggle-btn');
     const darkToggleIcon = document.getElementById('dark-toggle-icon');
 
+    const SUN_SVG = `<svg class="icon-svg icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>`;
+    const MOON_SVG = `<svg class="icon-svg icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>`;
+
     function isNightTime() {
       const h = new Date().getHours();
       return h >= 19 || h < 7;
     }
     function applyDarkMode(on) {
       document.body.classList.toggle('dark-mode', on);
-      darkToggleIcon.textContent = on ? '☀️' : '🌙';
+      darkToggleIcon.innerHTML = on ? SUN_SVG : MOON_SVG;
       darkToggleBtn.setAttribute('title', on ? 'Mode clair' : 'Mode sombre');
     }
     (function initDarkMode() {

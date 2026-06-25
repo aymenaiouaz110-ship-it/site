@@ -17,7 +17,7 @@
 
   <!-- بنر شريطي تخفيض لفترة محدودة -->
   <div class="promo-banner">
-    <span>🔥 تخفيض لفترة محدودة جداً! ينتهي العرض خلال: </span>
+    <span><svg class="icon-svg icon-fire" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg> تخفيض لفترة محدودة جداً! ينتهي العرض خلال: </span>
     <span id="countdown-timer">02:14:00</span>
   </div>
 
@@ -44,7 +44,7 @@
         <span class="nav__cart-badge" id="cart-count">0</span>
       </button>
       <button class="nav__icon-btn dark-toggle" id="dark-toggle-btn" title="Mode sombre" aria-label="Basculer le mode sombre">
-        <span id="dark-toggle-icon">🌙</span>
+        <span id="dark-toggle-icon"><svg class="icon-svg icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg></span>
       </button>
     </div>
   </nav>
@@ -86,7 +86,7 @@
         <span class="drawer__subtotal-val" id="drawer-subtotal">0 DA</span>
       </div>
       <a href="index.html#checkout" class="drawer__cta" id="drawer-cta" onclick="closeDrawer()">
-        الذهاب لتأكيد الطلب 🛒
+        الذهاب لتأكيد الطلب <svg class="icon-svg icon-cart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg>
       </a>
       <p class="drawer__note">Frais de livraison calculés à l'étape suivante</p>
     </div>
@@ -139,7 +139,7 @@
                 <div class="bundle-card__content">
                   <div class="bundle-card__title">
                     <span class="bundle-card__dot"></span>
-                    <span class="bundle-card__name">قطعة واحدة 🏷️</span>
+                    <span class="bundle-card__name">قطعة واحدة <svg class="icon-svg icon-tag" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2H2v10l9.29 9.29c.94.94 2.48.94 3.42 0l5.58-5.58c.94-.94.94-2.48 0-3.42L12 2Z"/><path d="M7 7h.01"/></svg></span>
                   </div>
                   <div class="bundle-card__details">السعر العادي للمنتج</div>
                 </div>
@@ -154,7 +154,7 @@
                 <div class="bundle-card__content">
                   <div class="bundle-card__title">
                     <span class="bundle-card__dot"></span>
-                    <span class="bundle-card__name">قطعتين (2) ✨</span>
+                    <span class="bundle-card__name">قطعتين (2) <svg class="icon-svg icon-sparkles" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg></span>
                   </div>
                   <div class="bundle-card__details">خصم 20% على القطعة الثانية</div>
                 </div>
@@ -165,12 +165,12 @@
 
               <!-- Option 3 -->
               <div class="bundle-card" data-option="3" onclick="selectBundle(3)">
-                <span class="bundle-badge">🔥 العرض الأقوى</span>
+                <span class="bundle-badge"><svg class="icon-svg icon-fire" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg> العرض الأقوى</span>
                 <input type="radio" name="quantity_bundle" id="bundle-opt-3" value="3" style="display:none;" />
                 <div class="bundle-card__content">
                   <div class="bundle-card__title">
                     <span class="bundle-card__dot"></span>
-                    <span class="bundle-card__name">3 قطع (2 + 1 مجاناً) 🎁</span>
+                    <span class="bundle-card__name">3 قطع (2 + 1 مجاناً) <svg class="icon-svg icon-gift" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="4" rx="1"/><path d="M12 8v13M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7"/><path d="M7.5 8a2.5 2.5 0 0 1 0-5A4.3 4.3 0 0 1 12 8a4.3 4.3 0 0 1 4.5-5 2.5 2.5 0 0 1 0 5"/></svg></span>
                   </div>
                   <div class="bundle-card__details">اشترِ 2 واحصل على 1 مجاناً + شحن مجاني لـ 58 ولاية</div>
                 </div>
@@ -219,24 +219,24 @@
 
           <!-- One-Page Express Checkout Form -->
           <div class="express-checkout" dir="rtl">
-            <h3 class="express-checkout__title">📄 استمارة الطلب المباشر السريع / Express Order</h3>
+            <h3 class="express-checkout__title"><svg class="icon-svg icon-doc" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg> استمارة الطلب المباشر السريع / Express Order</h3>
             <form id="express-checkout-form" class="express-form">
               
               <!-- الاسم الكامل -->
               <div class="express-form__group">
-                <label class="express-form__label" for="express-input-fullname">👤 الاسم الكامل / Nom Complet *</label>
+                <label class="express-form__label" for="express-input-fullname"><svg class="icon-svg icon-user" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> الاسم الكامل / Nom Complet *</label>
                 <input class="express-form__input" type="text" id="express-input-fullname" placeholder="الاسم واللقب" required />
               </div>
 
               <!-- رقم الهاتف -->
               <div class="express-form__group">
-                <label class="express-form__label" for="express-input-phone">📞 رقم الهاتف / Téléphone *</label>
+                <label class="express-form__label" for="express-input-phone"><svg class="icon-svg icon-phone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.38 2 2 0 0 1 3.59 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.56a16 16 0 0 0 6.29 6.29l.92-.92a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg> رقم الهاتف / Téléphone *</label>
                 <input class="express-form__input" type="tel" id="express-input-phone" placeholder="05 XX XX XX XX / 06 XX XX XX XX / 07 XX XX XX XX" required />
               </div>
 
               <!-- الولاية -->
               <div class="express-form__group">
-                <label class="express-form__label" for="express-select-wilaya">📍 الولاية / Wilaya *</label>
+                <label class="express-form__label" for="express-select-wilaya"><svg class="icon-svg icon-mappin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg> الولاية / Wilaya *</label>
                 <div class="express-form__select-wrap">
                   <select class="express-form__select" id="express-select-wilaya" required>
                     <option value="">— اختر الولاية —</option>
@@ -246,17 +246,17 @@
 
               <!-- البلدية / العنوان -->
               <div class="express-form__group">
-                <label class="express-form__label" for="express-input-address">🏘️ البلدية أو العنوان / Adresse *</label>
+                <label class="express-form__label" for="express-input-address"><svg class="icon-svg icon-home" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg> البلدية أو العنوان / Adresse *</label>
                 <input class="express-form__input" type="text" id="express-input-address" placeholder="البلدية أو عنوان السكن بالتفصيل" required />
               </div>
 
               <!-- نوع التوصيل -->
               <div class="express-form__group">
-                <label class="express-form__label" for="express-select-delivery">🚚 نوع التوصيل / Mode de livraison *</label>
+                <label class="express-form__label" for="express-select-delivery"><svg class="icon-svg icon-truck" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13" rx="2" ry="2"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg> نوع التوصيل / Mode de livraison *</label>
                 <div class="express-form__select-wrap">
                   <select class="express-form__select" id="express-select-delivery" required>
-                    <option value="home" selected>🏠 التوصيل للمنزل / Livraison à Domicile</option>
-                    <option value="office">🏢 استلام من مكتب ياليدين / Bureau Yalidine</option>
+                    <option value="home" selected>التوصيل للمنزل / Livraison à Domicile</option>
+                    <option value="office">استلام من مكتب ياليدين / Bureau Yalidine</option>
                   </select>
                 </div>
               </div>
@@ -280,14 +280,14 @@
 
               <!-- Confirm Order CTA -->
               <button type="submit" class="express-checkout__cta" id="express-confirm-btn">
-                اضغط هنا لتأكيد الطلب الآن 🛒
+                اضغط هنا لتأكيد الطلب الآن <svg class="icon-svg icon-cart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg>
               </button>
             </form>
           </div>
 
           <!-- FAQ Accordion Section -->
           <div class="faq-section" dir="rtl">
-            <h3 class="faq-section__title">❓ أسئلة متكررة</h3>
+            <h3 class="faq-section__title"><svg class="icon-svg icon-question" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> أسئلة متكررة</h3>
             <div class="faq-container">
               <div class="faq-item">
                 <button type="button" class="faq-question">
@@ -501,13 +501,16 @@
     const darkToggleBtn  = document.getElementById('dark-toggle-btn');
     const darkToggleIcon = document.getElementById('dark-toggle-icon');
 
+    const SUN_SVG = `<svg class="icon-svg icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>`;
+    const MOON_SVG = `<svg class="icon-svg icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>`;
+
     function isNightTime() {
       const h = new Date().getHours();
       return h >= 19 || h < 7;
     }
     function applyDarkMode(on) {
       document.body.classList.toggle('dark-mode', on);
-      darkToggleIcon.textContent = on ? '☀️' : '🌙';
+      darkToggleIcon.innerHTML = on ? SUN_SVG : MOON_SVG;
       darkToggleBtn.setAttribute('title', on ? 'Mode clair' : 'Mode sombre');
     }
     (function initDarkMode() {

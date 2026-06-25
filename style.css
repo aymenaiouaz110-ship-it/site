@@ -3451,3 +3451,50 @@ body {
   color: #bbb;
 }
 
+/* ============================================================
+   🎨 INLINE SVG ICONS GENERAL STYLING
+   ============================================================ */
+.icon-svg {
+  display: inline-block;
+  width: 1.1em;
+  height: 1.1em;
+  vertical-align: -0.15em;
+  stroke: currentColor;
+  fill: none;
+  margin: 0 4px;
+  transition: transform 0.2s ease, stroke-width 0.2s ease;
+}
+
+/* Specific Sizes & Colors */
+.promo-banner .icon-svg {
+  width: 1.25em;
+  height: 1.25em;
+  color: #ff9f43; /* warm gold/orange for fire */
+  vertical-align: -0.22em;
+}
+
+.bundle-card__name .icon-svg,
+.express-form__label .icon-svg,
+.form__section-title .icon-svg,
+.faq-section__title .icon-svg,
+.baridimob-section__title .icon-svg,
+.receipt-section__title .icon-svg {
+  color: var(--accent);
+  width: 1.15em;
+  height: 1.15em;
+  vertical-align: -0.18em;
+}
+
+.receipt-submit-btn .icon-svg,
+.express-checkout__cta .icon-svg,
+.copy-rip-btn .icon-svg,
+.checkout__cta .icon-svg {
+  width: 1.25em;
+  height: 1.25em;
+  margin-right: 8px;
+  vertical-align: -0.2em;
+}
+
+.status-select-wrap .icon-svg {
+  margin-left: 4px;
+}

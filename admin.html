@@ -600,7 +600,7 @@
             <div class="a-group">
               <label class="a-label">صورة المنتج *</label>
               <div class="a-upload" id="upload-area">
-                <span class="upload-icon">📸</span>
+                <span class="upload-icon"><svg class="icon-svg icon-camera" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg></span>
                 <span class="upload-text" id="upload-status-text">اسحب الصورة هنا أو اضغط للاختيار</span>
                 <input type="file" id="p-image-file" accept="image/*" style="display:none" required />
               </div>
@@ -612,7 +612,7 @@
             </div>
 
             <!-- زر الحفظ -->
-            <button type="submit" class="submit-btn" id="save-btn">حفظ ونشر المنتج 🚀</button>
+            <button type="submit" class="submit-btn" id="save-btn">حفظ ونشر المنتج <svg class="icon-svg icon-rocket" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.25-2.5 3.5-2.5 3.5s2.25-1 3.5-2.5M15 9l-9 9M9 15l-3 3M12 12l-3 3M18 3s-3.5 0-7 3.5c-3.5 3.5-3.5 7-3.5 7s1.5 1.5 3.5.5c2-1 2.5-2.5 3.5-3.5l6-6c1-1 1.5-2.5 1-4.5Z"/></svg></button>
 
           </form>
         </section>
@@ -954,7 +954,7 @@
 
       // Disable inputs
       saveBtn.disabled = true;
-      saveBtn.textContent = 'جاري رفع صورة المنتج...';
+      saveBtn.innerHTML = 'جاري رفع صورة المنتج...';
 
       try {
         const pId = fId.value.trim();
@@ -965,7 +965,7 @@
         const uploadTask = await storageRef.put(file);
         const imageUrl = await uploadTask.ref.getDownloadURL();
         
-        saveBtn.textContent = 'جاري نشر البيانات في قاعدة البيانات...';
+        saveBtn.innerHTML = 'جاري نشر البيانات في قاعدة البيانات...';
 
         // 2. Prepare payload
         const productPayload = {
@@ -1007,7 +1007,7 @@
         showStatus('error', `حدث خطأ أثناء رفع المنتج: ${error.message}`);
       } finally {
         saveBtn.disabled = false;
-        saveBtn.textContent = 'حفظ ونشر المنتج 🚀';
+        saveBtn.innerHTML = 'حفظ ونشر المنتج <svg class="icon-svg icon-rocket" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.25-2.5 3.5-2.5 3.5s2.25-1 3.5-2.5M15 9l-9 9M9 15l-3 3M12 12l-3 3M18 3s-3.5 0-7 3.5c-3.5 3.5-3.5 7-3.5 7s1.5 1.5 3.5.5c2-1 2.5-2.5 3.5-3.5l6-6c1-1 1.5-2.5 1-4.5Z"/></svg>';
       }
     });
 
@@ -1100,8 +1100,8 @@
           // Format payment method
           const isBaridi = order.paymentMethod === 'baridimob' || order.isBaridi;
           const payMethod = isBaridi
-            ? `💳 بريدي موب<br><small style="color:#888;">رقم العملية: ${order.transactionNumber || order.txNumber || '—'}</small>`
-            : `💵 الدفع عند الاستلام`;
+            ? `<svg class="icon-svg icon-card" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg> بريدي موب<br><small style="color:#888;">رقم العملية: ${order.transactionNumber || order.txNumber || '—'}</small>`
+            : `<svg class="icon-svg icon-cash" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="2"/><path d="M6 12h.01M18 12h.01"/></svg> الدفع عند الاستلام`;
 
           // Format status dropdown
           const status = order.status || 'pending';
@@ -1116,9 +1116,9 @@
             <td>${payMethod}</td>
             <td>
               <select class="status-select ${status}" onchange="updateOrderStatus('${order.id}', this)">
-                <option value="pending" ${status === 'pending' ? 'selected' : ''}>⏳ قيد المعالجة</option>
-                <option value="shipped" ${status === 'shipped' ? 'selected' : ''}>🚚 تم الشحن</option>
-                <option value="delivered" ${status === 'delivered' ? 'selected' : ''}>✅ تم التوصيل</option>
+                <option value="pending" ${status === 'pending' ? 'selected' : ''}>قيد المعالجة</option>
+                <option value="shipped" ${status === 'shipped' ? 'selected' : ''}>تم الشحن</option>
+                <option value="delivered" ${status === 'delivered' ? 'selected' : ''}>تم التوصيل</option>
               </select>
             </td>
           `;
@@ -1147,7 +1147,7 @@
           status: newStatus,
           updatedAt: firebase.firestore.FieldValue.serverTimestamp()
         });
-        showOrderStatusMsg('success', 'تم تحديث حالة الطلبية بنجاح! 🚀');
+        showOrderStatusMsg('success', 'تم تحديث حالة الطلبية بنجاح!');
       } catch (error) {
         console.error("Error updating status:", error);
         showOrderStatusMsg('error', `فشل تحديث حالة الطلبية: ${error.message}`);
