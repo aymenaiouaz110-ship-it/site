@@ -366,13 +366,6 @@
   </div>
 
   <!-- JAVASCRIPT SHARED PRODUCTS DATA -->
-  <!-- Firebase SDKs (Compat) -->
-  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-storage-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
-  
-  <script src="firebase-config.js"></script>
   <script src="products.js"></script>
 
   <script>
@@ -626,17 +619,12 @@
 
       currentProduct = null;
 
-      // Try Firestore first
-      if (firebaseInitialized && db) {
-        try {
-          const doc = await db.collection('products').doc(productId).get();
-          if (doc.exists) {
-            currentProduct = doc.data();
-            console.log("Loaded product details dynamically from Firestore:", currentProduct);
-          }
-        } catch (error) {
-          console.error("Error fetching product from Firestore. Falling back to local static array:", error);
-        }
+      // Check localStorage first
+      try {
+        const localProducts = JSON.parse(localStorage.getItem('smart_pick_products')) || [];
+        currentProduct = localProducts.find(p => p.id === productId);
+      } catch (err) {
+        console.error("Error reading localStorage products:", err);
       }
 
       // Fallback to static productsList
@@ -942,45 +930,49 @@
       confirmBtn.textContent = 'جاري إرسال الطلب...';
 
       try {
-        console.log("Starting express checkout process...");
-        // ── Save to Cloud Firestore ──
-        if (firebaseInitialized && db) {
-          try {
-            const _wilaya = DHD[w]?.name || '—';
-            const _delType = d === 'home' ? '🏠 للمنزل / Domicile' : '🏢 من المكتب / Bureau';
-            const _items = [{
-              name: `${currentProduct.name} (${bundleLabel})`,
-              quantity: 1
-            }];
+        // ── Save to local MySQL database via PHP API ──
+        try {
+          const _wilaya = DHD[w]?.name || '—';
+          const _delType = d === 'home' ? '🏠 للمنزل / Domicile' : '🏢 من المكتب / Bureau';
+          const _items = [{
+            name: `${currentProduct.name} (${bundleLabel})`,
+            quantity: 1
+          }];
 
-            const orderPayload = {
-              name: fullname,
-              fullname: fullname,
-              phone: phone,
-              wilaya: `${_wilaya} (${String(w).padStart(2, '0')})`,
-              address: `${address} (${_delType})`,
-              deliveryType: d || 'home',
-              items: _items,
-              productName: currentProduct.name,
-              bundle: bundleLabel,
-              subtotal: productTotal,
-              shipping: shipping,
-              total: grand,
-              paymentMethod: 'cod',
-              isBaridi: false,
-              transactionNumber: '',
-              status: 'pending',
-              createdAt: firebase.firestore.FieldValue.serverTimestamp()
-            };
+          const orderPayload = {
+            name: fullname,
+            fullname: fullname,
+            phone: phone,
+            wilaya: `${_wilaya} (${String(w).padStart(2, '0')})`,
+            deliveryType: d || 'home',
+            productName: currentProduct.name,
+            items: _items,
+            subtotal: productTotal,
+            shipping: shipping,
+            total: grand,
+            paymentMethod: 'cod',
+            isBaridi: false,
+            transactionNumber: '',
+            status: 'pending'
+          };
 
-            console.log("Attempting to write express order to Firestore collection 'orders'...", orderPayload);
-            await db.collection('orders').add(orderPayload);
-            console.log("Express order successfully saved to Cloud Firestore!");
-          } catch (fsErr) {
-            console.error("Critical: Firestore error occurred while writing express order. Check Firestore Security Rules or database indexes:", fsErr);
+          console.log("Attempting to write express order to local MySQL database...", orderPayload);
+          const response = await fetch('save_order.php', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(orderPayload)
+          });
+          
+          const result = await response.json();
+          if (result.success) {
+            console.log("Express order successfully saved to MySQL database! ID:", result.order_id);
+          } else {
+            console.error("Failed to save express order to MySQL database:", result.message);
           }
-        } else {
-          console.warn("Firestore not initialized (firebaseInitialized is false). Express order was NOT saved to the database. Make sure Firebase is properly configured with your actual credentials in firebase-config.js.");
+        } catch (dbErr) {
+          console.error("Critical: Error occurred while writing express order to MySQL database:", dbErr);
         }
 
         const url = `https://api.telegram.org/bot${TG_BOT_TOKEN}/sendMessage`;

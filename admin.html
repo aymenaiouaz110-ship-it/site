@@ -11,16 +11,18 @@
   <style>
     /* Admin Panel Specific Styling (Premium Dark Theme) */
     :root {
-      --admin-bg: #090909;
-      --admin-card: rgba(20, 20, 20, 0.6);
-      --admin-border: rgba(201, 169, 110, 0.15);
-      --admin-text: #f5f5f5;
+      --admin-bg: #161616;
+      --admin-card: #222222;
+      --admin-border: #333333;
+      --admin-text: #eeeeee;
+      --admin-text-secondary: #9e9b97;
+      --accent: #c9a96e;
     }
     
     body.admin-theme {
       background-color: var(--admin-bg);
       color: var(--admin-text);
-      font-family: 'Inter', system-ui, sans-serif;
+      font-family: var(--font-sans, system-ui, sans-serif);
       padding-top: 40px;
     }
     
@@ -28,7 +30,7 @@
     .login-overlay {
       position: fixed;
       top: 0; left: 0; right: 0; bottom: 0;
-      background: #090909;
+      background: var(--admin-bg);
       z-index: 9999;
       display: flex;
       align-items: center;
@@ -42,7 +44,7 @@
       pointer-events: none;
     }
     .login-card {
-      background: rgba(18, 18, 18, 0.75);
+      background: var(--admin-card);
       border: 1px solid var(--admin-border);
       border-radius: 16px;
       padding: 40px 30px;
@@ -107,16 +109,20 @@
     }
     .logout-btn {
       padding: 8px 16px;
-      border: 1px solid rgba(224, 85, 85, 0.4);
-      border-radius: 8px;
-      color: #e05555;
-      font-size: 13px;
+      border: 1.5px solid rgba(255, 255, 255, 0.15);
+      border-radius: var(--radius-sm, 4px);
+      color: var(--grey-400, #9e9b97);
+      font-size: 12px;
       font-weight: 600;
-      transition: all 0.3s;
+      letter-spacing: 0.05em;
+      transition: all 0.3s var(--ease-out, ease-out);
+      background: transparent;
+      cursor: pointer;
     }
     .logout-btn:hover {
-      background: rgba(220, 60, 60, 0.1);
+      color: #e05555;
       border-color: #e05555;
+      background: rgba(224, 85, 85, 0.05);
     }
     
     .admin-grid {
@@ -246,24 +252,30 @@
     }
     .add-benefit-btn {
       padding: 10px 16px;
-      background: rgba(255,255,255,0.05);
+      background: transparent;
       color: var(--white);
-      border-radius: 8px;
+      border-radius: var(--radius-sm, 4px);
       font-size: 13px;
       font-weight: 600;
-      border: 1px solid rgba(255,255,255,0.1);
-      transition: all 0.3s;
+      border: 1.5px solid rgba(255,255,255,0.15);
+      transition: all 0.3s var(--ease-out, ease-out);
     }
     .add-benefit-btn:hover {
       border-color: var(--accent);
+      background: rgba(201, 169, 110, 0.05);
       color: var(--accent);
     }
     .remove-benefit-btn {
       padding: 0 12px;
-      background: rgba(220, 60, 60, 0.1);
+      background: rgba(220, 60, 60, 0.08);
       color: #e05555;
-      border-radius: 8px;
-      font-size: 14px;
+      border: 1px solid rgba(220, 60, 60, 0.15);
+      border-radius: var(--radius-sm, 4px);
+      font-size: 13px;
+      transition: all 0.25s ease;
+    }
+    .remove-benefit-btn:hover {
+      background: rgba(220, 60, 60, 0.15);
     }
     
     /* Submit Button */
@@ -271,22 +283,24 @@
       width: 100%;
       padding: 16px;
       background: var(--accent);
-      color: var(--black);
-      font-size: 15px;
+      color: #161616;
+      font-size: 14px;
       font-weight: 700;
-      border-radius: 12px;
-      transition: all 0.3s;
-      box-shadow: 0 4px 16px rgba(201, 169, 110, 0.2);
+      border-radius: var(--radius-sm, 4px);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      transition: all 0.3s var(--ease-out, ease-out);
+      box-shadow: 0 4px 16px rgba(201, 169, 110, 0.15);
       margin-top: 10px;
     }
     .submit-btn:hover:not(:disabled) {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(201, 169, 110, 0.35);
-      filter: brightness(1.1);
+      transform: translateY(-1px);
+      background: #b5955c;
+      box-shadow: 0 6px 20px rgba(201, 169, 110, 0.28);
     }
     .submit-btn:disabled {
-      background: #333;
-      color: #666;
+      background: #252525;
+      color: #555;
       box-shadow: none;
       cursor: not-allowed;
     }
@@ -350,91 +364,134 @@
     /* Tabs System */
     .admin-tabs {
       display: flex;
-      gap: 12px;
-      margin-bottom: 24px;
-      border-bottom: 1px solid var(--admin-border);
-      padding-bottom: 12px;
+      gap: 16px;
+      margin-bottom: 32px;
+      border-bottom: 1.5px solid var(--admin-border);
+      padding-bottom: 8px;
     }
     .admin-tab-btn {
-      padding: 10px 24px;
-      font-size: 14px;
-      font-weight: 700;
-      color: #888;
-      border-radius: 8px;
+      position: relative;
+      padding: 12px 28px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--grey-400, #9e9b97);
+      border-radius: var(--radius-sm, 4px) var(--radius-sm, 4px) 0 0;
       border: 1px solid transparent;
-      transition: all 0.3s;
+      border-bottom: none;
+      transition: all 0.3s var(--ease-out, ease-out);
       cursor: pointer;
+      background: transparent;
+      letter-spacing: 0.05em;
+      margin-bottom: -10px;
+    }
+    .orders-badge {
+      position: absolute;
+      top: -4px;
+      right: -4px;
+      background: #e74c3c;
+      color: #ffffff;
+      border-radius: 50%;
+      min-width: 18px;
+      height: 18px;
+      font-size: 10px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 4px;
+      box-shadow: 0 2px 6px rgba(231, 76, 60, 0.4);
+      line-height: 1;
+      border: 1.5px solid var(--admin-bg, #0a0a0a);
+      box-sizing: border-box;
+      z-index: 5;
     }
     .admin-tab-btn:hover {
       color: var(--white);
-      background: rgba(255, 255, 255, 0.03);
+      background: rgba(255, 255, 255, 0.02);
     }
     .admin-tab-btn.active {
-      color: var(--accent);
-      background: rgba(201, 169, 110, 0.08);
+      color: #161616;
+      background: var(--accent);
       border-color: var(--accent);
+      font-weight: 700;
     }
     
-    /* Orders Table */
+    /* Orders Table (Premium Clean UI) */
     .orders-table-wrap {
       overflow-x: auto;
       margin-top: 10px;
+      border: 1px solid var(--admin-border);
+      border-radius: var(--radius-md, 8px);
+      background: var(--admin-card);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
     }
     .orders-table {
       width: 100%;
       border-collapse: collapse;
       text-align: right;
-      font-size: 13px;
-      color: #ddd;
+      font-size: 13.5px;
+      color: var(--admin-text);
     }
     .orders-table th, .orders-table td {
-      padding: 14px 16px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--admin-border);
       vertical-align: middle;
     }
     .orders-table th {
       color: var(--accent);
+      font-family: var(--font-sans, sans-serif);
       font-weight: 700;
-      background: rgba(255, 255, 255, 0.02);
-      font-size: 12.5px;
+      text-transform: uppercase;
+      font-size: 11.5px;
+      letter-spacing: 0.08em;
+      background: rgba(0, 0, 0, 0.2);
+      border-bottom: 1.5px solid var(--admin-border);
+    }
+    .orders-table tr:last-child td {
+      border-bottom: none;
     }
     .orders-table tr:hover td {
-      background: rgba(255, 255, 255, 0.015);
+      background: rgba(255, 255, 255, 0.03);
     }
     
     /* Status Select Dropdown */
     .status-select {
       padding: 6px 12px;
-      background: rgba(10, 10, 10, 0.8);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      border-radius: 6px;
+      background: #161616;
+      border: 1.5px solid var(--admin-border);
+      border-radius: var(--radius-sm, 4px);
       font-size: 12px;
       font-weight: 700;
-      transition: border-color 0.2s, color 0.2s;
+      transition: all 0.25s var(--ease-out, ease-out);
       cursor: pointer;
+      outline: none;
     }
     .status-select:focus {
-      outline: none;
-      box-shadow: 0 0 0 2px rgba(201, 169, 110, 0.15);
+      border-color: var(--accent);
+      box-shadow: 0 0 0 2px rgba(201, 169, 110, 0.18);
     }
     .status-select.pending {
-      color: #f39c12;
-      border-color: rgba(243, 156, 18, 0.4);
+      color: var(--accent);
+      border-color: rgba(201, 169, 110, 0.3);
+      background: rgba(201, 169, 110, 0.08);
     }
     .status-select.shipped {
-      color: #3498db;
-      border-color: rgba(52, 152, 219, 0.4);
+      color: #70a1ff;
+      border-color: rgba(112, 161, 255, 0.3);
+      background: rgba(112, 161, 255, 0.08);
     }
     .status-select.delivered {
       color: #2ecc71;
-      border-color: rgba(46, 204, 113, 0.4);
+      border-color: rgba(46, 204, 113, 0.3);
+      background: rgba(46, 204, 113, 0.08);
     }
     
     /* Empty orders state */
     .orders-empty {
       text-align: center;
-      padding: 40px 20px;
-      color: #666;
+      padding: 50px 20px;
+      color: var(--grey-400, #9e9b97);
       font-style: italic;
     }
     
@@ -442,7 +499,8 @@
     .phone-link {
       color: var(--accent);
       text-decoration: underline;
-      font-weight: 500;
+      font-weight: 600;
+      transition: color 0.2s;
     }
     .phone-link:hover {
       color: #b5955c;
@@ -486,10 +544,12 @@
       <button class="logout-btn" id="logout-btn">تسجيل الخروج</button>
     </header>
 
-    <!-- الأزرار العلوية للتبديل بين التبويبات -->
     <div class="admin-tabs">
       <button class="admin-tab-btn active" data-tab="tab-add-product">إضافة منتج جديد</button>
-      <button class="admin-tab-btn" data-tab="tab-orders">إدارة الطلبيات</button>
+      <button class="admin-tab-btn" data-tab="tab-orders" id="tab-btn-orders">
+        إدارة الطلبيات
+        <span class="orders-badge" id="orders-badge" style="display: none;">0</span>
+      </button>
     </div>
 
     <!-- التبويب الأول: إضافة منتج -->
@@ -664,14 +724,7 @@
 
   <div class="toast-copy" id="toast-copy">تم نسخ RIP!</div>
 
-  <!-- Firebase SDKs compat -->
-  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-storage-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
 
-  <!-- Shared Firebase Config -->
-  <script src="firebase-config.js"></script>
 
   <script>
     /* =========================================================
@@ -693,6 +746,12 @@
     function showAdminContent() {
       loginOverlay.classList.add('hidden');
       adminContent.style.display = 'block';
+      // Fetch badge count immediately upon login or load
+      setTimeout(() => {
+        if (typeof checkPendingOrdersCount === 'function') {
+          checkPendingOrdersCount();
+        }
+      }, 300);
     }
 
     loginForm.addEventListener('submit', (e) => {
@@ -917,7 +976,7 @@
     }
 
     /* =========================================================
-       🔥 SUBMIT PRODUCT DATA TO FIREBASE
+       🔥 PRODUCT DATA MANAGEMENT (STATIC)
     ========================================================= */
     const addProductForm = document.getElementById('add-product-form');
     const statusContainer = document.getElementById('status-container');
@@ -929,13 +988,7 @@
       // Clear previous status
       statusContainer.innerHTML = '';
 
-      if (!firebaseInitialized) {
-        showStatus('error', 'لا يمكن حفظ المنتج: لم يتم تهيئة Firebase بنجاح. يرجى تعديل مفاتيح الإعداد في الملف `firebase-config.js`.');
-        return;
-      }
-
-      const file = fileInput.files[0];
-      if (!file) {
+      if (!loadedImageBase64) {
         showStatus('error', 'يرجى اختيار صورة للمنتج أولاً.');
         return;
       }
@@ -952,62 +1005,56 @@
         return;
       }
 
-      // Disable inputs
-      saveBtn.disabled = true;
-      saveBtn.innerHTML = 'جاري رفع صورة المنتج...';
-
       try {
-        const pId = fId.value.trim();
-        
-        // 1. Upload file to Firebase Storage
-        const fileExt = file.name.split('.').pop();
-        const storageRef = storage.ref(`products/${pId}_${Date.now()}.${fileExt}`);
-        const uploadTask = await storageRef.put(file);
-        const imageUrl = await uploadTask.ref.getDownloadURL();
-        
-        saveBtn.innerHTML = 'جاري نشر البيانات في قاعدة البيانات...';
-
-        // 2. Prepare payload
-        const productPayload = {
-          id: pId,
+        const newProduct = {
+          id: fId.value.trim(),
           name: fName.value.trim(),
           brand: fBrand.value.trim(),
-          desc: fDesc.value.trim(),
+          volume: fVolume.value.trim(),
           price: parseFloat(fPrice.value),
           oldPrice: fOldPrice.value ? parseFloat(fOldPrice.value) : null,
-          img: imageUrl,
+          category: fCategory.value,
           tag: fTag.value.trim() || 'Nouveau',
           stars: parseInt(fStars.value, 10),
-          category: fCategory.value,
-          volume: fVolume.value.trim(),
+          desc: fDesc.value.trim(),
           benefits: benefits,
-          createdAt: firebase.firestore.FieldValue.serverTimestamp()
+          img: loadedImageBase64,
+          createdAt: Date.now()
         };
 
-        // 3. Save to Firestore doc
-        await db.collection('products').doc(pId).set(productPayload);
+        // Load existing smart_pick_products from localStorage
+        let products = [];
+        try {
+          products = JSON.parse(localStorage.getItem('smart_pick_products')) || [];
+        } catch (err) {
+          products = [];
+        }
 
-        showStatus('success', `تم نشر المنتج <strong>"${productPayload.name}"</strong> بنجاح! تم حفظ البيانات والوصول للمتجر ديناميكياً.`);
-        
-        // Reset form completely
+        products.push(newProduct);
+        localStorage.setItem('smart_pick_products', JSON.stringify(products));
+
+        showStatus('success', `تم حفظ ونشر المنتج <strong>"${newProduct.name}"</strong> بنجاح!`);
+
+        // Reset form
         addProductForm.reset();
-        previewRemove.click();
+        fId.removeAttribute('data-user-edited'); // Clear user edited state
         
-        // Reset dynamic benefits except the first row
+        // Reset image preview
+        if (previewRemove) {
+          previewRemove.click();
+        }
+
+        // Reset benefits container
         const rows = benefitsContainer.querySelectorAll('.benefit-input-row');
         for (let i = 1; i < rows.length; i++) {
           rows[i].remove();
         }
-        
-        // Refresh preview
-        updateLivePreview();
 
+        // Update live preview
+        updateLivePreview();
       } catch (error) {
-        console.error("Firebase upload error:", error);
-        showStatus('error', `حدث خطأ أثناء رفع المنتج: ${error.message}`);
-      } finally {
-        saveBtn.disabled = false;
-        saveBtn.innerHTML = 'حفظ ونشر المنتج <svg class="icon-svg icon-rocket" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.25-2.5 3.5-2.5 3.5s2.25-1 3.5-2.5M15 9l-9 9M9 15l-3 3M12 12l-3 3M18 3s-3.5 0-7 3.5c-3.5 3.5-3.5 7-3.5 7s1.5 1.5 3.5.5c2-1 2.5-2.5 3.5-3.5l6-6c1-1 1.5-2.5 1-4.5Z"/></svg>';
+        console.error("Error saving product to localStorage:", error);
+        showStatus('error', `حدث خطأ أثناء حفظ ونشر المنتج: ${error.message}`);
       }
     });
 
@@ -1045,43 +1092,66 @@
       }, 4000);
     }
 
+    function updateBadgeUI(count) {
+      const badge = document.getElementById('orders-badge');
+      if (!badge) return;
+      if (count > 0) {
+        badge.textContent = count;
+        badge.style.display = 'flex';
+      } else {
+        badge.style.display = 'none';
+      }
+    }
+
+    async function checkPendingOrdersCount() {
+      try {
+        const response = await fetch('get_orders.php');
+        const ordersList = await response.json();
+        if (Array.isArray(ordersList)) {
+          const pendingCount = ordersList.filter(order => {
+            const status = order.status || 'pending';
+            return status === 'pending' || status === 'قيد المعالجة';
+          }).length;
+          updateBadgeUI(pendingCount);
+        }
+      } catch (error) {
+        console.error("Error fetching pending orders count for badge:", error);
+      }
+    }
+
     async function loadOrdersFromFirestore() {
       ordersTableBody.innerHTML = `<tr><td colspan="8" style="text-align:center; padding: 40px;">جاري تحميل الطلبيات...</td></tr>`;
 
-      if (!firebaseInitialized || !db) {
-        console.warn("Firestore not initialized. Cannot load orders. Make sure you replaced YOUR_API_KEY inside firebase-config.js with your actual credentials.");
-        ordersTableBody.innerHTML = `<tr><td colspan="8" class="orders-empty">تعذر التحميل: لم يتم تهيئة Firebase. يرجى تهيئة Firebase وعمل طلبات أولاً.</td></tr>`;
-        return;
-      }
-
-      console.log("Attempting to load orders from Firestore collection 'orders'...");
+      console.log("Attempting to load orders from local MySQL database...");
       try {
-        const snapshot = await db.collection('orders').get();
-        if (snapshot.empty) {
-          console.log("No orders found in 'orders' Firestore collection.");
+        const response = await fetch('get_orders.php');
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const ordersList = await response.json();
+        
+        if (!Array.isArray(ordersList) || ordersList.length === 0) {
+          console.log("No orders found in MySQL database.");
           ordersTableBody.innerHTML = `<tr><td colspan="8" class="orders-empty">لا توجد طلبات مسجلة حتى الآن.</td></tr>`;
+          updateBadgeUI(0);
           return;
         }
 
-        console.log(`Successfully fetched ${snapshot.size} orders from Firestore.`);
-        const ordersList = [];
-        snapshot.forEach(doc => {
-          ordersList.push({ id: doc.id, ...doc.data() });
-        });
+        console.log(`Successfully fetched ${ordersList.length} orders from MySQL.`);
 
-        // Sort by date desc (newest first)
-        ordersList.sort((a, b) => {
-          const aTime = a.createdAt?.seconds || 0;
-          const bTime = b.createdAt?.seconds || 0;
-          return bTime - aTime;
-        });
+        // Update badge dynamically with the fetched list
+        const pendingCount = ordersList.filter(order => {
+          const status = order.status || 'pending';
+          return status === 'pending' || status === 'قيد المعالجة';
+        }).length;
+        updateBadgeUI(pendingCount);
 
         ordersTableBody.innerHTML = '';
 
         ordersList.forEach(order => {
           // Format date
           let dateStr = '—';
-          if (order.createdAt) {
+          if (order.createdAt && order.createdAt.seconds) {
             const date = new Date(order.createdAt.seconds * 1000);
             dateStr = date.toLocaleString('ar-DZ', {
               year: 'numeric', month: 'short', day: 'numeric',
@@ -1134,7 +1204,7 @@
         });
 
       } catch (error) {
-        console.error("Critical: Firestore error occurred while fetching orders. Check Firestore Security Rules or database indexes:", error);
+        console.error("Critical: Error occurred while fetching orders. Check connection or database script:", error);
         ordersTableBody.innerHTML = `<tr><td colspan="8" class="orders-empty" style="color:#e05555;">حدث خطأ أثناء تحميل الطلبيات: ${error.message}</td></tr>`;
       }
     }
@@ -1145,17 +1215,24 @@
       // Update dropdown classes for dynamic coloring
       selectEl.className = `status-select ${newStatus}`;
 
-      if (!firebaseInitialized || !db) {
-        showOrderStatusMsg('error', 'تعذر تحديث الحالة: لم يتم تهيئة Firebase.');
-        return;
-      }
-
       try {
-        await db.collection('orders').doc(orderId).update({
-          status: newStatus,
-          updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+        const response = await fetch('update_order.php', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            orderId: orderId,
+            status: newStatus
+          })
         });
-        showOrderStatusMsg('success', 'تم تحديث حالة الطلبية بنجاح!');
+        const result = await response.json();
+        if (result.success) {
+          showOrderStatusMsg('success', 'تم تحديث حالة الطلبية بنجاح!');
+          checkPendingOrdersCount();
+        } else {
+          showOrderStatusMsg('error', `فشل تحديث حالة الطلبية: ${result.message}`);
+        }
       } catch (error) {
         console.error("Error updating status:", error);
         showOrderStatusMsg('error', `فشل تحديث حالة الطلبية: ${error.message}`);

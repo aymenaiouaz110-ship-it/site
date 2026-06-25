@@ -698,13 +698,6 @@
   <!-- ============================================================
        ⚙️ JAVASCRIPT
   ============================================================ -->
-  <!-- Firebase SDKs (Compat) -->
-  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-storage-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
-  
-  <script src="firebase-config.js"></script>
   <script src="products.js"></script>
   <script>
     /* =========================================================
@@ -1179,47 +1172,53 @@
 
       try {
         console.log("Starting checkout process...");
-        // ── Save to Cloud Firestore ──
-        if (firebaseInitialized && db) {
-          try {
-            const _subtotal = cartSubtotal();
-            const _shipping = getShipping() ?? 0;
-            const _total = _subtotal + _shipping;
-            const _wilaya = DHD[selWilaya.value]?.name || '—';
-            const _delType = selDelivery.value === 'home' ? '🏠 للمنزل / Domicile' : '🏢 من المكتب / Bureau';
-            
-            const _items = Object.entries(cart).map(([name, qty]) => ({
-              name: name,
-              quantity: qty
-            }));
+        // ── Save to local MySQL database via PHP API ──
+        try {
+          const _subtotal = cartSubtotal();
+          const _shipping = getShipping() ?? 0;
+          const _total = _subtotal + _shipping;
+          const _wilaya = DHD[selWilaya.value]?.name || '—';
+          const _delType = selDelivery.value === 'home' ? '🏠 للمنزل / Domicile' : '🏢 من المكتب / Bureau';
+          
+          const _items = Object.entries(cart).map(([name, qty]) => ({
+            name: name,
+            quantity: qty
+          }));
 
-            const orderPayload = {
-              name: `${nom} ${prenom}`.trim(),
-              fullname: `${nom} ${prenom}`.trim(),
-              phone: phone,
-              wilaya: `${_wilaya} (${String(selWilaya.value).padStart(2, '0')})`,
-              address: `${_delType}`,
-              deliveryType: selDelivery.value || 'home',
-              productName: Object.keys(cart).join(', ') || 'منتجات متعددة',
-              items: _items,
-              subtotal: _subtotal,
-              shipping: _shipping,
-              total: _total,
-              paymentMethod: isBaridi ? 'baridimob' : 'cod',
-              isBaridi: isBaridi,
-              transactionNumber: isBaridi ? txVal : '',
-              status: 'pending',
-              createdAt: firebase.firestore.FieldValue.serverTimestamp()
-            };
+          const orderPayload = {
+            name: `${nom} ${prenom}`.trim(),
+            fullname: `${nom} ${prenom}`.trim(),
+            phone: phone,
+            wilaya: `${_wilaya} (${String(selWilaya.value).padStart(2, '0')})`,
+            deliveryType: selDelivery.value || 'home',
+            productName: Object.keys(cart).join(', ') || 'منتجات متعددة',
+            items: _items,
+            subtotal: _subtotal,
+            shipping: _shipping,
+            total: _total,
+            paymentMethod: isBaridi ? 'baridimob' : 'cod',
+            isBaridi: isBaridi,
+            transactionNumber: isBaridi ? txVal : '',
+            status: 'pending'
+          };
 
-            console.log("Attempting to write order to Firestore collection 'orders'...", orderPayload);
-            await db.collection('orders').add(orderPayload);
-            console.log("Order successfully saved to Cloud Firestore!");
-          } catch (fsErr) {
-            console.error("Critical: Firestore error occurred while writing order. Check Firestore Security Rules or database indexes:", fsErr);
+          console.log("Attempting to write order to local MySQL database...", orderPayload);
+          const response = await fetch('save_order.php', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(orderPayload)
+          });
+          
+          const result = await response.json();
+          if (result.success) {
+            console.log("Order successfully saved to MySQL database! ID:", result.order_id);
+          } else {
+            console.error("Failed to save order to MySQL database:", result.message);
           }
-        } else {
-          console.warn("Firestore not initialized (firebaseInitialized is false). Order was NOT saved to the database. Make sure Firebase is properly configured with your actual credentials in firebase-config.js.");
+        } catch (dbErr) {
+          console.error("Critical: Error occurred while writing order to MySQL database:", dbErr);
         }
 
         await sendToTelegram();
@@ -1291,34 +1290,17 @@
       const grid = document.getElementById('products-grid');
       if (!grid) return;
 
-      let listToRender = productsList;
+      let listToRender = [...productsList];
 
-      // Try fetching from Firestore
-      if (firebaseInitialized && db) {
-        try {
-          // Fetch products ordered by creation date, fallback to standard fetch if no index
-          const snapshot = await db.collection('products').get();
-          if (!snapshot.empty) {
-            const dbList = [];
-            snapshot.forEach(doc => {
-              dbList.push(doc.data());
-            });
-            
-            // Sort by createdAt desc in memory to avoid index requirements
-            dbList.sort((a, b) => {
-              const aTime = a.createdAt?.seconds || 0;
-              const bTime = b.createdAt?.seconds || 0;
-              return bTime - aTime;
-            });
-
-            listToRender = dbList;
-            console.log("Loaded products dynamically from Firebase Firestore:", listToRender);
-          } else {
-            console.log("Firestore products collection is empty. Falling back to local static array.");
-          }
-        } catch (error) {
-          console.error("Error fetching products from Firestore. Falling back to local static array:", error);
+      // Load products from localStorage if available
+      try {
+        const localProducts = JSON.parse(localStorage.getItem('smart_pick_products')) || [];
+        if (localProducts.length > 0) {
+          listToRender = [...localProducts, ...listToRender];
+          console.log("Loaded custom products from localStorage:", localProducts);
         }
+      } catch (err) {
+        console.error("Error reading localStorage products:", err);
       }
 
       // Rebuild the dynamic CATALOGUE entries based on the loaded products list to support the cart
