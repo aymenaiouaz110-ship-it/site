@@ -1178,6 +1178,7 @@
       ctaBtn.disabled = true;
 
       try {
+        console.log("Starting checkout process...");
         // ── Save to Cloud Firestore ──
         if (firebaseInitialized && db) {
           try {
@@ -1198,6 +1199,8 @@
               phone: phone,
               wilaya: `${_wilaya} (${String(selWilaya.value).padStart(2, '0')})`,
               address: `${_delType}`,
+              deliveryType: selDelivery.value || 'home',
+              productName: Object.keys(cart).join(', ') || 'منتجات متعددة',
               items: _items,
               subtotal: _subtotal,
               shipping: _shipping,
@@ -1209,11 +1212,14 @@
               createdAt: firebase.firestore.FieldValue.serverTimestamp()
             };
 
+            console.log("Attempting to write order to Firestore collection 'orders'...", orderPayload);
             await db.collection('orders').add(orderPayload);
-            console.log("Order saved to Cloud Firestore:", orderPayload);
+            console.log("Order successfully saved to Cloud Firestore!");
           } catch (fsErr) {
-            console.error("Error saving order to Firestore:", fsErr);
+            console.error("Critical: Firestore error occurred while writing order. Check Firestore Security Rules or database indexes:", fsErr);
           }
+        } else {
+          console.warn("Firestore not initialized (firebaseInitialized is false). Order was NOT saved to the database. Make sure Firebase is properly configured with your actual credentials in firebase-config.js.");
         }
 
         await sendToTelegram();

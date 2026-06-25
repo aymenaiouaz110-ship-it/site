@@ -1049,17 +1049,21 @@
       ordersTableBody.innerHTML = `<tr><td colspan="8" style="text-align:center; padding: 40px;">جاري تحميل الطلبيات...</td></tr>`;
 
       if (!firebaseInitialized || !db) {
+        console.warn("Firestore not initialized. Cannot load orders. Make sure you replaced YOUR_API_KEY inside firebase-config.js with your actual credentials.");
         ordersTableBody.innerHTML = `<tr><td colspan="8" class="orders-empty">تعذر التحميل: لم يتم تهيئة Firebase. يرجى تهيئة Firebase وعمل طلبات أولاً.</td></tr>`;
         return;
       }
 
+      console.log("Attempting to load orders from Firestore collection 'orders'...");
       try {
         const snapshot = await db.collection('orders').get();
         if (snapshot.empty) {
+          console.log("No orders found in 'orders' Firestore collection.");
           ordersTableBody.innerHTML = `<tr><td colspan="8" class="orders-empty">لا توجد طلبات مسجلة حتى الآن.</td></tr>`;
           return;
         }
 
+        console.log(`Successfully fetched ${snapshot.size} orders from Firestore.`);
         const ordersList = [];
         snapshot.forEach(doc => {
           ordersList.push({ id: doc.id, ...doc.data() });
@@ -1103,8 +1107,12 @@
             ? `<svg class="icon-svg icon-card" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg> بريدي موب<br><small style="color:#888;">رقم العملية: ${order.transactionNumber || order.txNumber || '—'}</small>`
             : `<svg class="icon-svg icon-cash" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="2"/><path d="M6 12h.01M18 12h.01"/></svg> الدفع عند الاستلام`;
 
-          // Format status dropdown
-          const status = order.status || 'pending';
+          // Format status dropdown (normalize values to English keys for select/CSS)
+          let status = order.status || 'pending';
+          if (status === 'قيد المعالجة') status = 'pending';
+          if (status === 'تم الشحن') status = 'shipped';
+          if (status === 'تم التوصيل') status = 'delivered';
+
           const row = document.createElement('tr');
           row.innerHTML = `
             <td><span style="font-size:12px; color:#888;">${dateStr}</span></td>
@@ -1126,7 +1134,7 @@
         });
 
       } catch (error) {
-        console.error("Error loading orders:", error);
+        console.error("Critical: Firestore error occurred while fetching orders. Check Firestore Security Rules or database indexes:", error);
         ordersTableBody.innerHTML = `<tr><td colspan="8" class="orders-empty" style="color:#e05555;">حدث خطأ أثناء تحميل الطلبيات: ${error.message}</td></tr>`;
       }
     }

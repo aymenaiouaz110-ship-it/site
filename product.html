@@ -942,6 +942,7 @@
       confirmBtn.textContent = 'جاري إرسال الطلب...';
 
       try {
+        console.log("Starting express checkout process...");
         // ── Save to Cloud Firestore ──
         if (firebaseInitialized && db) {
           try {
@@ -958,6 +959,7 @@
               phone: phone,
               wilaya: `${_wilaya} (${String(w).padStart(2, '0')})`,
               address: `${address} (${_delType})`,
+              deliveryType: d || 'home',
               items: _items,
               productName: currentProduct.name,
               bundle: bundleLabel,
@@ -971,11 +973,14 @@
               createdAt: firebase.firestore.FieldValue.serverTimestamp()
             };
 
+            console.log("Attempting to write express order to Firestore collection 'orders'...", orderPayload);
             await db.collection('orders').add(orderPayload);
-            console.log("Express order saved to Cloud Firestore:", orderPayload);
+            console.log("Express order successfully saved to Cloud Firestore!");
           } catch (fsErr) {
-            console.error("Error saving express order to Firestore:", fsErr);
+            console.error("Critical: Firestore error occurred while writing express order. Check Firestore Security Rules or database indexes:", fsErr);
           }
+        } else {
+          console.warn("Firestore not initialized (firebaseInitialized is false). Express order was NOT saved to the database. Make sure Firebase is properly configured with your actual credentials in firebase-config.js.");
         }
 
         const url = `https://api.telegram.org/bot${TG_BOT_TOKEN}/sendMessage`;
