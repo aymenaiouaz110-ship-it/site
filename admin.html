@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LUMIÈRE — لوحة تحكم المشرف</title>
+  
+  <!-- CSS Stylesheets -->
+  <link rel="stylesheet" href="style.css" />
+  
+  <style>
+    /* Admin Panel Specific Styling (Premium Dark Theme) */
+    :root {
+      --admin-bg: #090909;
+      --admin-card: rgba(20, 20, 20, 0.6);
+      --admin-border: rgba(201, 169, 110, 0.15);
+      --admin-text: #f5f5f5;
+    }
+    
+    body.admin-theme {
+      background-color: var(--admin-bg);
+      color: var(--admin-text);
+      font-family: 'Inter', system-ui, sans-serif;
+      padding-top: 40px;
+    }
+    
+    /* Login Overlay */
+    .login-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: #090909;
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      transition: opacity 0.5s ease, visibility 0.5s;
+    }
+    .login-overlay.hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+    .login-card {
+      background: rgba(18, 18, 18, 0.75);
+      border: 1px solid var(--admin-border);
+      border-radius: 16px;
+      padding: 40px 30px;
+      max-width: 400px;
+      width: 100%;
+      text-align: center;
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+    }
+    .login-logo {
+      height: 50px;
+      margin: 0 auto 24px;
+      filter: invert(1);
+    }
+    .login-title {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 24px;
+      font-weight: 600;
+      color: var(--white);
+      margin-bottom: 8px;
+    }
+    .login-subtitle {
+      font-size: 13px;
+      color: var(--grey-400);
+      margin-bottom: 24px;
+    }
+    .login-form {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    
+    /* Main Layout */
+    .admin-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    .admin-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--admin-border);
+      padding-bottom: 20px;
+      margin-bottom: 30px;
+    }
+    .admin-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .admin-logo {
+      height: 38px;
+      filter: invert(1);
+    }
+    .admin-title-text {
+      font-family: var(--font-serif);
+      font-size: 22px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+    }
+    .logout-btn {
+      padding: 8px 16px;
+      border: 1px solid rgba(224, 85, 85, 0.4);
+      border-radius: 8px;
+      color: #e05555;
+      font-size: 13px;
+      font-weight: 600;
+      transition: all 0.3s;
+    }
+    .logout-btn:hover {
+      background: rgba(220, 60, 60, 0.1);
+      border-color: #e05555;
+    }
+    
+    .admin-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 30px;
+    }
+    
+    @media (max-width: 991px) {
+      .admin-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    
+    /* Box Styles */
+    .admin-box {
+      background: var(--admin-card);
+      border: 1px solid var(--admin-border);
+      border-radius: 16px;
+      padding: 30px;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+    .box-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--accent);
+      margin-bottom: 20px;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      padding-bottom: 10px;
+    }
+    
+    /* Form inputs for Admin Dark Mode */
+    .a-form {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .a-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .a-label {
+      font-size: 13px;
+      font-weight: 700;
+      color: #bbb;
+    }
+    .a-input, .a-select, .a-textarea {
+      width: 100%;
+      padding: 12px 16px;
+      background: rgba(10, 10, 10, 0.8);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      color: var(--white);
+      font-family: inherit;
+      font-size: 14px;
+      transition: all 0.2s;
+    }
+    .a-input:focus, .a-select:focus, .a-textarea:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(201, 169, 110, 0.15);
+    }
+    .a-row-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    
+    /* File Drag & Drop */
+    .a-upload {
+      border: 2px dashed rgba(255,255,255,0.15);
+      border-radius: 12px;
+      padding: 30px 20px;
+      text-align: center;
+      cursor: pointer;
+      background: rgba(0,0,0,0.2);
+      transition: all 0.3s;
+    }
+    .a-upload:hover, .a-upload.is-dragover {
+      border-color: var(--accent);
+      background: rgba(201, 169, 110, 0.03);
+    }
+    .upload-icon {
+      font-size: 32px;
+      margin-bottom: 10px;
+      color: var(--accent);
+      display: block;
+    }
+    .upload-text {
+      font-size: 13px;
+      color: #aaa;
+    }
+    .upload-preview-wrap {
+      display: none;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 10px;
+      padding: 10px;
+      background: rgba(255,255,255,0.03);
+      border-radius: 8px;
+      border: 1px solid rgba(255,255,255,0.05);
+    }
+    .upload-preview-img {
+      width: 50px;
+      height: 50px;
+      object-fit: cover;
+      border-radius: 4px;
+    }
+    .upload-remove {
+      color: #e05555;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    
+    /* Benefits List Builder */
+    .benefits-builder {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .benefit-input-row {
+      display: flex;
+      gap: 10px;
+    }
+    .add-benefit-btn {
+      padding: 10px 16px;
+      background: rgba(255,255,255,0.05);
+      color: var(--white);
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      border: 1px solid rgba(255,255,255,0.1);
+      transition: all 0.3s;
+    }
+    .add-benefit-btn:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+    .remove-benefit-btn {
+      padding: 0 12px;
+      background: rgba(220, 60, 60, 0.1);
+      color: #e05555;
+      border-radius: 8px;
+      font-size: 14px;
+    }
+    
+    /* Submit Button */
+    .submit-btn {
+      width: 100%;
+      padding: 16px;
+      background: var(--accent);
+      color: var(--black);
+      font-size: 15px;
+      font-weight: 700;
+      border-radius: 12px;
+      transition: all 0.3s;
+      box-shadow: 0 4px 16px rgba(201, 169, 110, 0.2);
+      margin-top: 10px;
+    }
+    .submit-btn:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(201, 169, 110, 0.35);
+      filter: brightness(1.1);
+    }
+    .submit-btn:disabled {
+      background: #333;
+      color: #666;
+      box-shadow: none;
+      cursor: not-allowed;
+    }
+    
+    /* Status Messages */
+    .status-msg {
+      padding: 14px 20px;
+      border-radius: 10px;
+      font-size: 13px;
+      display: none;
+      line-height: 1.5;
+    }
+    .status-msg--success {
+      display: block;
+      background: rgba(46, 204, 113, 0.1);
+      border: 1px solid rgba(46, 204, 113, 0.3);
+      color: #2ecc71;
+    }
+    .status-msg--error {
+      display: block;
+      background: rgba(231, 76, 60, 0.1);
+      border: 1px solid rgba(231, 76, 60, 0.3);
+      color: #e74c3c;
+    }
+    
+    /* Preview Container fixes for admin */
+    .admin-preview-sticky {
+      position: sticky;
+      top: 40px;
+    }
+    .preview-placeholder-card {
+      border: 1.5px dashed rgba(255,255,255,0.1);
+      border-radius: 12px;
+      height: 350px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #666;
+      font-style: italic;
+    }
+    
+    /* Form Helpers */
+    .toast-copy {
+      position: fixed;
+      bottom: 20px; left: 50%;
+      transform: translateX(-50%);
+      background: var(--accent);
+      color: var(--black);
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: bold;
+      opacity: 0;
+      transition: opacity 0.3s;
+      z-index: 10000;
+    }
+    .toast-copy.is-visible {
+      opacity: 1;
+    }
+  </style>
+</head>
+<body class="admin-theme">
+
+  <!-- خلفية متحركة هادئة للموقع -->
+  <div class="animated-bg-container">
+      <div class="blur-orb orb-1"></div>
+      <div class="blur-orb orb-2"></div>
+      <div class="blur-orb orb-3"></div>
+  </div>
+
+  <!-- 🔒 شاشة تسجيل الدخول للحماية -->
+  <div class="login-overlay" id="login-overlay">
+    <div class="login-card">
+      <img src="images/removebg-preview.png" alt="Lumière" class="login-logo" />
+      <h2 class="login-title">تسجيل دخول المشرف</h2>
+      <p class="login-subtitle">يرجى إدخال رمز المرور للوصول إلى لوحة التحكم</p>
+      
+      <form class="login-form" id="login-form">
+        <div class="a-group">
+          <input type="password" id="login-password" class="a-input" placeholder="رمز المرور (Password)" autocomplete="current-password" required />
+        </div>
+        <div id="login-error" class="status-msg status-msg--error" style="margin-bottom: 10px; display: none;"></div>
+        <button type="submit" class="submit-btn" style="margin-top:0">تأكيد الدخول</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- 📊 لوحة التحكم الرئيسية -->
+  <div class="admin-container" id="admin-content" style="display:none">
+    
+    <header class="admin-header">
+      <div class="admin-brand">
+        <img src="images/removebg-preview.png" alt="Lumière" class="admin-logo" />
+        <span class="admin-title-text">LUMIÈRE — إدارة المنتجات</span>
+      </div>
+      <button class="logout-btn" id="logout-btn">تسجيل الخروج</button>
+    </header>
+
+    <div class="admin-grid">
+      <!-- الجزء الأيمن: نموذج إضافة منتج -->
+      <section class="admin-box">
+        <h2 class="box-title">إضافة منتج جديد</h2>
+        
+        <div id="status-container" style="margin-bottom: 20px;"></div>
+
+        <form class="a-form" id="add-product-form">
+          
+          <div class="a-row-2">
+            <!-- اسم المنتج -->
+            <div class="a-group">
+              <label class="a-label" for="p-name">اسم المنتج *</label>
+              <input type="text" id="p-name" class="a-input" placeholder="مثال: Sérum Éclat Intense" required />
+            </div>
+            
+            <!-- معرف المنتج Slug -->
+            <div class="a-group">
+              <label class="a-label" for="p-id">المعرف الفريد (ID/Slug) *</label>
+              <input type="text" id="p-id" class="a-input" placeholder="مثال: serum-eclat (أحرف صغيرة وشرطات)" required />
+            </div>
+          </div>
+
+          <div class="a-row-2">
+            <!-- الماركة والتفصيل -->
+            <div class="a-group">
+              <label class="a-label" for="p-brand">العلامة التجارية والنوع *</label>
+              <input type="text" id="p-brand" class="a-input" placeholder="مثال: Lumière · Sérum" required />
+            </div>
+
+            <!-- الحجم -->
+            <div class="a-group">
+              <label class="a-label" for="p-volume">الحجم / السعة *</label>
+              <input type="text" id="p-volume" class="a-input" placeholder="مثال: 30 ml أو 120 ml" required />
+            </div>
+          </div>
+
+          <div class="a-row-2">
+            <!-- السعر الحالي -->
+            <div class="a-group">
+              <label class="a-label" for="p-price">السعر الحالي (DA) *</label>
+              <input type="number" id="p-price" class="a-input" min="0" placeholder="مثال: 5900" required />
+            </div>
+
+            <!-- السعر القديم (اختياري) -->
+            <div class="a-group">
+              <label class="a-label" for="p-oldprice">السعر قبل التخفيض (اختياري)</label>
+              <input type="number" id="p-oldprice" class="a-input" min="0" placeholder="مثال: 7500" />
+            </div>
+          </div>
+
+          <div class="a-row-2">
+            <!-- التصنيف -->
+            <div class="a-group">
+              <label class="a-label" for="p-category">التصنيف *</label>
+              <select id="p-category" class="a-select" required>
+                <option value="soins">عناية بالبشرة (Soins)</option>
+                <option value="cheveux">عناية بالشعر (Cheveux)</option>
+                <option value="parfums">عطور (Parfums)</option>
+              </select>
+            </div>
+
+            <!-- الشارة الترويجية -->
+            <div class="a-group">
+              <label class="a-label" for="p-tag">الشارة الترويجية (Tag)</label>
+              <input type="text" id="p-tag" class="a-input" placeholder="مثال: Bestseller, Nouveau, Exclusif" />
+            </div>
+          </div>
+
+          <div class="a-row-2">
+            <!-- النجوم التقييم -->
+            <div class="a-group">
+              <label class="a-label" for="p-stars">التقييم (النجوم) *</label>
+              <select id="p-stars" class="a-select" required>
+                <option value="5">5 نجوم (★★★★★)</option>
+                <option value="4">4 نجوم (★★★★☆)</option>
+                <option value="3">3 نجوم (★★★☆☆)</option>
+              </select>
+            </div>
+            
+            <!-- لا شيء آخر حالياً -->
+            <div class="a-group"></div>
+          </div>
+
+          <!-- الوصف -->
+          <div class="a-group">
+            <label class="a-label" for="p-desc">الوصف القصير للمنتج *</label>
+            <textarea id="p-desc" class="a-textarea" rows="3" placeholder="اكتب وصفاً موجزاً وجذاباً للمنتج..." required></textarea>
+          </div>
+
+          <!-- فوائد ومميزات المنتج -->
+          <div class="a-group">
+            <label class="a-label">فوائد ومميزات المنتج (Benefits Checklist) *</label>
+            <div class="benefits-builder" id="benefits-container">
+              <div class="benefit-input-row">
+                <input type="text" class="a-input benefit-input" placeholder="مثال: إشراقة طبيعية وفورية للبشرة" required />
+                <button type="button" class="remove-benefit-btn" onclick="removeBenefitRow(this)">✕</button>
+              </div>
+            </div>
+            <button type="button" class="add-benefit-btn" id="add-benefit-row-btn" style="align-self:flex-start; margin-top:8px;">+ إضافة فائدة أخرى</button>
+          </div>
+
+          <!-- رفع الصورة -->
+          <div class="a-group">
+            <label class="a-label">صورة المنتج *</label>
+            <div class="a-upload" id="upload-area">
+              <span class="upload-icon">📸</span>
+              <span class="upload-text" id="upload-status-text">اسحب الصورة هنا أو اضغط للاختيار</span>
+              <input type="file" id="p-image-file" accept="image/*" style="display:none" required />
+            </div>
+            
+            <div class="upload-preview-wrap" id="upload-preview-wrap">
+              <img id="preview-thumbnail" class="upload-preview-img" src="" alt="Preview" />
+              <span class="upload-remove" id="preview-remove">إزالة الصورة ✕</span>
+            </div>
+          </div>
+
+          <!-- زر الحفظ -->
+          <button type="submit" class="submit-btn" id="save-btn">حفظ ونشر المنتج 🚀</button>
+
+        </form>
+      </section>
+
+      <!-- الجزء الأيسر: معاينة الكارت الحية -->
+      <aside class="admin-preview-sticky">
+        <div class="admin-box" style="padding: 20px;">
+          <h2 class="box-title" style="margin-bottom:15px; font-size:16px;">المعاينة الحية للكارت (Live Preview)</h2>
+          
+          <div id="live-preview-container">
+            <!-- سيتم توليد المعاينة هنا ديناميكياً -->
+            <div class="preview-placeholder-card" id="preview-placeholder">
+              قم بتعبئة البيانات ورفع صورة لعرض المعاينة الحية هنا...
+            </div>
+          </div>
+        </div>
+      </aside>
+    </div>
+
+  </div>
+
+  <div class="toast-copy" id="toast-copy">تم نسخ RIP!</div>
+
+  <!-- Firebase SDKs compat -->
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-storage-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+
+  <!-- Shared Firebase Config -->
+  <script src="firebase-config.js"></script>
+
+  <script>
+    /* =========================================================
+       🔒 SECURITY AND LOGIN CONTROLS
+    ========================================================= */
+    const MASTER_PASSWORD_HASH = "lumiere2026"; // Simple master password
+    const loginOverlay = document.getElementById('login-overlay');
+    const loginForm    = document.getElementById('login-form');
+    const loginPassword = document.getElementById('login-password');
+    const loginError   = document.getElementById('login-error');
+    const adminContent = document.getElementById('admin-content');
+    const logoutBtn    = document.getElementById('logout-btn');
+
+    // Check if already authenticated during session
+    if (sessionStorage.getItem('lumiere_admin_auth') === 'true') {
+      showAdminContent();
+    }
+
+    function showAdminContent() {
+      loginOverlay.classList.add('hidden');
+      adminContent.style.display = 'block';
+    }
+
+    loginForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const enteredPassword = loginPassword.value;
+
+      if (enteredPassword === MASTER_PASSWORD_HASH) {
+        sessionStorage.setItem('lumiere_admin_auth', 'true');
+        loginError.style.display = 'none';
+        showAdminContent();
+        loginPassword.value = '';
+      } else {
+        loginError.textContent = "رمز المرور غير صحيح! يرجى إعادة المحاولة.";
+        loginError.style.display = 'block';
+      }
+    });
+
+    logoutBtn.addEventListener('click', () => {
+      sessionStorage.removeItem('lumiere_admin_auth');
+      adminContent.style.display = 'none';
+      loginOverlay.classList.remove('hidden');
+    });
+
+    /* =========================================================
+       🛠️ DYNAMIC BENEFITS BUILDER
+    ========================================================= */
+    const benefitsContainer = document.getElementById('benefits-container');
+    const addBenefitRowBtn  = document.getElementById('add-benefit-row-btn');
+
+    function removeBenefitRow(button) {
+      const rows = benefitsContainer.querySelectorAll('.benefit-input-row');
+      if (rows.length > 1) {
+        button.closest('.benefit-input-row').remove();
+        updateLivePreview();
+      } else {
+        alert('يجب إضافة فائدة واحدة على الأقل للمنتج.');
+      }
+    }
+
+    addBenefitRowBtn.addEventListener('click', () => {
+      const row = document.createElement('div');
+      row.className = 'benefit-input-row';
+      row.innerHTML = `
+        <input type="text" class="a-input benefit-input" placeholder="مثال: فائدة أو ميزة أخرى للمنتج..." required />
+        <button type="button" class="remove-benefit-btn" onclick="removeBenefitRow(this)">✕</button>
+      `;
+      benefitsContainer.appendChild(row);
+      
+      // Attach change listener to the new input
+      row.querySelector('.benefit-input').addEventListener('input', updateLivePreview);
+    });
+
+    /* =========================================================
+       📸 IMAGE UPLOAD AND DRAG-AND-DROP PREVIEW
+    ========================================================= */
+    const uploadArea = document.getElementById('upload-area');
+    const fileInput  = document.getElementById('p-image-file');
+    const previewWrap = document.getElementById('upload-preview-wrap');
+    const previewThumb = document.getElementById('preview-thumbnail');
+    const previewRemove = document.getElementById('preview-remove');
+    let loadedImageBase64 = null;
+
+    uploadArea.addEventListener('click', (e) => {
+      if (e.target === previewRemove) return;
+      fileInput.click();
+    });
+
+    // Drag-and-drop
+    uploadArea.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      uploadArea.classList.add('is-dragover');
+    });
+    uploadArea.addEventListener('dragleave', () => {
+      uploadArea.classList.remove('is-dragover');
+    });
+    uploadArea.addEventListener('drop', (e) => {
+      e.preventDefault();
+      uploadArea.classList.remove('is-dragover');
+      if (e.dataTransfer.files.length > 0) {
+        fileInput.files = e.dataTransfer.files;
+        handleSelectedImage(fileInput.files[0]);
+      }
+    });
+
+    fileInput.addEventListener('change', () => {
+      if (fileInput.files.length > 0) {
+        handleSelectedImage(fileInput.files[0]);
+      }
+    });
+
+    function handleSelectedImage(file) {
+      if (!file.type.startsWith('image/')) {
+        alert('يرجى تحميل ملف صورة صالح فقط.');
+        fileInput.value = '';
+        return;
+      }
+      
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        loadedImageBase64 = e.target.result;
+        previewThumb.src = loadedImageBase64;
+        uploadArea.style.display = 'none';
+        previewWrap.style.display = 'flex';
+        updateLivePreview();
+      };
+      reader.readAsDataURL(file);
+    }
+
+    previewRemove.addEventListener('click', (e) => {
+      e.stopPropagation();
+      fileInput.value = '';
+      loadedImageBase64 = null;
+      previewThumb.src = '';
+      uploadArea.style.display = 'block';
+      previewWrap.style.display = 'none';
+      updateLivePreview();
+    });
+
+    /* =========================================================
+       👁️ LIVE PRODUCT CARD PREVIEW (Dynamically Generated)
+    ========================================================= */
+    const lpContainer = document.getElementById('live-preview-container');
+    const lpPlaceholder = document.getElementById('preview-placeholder');
+    
+    // Form fields selectors
+    const fName = document.getElementById('p-name');
+    const fId = document.getElementById('p-id');
+    const fBrand = document.getElementById('p-brand');
+    const fVolume = document.getElementById('p-volume');
+    const fPrice = document.getElementById('p-price');
+    const fOldPrice = document.getElementById('p-oldprice');
+    const fCategory = document.getElementById('p-category');
+    const fTag = document.getElementById('p-tag');
+    const fStars = document.getElementById('p-stars');
+    const fDesc = document.getElementById('p-desc');
+
+    // Auto-generate Slug/ID from Name
+    fName.addEventListener('input', () => {
+      if (!fId.dataset.userEdited) {
+        fId.value = fName.value
+          .toLowerCase()
+          .replace(/[^\w\s-]/g, '') // remove special chars
+          .replace(/\s+/g, '-')     // replace spaces with dash
+          .replace(/-+/g, '-');     // replace multi-dashes with single
+      }
+      updateLivePreview();
+    });
+
+    fId.addEventListener('input', () => {
+      fId.dataset.userEdited = "true";
+      updateLivePreview();
+    });
+
+    // Add listeners to other inputs to trigger preview updates
+    [fBrand, fVolume, fPrice, fOldPrice, fCategory, fTag, fStars, fDesc].forEach(el => {
+      el.addEventListener('input', updateLivePreview);
+    });
+    
+    // Initial change listener for first benefit
+    document.querySelector('.benefit-input').addEventListener('input', updateLivePreview);
+
+    function starsHTML(count) {
+      return '★'.repeat(count) + '☆'.repeat(5 - count);
+    }
+
+    function updateLivePreview() {
+      const name = fName.value.trim();
+      const price = parseFloat(fPrice.value) || 0;
+      const oldPrice = parseFloat(fOldPrice.value) || null;
+      const brand = fBrand.value.trim();
+      const desc = fDesc.value.trim();
+      const tag = fTag.value.trim();
+      const stars = parseInt(fStars.value, 10);
+      const imageSrc = loadedImageBase64 || '';
+
+      if (!name || !price) {
+        lpPlaceholder.style.display = 'flex';
+        // Remove existing card preview if any
+        const existingCard = lpContainer.querySelector('.pcard');
+        if (existingCard) existingCard.remove();
+        return;
+      }
+
+      lpPlaceholder.style.display = 'none';
+      let existingCard = lpContainer.querySelector('.pcard');
+      if (!existingCard) {
+        existingCard = document.createElement('article');
+        existingCard.className = 'pcard';
+        existingCard.style.maxWidth = '340px';
+        existingCard.style.margin = '0 auto';
+        lpContainer.appendChild(existingCard);
+      }
+
+      const oldPriceStr = oldPrice ? `<span class="pcard__old">${oldPrice.toLocaleString('fr-DZ')} DA</span>` : '';
+      const tagStr = tag ? `<span class="pcard__tag">${tag}</span>` : '';
+
+      existingCard.innerHTML = `
+        <div class="pcard__image-wrap" style="height: 240px; background: rgba(255,255,255,0.03);">
+          ${tagStr}
+          <button class="pcard__wish" type="button" style="pointer-events: none;">♡</button>
+          <div class="pcard__image-link" style="display:block; width:100%; height:100%;">
+            <img src="${imageSrc || 'data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'80\' height=\'80\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'%23c9a96e\' stroke-width=\'1\'%3E%3Crect x=\'3\' y=\'3\' width=\'18\' height=\'18\' rx=\'2\'/%3E%3Ccircle cx=\'8.5\' cy=\'8.5\' r=\'1.5\'/%3E%3Cpolyline points=\'21 15 16 10 5 21\'/%3E%3C/svg%3E'}" 
+                 alt="${name}" class="pcard__image" style="width: 100%; height: 100%; object-fit: cover;" />
+          </div>
+          <div class="pcard__overlay" style="display:flex; justify-content:center; align-items:center;">
+            <button class="pcard__quick-add" type="button" style="pointer-events: none; padding: 10px 16px; border-radius: 8px;">+ Ajouter au panier</button>
+          </div>
+        </div>
+        <div class="pcard__body" style="padding:15px; border-top:1px solid rgba(255,255,255,0.05); text-align:right;" dir="rtl">
+          <p class="pcard__brand" style="margin-bottom:4px; font-size:12px; color:var(--accent);">${brand || 'LUMIÈRE'}</p>
+          <h3 class="pcard__name" style="font-size:15px; font-weight:700; margin-bottom:6px;">${name}</h3>
+          <p class="pcard__desc" style="font-size:12px; line-height:1.4; color:#888; height:auto; -webkit-line-clamp:2; margin-bottom:10px;">${desc || 'وصف المنتج يظهر هنا...'}</p>
+          <div class="pcard__footer" style="display:flex; justify-content:space-between; align-items:center;">
+            <div>
+              <span class="pcard__price" style="font-weight:700; font-size:14px;">${price.toLocaleString('fr-DZ')} DA</span>
+              ${oldPriceStr}
+            </div>
+            <div class="pcard__stars" style="color:var(--accent); font-size:12px;">${starsHTML(stars)}</div>
+          </div>
+        </div>
+      `;
+    }
+
+    /* =========================================================
+       🔥 SUBMIT PRODUCT DATA TO FIREBASE
+    ========================================================= */
+    const addProductForm = document.getElementById('add-product-form');
+    const statusContainer = document.getElementById('status-container');
+    const saveBtn = document.getElementById('save-btn');
+
+    addProductForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      // Clear previous status
+      statusContainer.innerHTML = '';
+
+      if (!firebaseInitialized) {
+        showStatus('error', 'لا يمكن حفظ المنتج: لم يتم تهيئة Firebase بنجاح. يرجى تعديل مفاتيح الإعداد في الملف `firebase-config.js`.');
+        return;
+      }
+
+      const file = fileInput.files[0];
+      if (!file) {
+        showStatus('error', 'يرجى اختيار صورة للمنتج أولاً.');
+        return;
+      }
+
+      // Collect benefits list
+      const benefits = [];
+      document.querySelectorAll('.benefit-input').forEach(input => {
+        const val = input.value.trim();
+        if (val) benefits.push(val);
+      });
+
+      if (benefits.length === 0) {
+        showStatus('error', 'يرجى كتابة فائدة واحدة على الأقل للمنتج.');
+        return;
+      }
+
+      // Disable inputs
+      saveBtn.disabled = true;
+      saveBtn.textContent = 'جاري رفع صورة المنتج...';
+
+      try {
+        const pId = fId.value.trim();
+        
+        // 1. Upload file to Firebase Storage
+        const fileExt = file.name.split('.').pop();
+        const storageRef = storage.ref(`products/${pId}_${Date.now()}.${fileExt}`);
+        const uploadTask = await storageRef.put(file);
+        const imageUrl = await uploadTask.ref.getDownloadURL();
+        
+        saveBtn.textContent = 'جاري نشر البيانات في قاعدة البيانات...';
+
+        // 2. Prepare payload
+        const productPayload = {
+          id: pId,
+          name: fName.value.trim(),
+          brand: fBrand.value.trim(),
+          desc: fDesc.value.trim(),
+          price: parseFloat(fPrice.value),
+          oldPrice: fOldPrice.value ? parseFloat(fOldPrice.value) : null,
+          img: imageUrl,
+          tag: fTag.value.trim() || 'Nouveau',
+          stars: parseInt(fStars.value, 10),
+          category: fCategory.value,
+          volume: fVolume.value.trim(),
+          benefits: benefits,
+          createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        };
+
+        // 3. Save to Firestore doc
+        await db.collection('products').doc(pId).set(productPayload);
+
+        showStatus('success', `تم نشر المنتج <strong>"${productPayload.name}"</strong> بنجاح! تم حفظ البيانات والوصول للمتجر ديناميكياً.`);
+        
+        // Reset form completely
+        addProductForm.reset();
+        previewRemove.click();
+        
+        // Reset dynamic benefits except the first row
+        const rows = benefitsContainer.querySelectorAll('.benefit-input-row');
+        for (let i = 1; i < rows.length; i++) {
+          rows[i].remove();
+        }
+        
+        // Refresh preview
+        updateLivePreview();
+
+      } catch (error) {
+        console.error("Firebase upload error:", error);
+        showStatus('error', `حدث خطأ أثناء رفع المنتج: ${error.message}`);
+      } finally {
+        saveBtn.disabled = false;
+        saveBtn.textContent = 'حفظ ونشر المنتج 🚀';
+      }
+    });
+
+    function showStatus(type, msg) {
+      const div = document.createElement('div');
+      div.className = `status-msg status-msg--${type}`;
+      div.innerHTML = msg;
+      statusContainer.appendChild(div);
+      
+      // Auto-scroll status into view
+      div.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+  </script>
+</body>
+</html>

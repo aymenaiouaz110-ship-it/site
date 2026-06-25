@@ -284,6 +284,57 @@
               </button>
             </form>
           </div>
+
+          <!-- FAQ Accordion Section -->
+          <div class="faq-section" dir="rtl">
+            <h3 class="faq-section__title">❓ أسئلة متكررة</h3>
+            <div class="faq-container">
+              <div class="faq-item">
+                <button type="button" class="faq-question">
+                  <span>هل منتجات Lumière أصلية؟</span>
+                  <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                  <div class="faq-answer-content">
+                    <p>نعم، جميع منتجاتنا أصلية ومضمونة 100% من علامة Smart Pick لضمان أفضل جودة لزبائننا.</p>
+                  </div>
+                </div>
+              </div>
+              <div class="faq-item">
+                <button type="button" class="faq-question">
+                  <span>كم يستغرق توصيل الطلبية؟</span>
+                  <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                  <div class="faq-answer-content">
+                    <p>التوصيل سريع جداً! يستغرق من 24 إلى 48 ساعة في ولايات الشمال، ومن 2 إلى 4 أيام لولايات الجنوب.</p>
+                  </div>
+                </div>
+              </div>
+              <div class="faq-item">
+                <button type="button" class="faq-question">
+                  <span>كيف أستطيع الدفع؟ وهل تدعمون بريدي موب؟</span>
+                  <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                  <div class="faq-answer-content">
+                    <p>نوفر خدمة الدفع عند الاستلام (خلص كي تلحقك السلعة)، كما ندعم الدفع المسبق الآمن عبر تطبيق BaridiMob لتسهيل المعاملات.</p>
+                  </div>
+                </div>
+              </div>
+              <div class="faq-item">
+                <button type="button" class="faq-question">
+                  <span>هل يمكنني إرجاع المنتج؟</span>
+                  <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                  <div class="faq-answer-content">
+                    <p>بالتأكيد، إذا كان هناك أي عيب مصنعي في المنتج، يمكنك التواصل مع خدمة العملاء لاستبداله فوراً.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -315,6 +366,13 @@
   </div>
 
   <!-- JAVASCRIPT SHARED PRODUCTS DATA -->
+  <!-- Firebase SDKs (Compat) -->
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-storage-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+  
+  <script src="firebase-config.js"></script>
   <script src="products.js"></script>
 
   <script>
@@ -554,7 +612,7 @@
       }
     }
 
-    (function fetchProductDetails() {
+    (async function fetchProductDetails() {
       const params = new URLSearchParams(window.location.search);
       const productId = params.get('id');
 
@@ -563,11 +621,36 @@
         return;
       }
 
-      currentProduct = productsList.find(p => p.id === productId);
+      currentProduct = null;
+
+      // Try Firestore first
+      if (firebaseInitialized && db) {
+        try {
+          const doc = await db.collection('products').doc(productId).get();
+          if (doc.exists) {
+            currentProduct = doc.data();
+            console.log("Loaded product details dynamically from Firestore:", currentProduct);
+          }
+        } catch (error) {
+          console.error("Error fetching product from Firestore. Falling back to local static array:", error);
+        }
+      }
+
+      // Fallback to static productsList
+      if (!currentProduct) {
+        currentProduct = productsList.find(p => p.id === productId);
+      }
 
       if (!currentProduct) {
         window.location.href = 'index.html';
         return;
+      }
+
+      // Rebuild/extend CATALOGUE dynamically for this product if needed (so checkout and cart know its price/img)
+      if (typeof CATALOGUE !== 'undefined') {
+        CATALOGUE[currentProduct.name] = { price: currentProduct.price, img: currentProduct.img };
+        CATALOGUE[`${currentProduct.name} (عرض قطعتين - خصم 20%)`] = { price: Math.round(currentProduct.price * 1.8), img: currentProduct.img };
+        CATALOGUE[`${currentProduct.name} (عرض 3 قطع - 2+1 مجاناً)`] = { price: currentProduct.price * 2, img: currentProduct.img };
       }
 
       // Dynamic Title
@@ -899,6 +982,34 @@
         confirmBtn.disabled = false;
         confirmBtn.textContent = 'اضغط هنا لتأكيد الطلب الآن 🛒';
       }
+    });
+
+    /* =========================================================
+       ❓ FAQ ACCORDION
+    ========================================================= */
+    const faqItems = document.querySelectorAll('.faq-item');
+    faqItems.forEach(item => {
+      const questionBtn = item.querySelector('.faq-question');
+      questionBtn.addEventListener('click', () => {
+        const isActive = item.classList.contains('is-active');
+        
+        // Close all other items
+        faqItems.forEach(otherItem => {
+          if (otherItem !== item) {
+            otherItem.classList.remove('is-active');
+            otherItem.querySelector('.faq-answer').style.maxHeight = null;
+          }
+        });
+
+        // Toggle active class on clicked item
+        item.classList.toggle('is-active', !isActive);
+        const answer = item.querySelector('.faq-answer');
+        if (!isActive) {
+          answer.style.maxHeight = answer.scrollHeight + 'px';
+        } else {
+          answer.style.maxHeight = null;
+        }
+      });
     });
 
   </script>
