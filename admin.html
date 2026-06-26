@@ -1006,55 +1006,57 @@
       }
 
       try {
-        const newProduct = {
-          id: fId.value.trim(),
+        const payload = {
+          slug: fId.value.trim(),
           name: fName.value.trim(),
           brand: fBrand.value.trim(),
-          volume: fVolume.value.trim(),
-          price: parseFloat(fPrice.value),
-          oldPrice: fOldPrice.value ? parseFloat(fOldPrice.value) : null,
+          size: fVolume.value.trim(),
+          current_price: parseFloat(fPrice.value),
+          old_price: fOldPrice.value ? parseFloat(fOldPrice.value) : null,
           category: fCategory.value,
-          tag: fTag.value.trim() || 'Nouveau',
-          stars: parseInt(fStars.value, 10),
-          desc: fDesc.value.trim(),
+          tag: fTag.value.trim() || null,
+          rating: parseInt(fStars.value, 10),
+          description: fDesc.value.trim(),
           benefits: benefits,
-          img: loadedImageBase64,
-          createdAt: Date.now()
+          image_url: loadedImageBase64
         };
 
-        // Load existing smart_pick_products from localStorage
-        let products = [];
-        try {
-          products = JSON.parse(localStorage.getItem('smart_pick_products')) || [];
-        } catch (err) {
-          products = [];
+        const response = await fetch('add_product.php', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(payload)
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+          showStatus('success', `تم حفظ ونشر المنتج <strong>"${payload.name}"</strong> بنجاح!`);
+
+          // Reset form
+          addProductForm.reset();
+          fId.removeAttribute('data-user-edited'); // Clear user edited state
+          
+          // Reset image preview
+          if (previewRemove) {
+            previewRemove.click();
+          }
+
+          // Reset benefits container
+          const rows = benefitsContainer.querySelectorAll('.benefit-input-row');
+          for (let i = 1; i < rows.length; i++) {
+            rows[i].remove();
+          }
+
+          // Update live preview
+          updateLivePreview();
+        } else {
+          showStatus('error', `فشل إضافة المنتج: ${result.message}`);
         }
-
-        products.push(newProduct);
-        localStorage.setItem('smart_pick_products', JSON.stringify(products));
-
-        showStatus('success', `تم حفظ ونشر المنتج <strong>"${newProduct.name}"</strong> بنجاح!`);
-
-        // Reset form
-        addProductForm.reset();
-        fId.removeAttribute('data-user-edited'); // Clear user edited state
-        
-        // Reset image preview
-        if (previewRemove) {
-          previewRemove.click();
-        }
-
-        // Reset benefits container
-        const rows = benefitsContainer.querySelectorAll('.benefit-input-row');
-        for (let i = 1; i < rows.length; i++) {
-          rows[i].remove();
-        }
-
-        // Update live preview
-        updateLivePreview();
       } catch (error) {
-        console.error("Error saving product to localStorage:", error);
-        showStatus('error', `حدث خطأ أثناء حفظ ونشر المنتج: ${error.message}`);
+        console.error("Error saving product to database:", error);
+        showStatus('error', `حدث خطأ أثناء الاتصال بالخادم: ${error.message}`);
       }
     });
 

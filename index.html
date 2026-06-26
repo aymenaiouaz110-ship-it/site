@@ -1292,15 +1292,33 @@
 
       let listToRender = [...productsList];
 
-      // Load products from localStorage if available
+      // Load products from MySQL database via get_products.php
       try {
-        const localProducts = JSON.parse(localStorage.getItem('smart_pick_products')) || [];
-        if (localProducts.length > 0) {
-          listToRender = [...localProducts, ...listToRender];
-          console.log("Loaded custom products from localStorage:", localProducts);
+        const response = await fetch('get_products.php');
+        const data = await response.json();
+        if (data && data.success && Array.isArray(data.products) && data.products.length > 0) {
+          // Map database products to the format expected by the frontend
+          const dbProducts = data.products.map(p => ({
+            id: p.slug,
+            name: p.name,
+            brand: p.brand,
+            volume: p.size,
+            price: parseFloat(p.current_price),
+            oldPrice: p.old_price ? parseFloat(p.old_price) : null,
+            category: p.category,
+            tag: p.tag,
+            stars: parseInt(p.rating, 10),
+            desc: p.description,
+            benefits: Array.isArray(p.benefits) ? p.benefits : [],
+            img: p.image_url,
+            createdAt: new Date(p.created_at).getTime()
+          }));
+          
+          listToRender = [...dbProducts, ...listToRender];
+          console.log("Loaded custom products from database:", dbProducts);
         }
       } catch (err) {
-        console.error("Error reading localStorage products:", err);
+        console.error("Error reading database products:", err);
       }
 
       // Rebuild the dynamic CATALOGUE entries based on the loaded products list to support the cart
